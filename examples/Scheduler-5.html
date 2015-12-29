@@ -1,0 +1,574 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- Include jQuery and jQuery UI libraries -->
+		<link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
+		<script src="jquery-ui/external/jquery/jquery.js"></script>
+		<script src="jquery-ui/jquery-ui.min.js"></script>
+		<!-- Include the MCAD Scheduler class -->
+		<script src="../src/mcad.pattern.scheduler.v1-0.js"></script>
+		<!-- Add some basic styling to make the page look prettier -->
+		<style>
+			/* Page styling */
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			/* Header styling */
+			h1 {
+				text-align: center;
+			}
+			
+			/* Page width */
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+			
+			/* Table styling */
+			table {
+				width: 620px;
+			}
+			
+			/* Table headers, cells */
+			th, td {
+				width: 33.334%;
+				text-align: center; 
+				font-family: 'Droid Sans', Arial, sans-serif;
+			}
+			
+			/* Table headers */
+			th {
+				background-color: #000000; 
+				color: #ffffff;
+			}
+			
+			/* Table cells */
+			td {
+				color: #000000; 
+				background-color: #ffffff;
+			}
+			
+			/* Tween paragraph styling */
+			#tween {
+				text-align: center;
+			}
+			
+			/* Pattern steps */
+			.step {
+				font-size: 2em;
+				color: white;
+				background-color: black;
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				border-radius: 50%;
+				display:inline-block;
+				margin: 10px 10px 30px 10px;
+			}
+			
+			/* Transport controls */
+			a.transport, a.transport:link, a.transport:visited {
+				font-size: 2em;
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				border-radius: 10%;
+				border: 2px solid rgb(121, 121, 121);
+				display:inline-block;
+				margin: 10px 10px 10px 10px;
+				text-decoration: none;
+				color: rgb(121, 121, 121);
+			}
+			
+			/* Transport controls hover */
+			a.transport:hover {
+				color: rgb(151, 151, 151);
+			}
+			
+			/* Canvas for play position head */
+			canvas {
+				border: 1px solid rgb(121, 121, 121);
+				padding-left: 0;
+				padding-right: 0;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 1em;
+				display: block;
+			}
+			
+			/* GUI controls container */
+			.guiContainer {
+				margin-bottom: 1em;
+			}
+			
+			/* GUI labels */
+			.guiLabel {
+				text-align: right; 
+				margin-right: 1em; 
+				width: 55px;
+				display: inline-block;
+			}
+			
+			/* GUI sliders */
+			.guiSlider {
+				width: 200px;
+				display: inline-block;
+			}
+			
+			/* GUI units */
+			.guiUnit {
+				text-align: left; 
+				margin-left: 1em; 
+				width: 55px;display: 
+				inline-block;
+			}
+		</style>
+		<!-- Page title (appears in browser/tab titlebar) -->
+		<title>MCAD Scheduler Tutorial 5</title>
+	</head>
+	<body>
+		<!-- Our HTML goes here -->
+		<div class="main">
+		<h1>Metronome</h1>
+		<p>Creates and initiates an interactive scheduler that can be controlled by the user interface below (click the steps to toggle them on and off). In this particular example, the tween event handler is used to full effect to animate the steps in a blinking fashion.</p>
+		
+		<!-- Circular steps representing the pattern -->
+		<div style="text-align:center;">
+			<div class="step" id="0">0</div><div class="step" id="1">1</div><div class="step" id="2">2</div><div class="step" id="3">3</div>
+			<div class="step" id="4">4</div><div class="step" id="5">5</div><div class="step" id="6">6</div><div class="step" id="7">7</div>
+		</div>
+		
+		<!-- Table displaying the onQueue and onAnim event data -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Stamp Property</strong></th>
+					<th><strong>onQueue Event</strong></th>
+					<th><strong>onAnim Event</strong></th>
+				</tr>
+				<tr>
+					<td>Bar</td>
+					<td id="qBar">0</td>
+					<td id="aBar">0</td>
+				</tr>
+				<tr>
+					<td>Beat</td>
+					<td id="qBeat">0</td>
+					<td id="aBeat">0</td>
+				</tr>
+				<tr>
+					<td>Step</td>
+					<td id="qStep">0</td>
+					<td id="aStep">0</td>
+				</tr>
+				<tr>
+					<td>Pattern Position</td>
+					<td id="qPattern">0</td>
+					<td id="aPattern">0</td>
+				</tr>
+				<tr>
+					<td>GUID</td>
+					<td id="qGUID">0</td>
+					<td id="aGUID">0</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- Pattern position element -->
+		<p id="tween">Pattern position: 0%</p>
+		
+		<!-- Transport controls -->
+		<div style="text-align:center;">
+			<a href="#" class="transport" id="play">&#9658;</a><a href="#" class="transport" id="pause">&#10074;&#10074;</a><a href="#" class="transport" id="stop">&#11044;</a>
+		</div>
+		
+		<!-- Playback position head -->
+		<canvas id="tweenCanvas" width="0" height="0"></canvas>
+		
+		<!-- GUI controls -->
+		<div style="text-align:center;">
+		
+			<!-- Tempo -->
+			<div class="guiContainer">
+				<span class="guiLabel">Tempo:</span>
+				<span class="guiSlider" id="tempo"></span>
+				<span class="guiUnit">BPM</span>
+			</div>
+			
+			<!-- Step duration -->
+			<div class="guiContainer">
+				<span class="guiLabel">Length:</span>
+				<span class="guiSlider" id="duration"></span>
+				<span class="guiUnit">ms</span>
+			</div>
+			
+			<!-- swing -->
+			<div class="guiContainer">
+				<span class="guiLabel">Swing:</span>
+				<span class="guiSlider" id="swing"></span>
+				<span class="guiUnit">%</span>
+			</div>
+			
+			<!-- Schedule/look ahead times -->
+			<div class="guiContainer">
+				<span class="guiLabel">Ahead:</span>
+				<span class="guiSlider" id="ahead"></span>
+				<span class="guiUnit">ms</span>
+			</div>
+			
+			<!-- Step glow animation time -->
+			<div class="guiContainer">
+				<span class="guiLabel">Glow:</span>
+				<span class="guiSlider" id="glow"></span>
+				<span class="guiUnit">ms</span>
+			</div>
+		</div>
+		
+		<!-- Table displaying the GUI control values -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Property</strong></th>
+					<th><strong>Value</strong></th>
+					<th><strong>Unit</strong></th>
+				</tr>
+				<tr>
+					<td>Tempo</td>
+					<td id="tempoCell">60</td>
+					<td>BPM</td>
+				</tr>
+				<tr>
+					<td>Length</td>
+					<td id="durationCell">100</td>
+					<td>Milliseconds</td>
+				</tr>
+				<tr>
+					<td>Swing</td>
+					<td id="swingCell">0</td>
+					<td>%</td>
+				</tr>
+				<tr>
+					<td>Look/Schedule Ahead</td>
+					<td id="aheadCell">10/50</td>
+					<td>Milliseconds</td>
+				</tr>
+				<tr>
+					<td>Step Glow</td>
+					<td id="glowCell">400</td>
+					<td>Milliseconds</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		</div>
+		<script>
+
+		$(document).ready(function() {
+		
+			// Duration (in ms) that steps will play for
+			var stepDuration = 0.1;
+			
+			// Fade time (in ms) that steps will glow for
+			var fadeTime = 0.40;
+			
+			// Array of timing information for each step for glow animations
+			var animSteps = [];
+			
+			// Array of booleans for each step to toggle steps on and off
+			var activeSteps = [];
+				
+			// Initial state is no glow animations and all steps active
+			for(i = 0; i < 8; i++) {
+				
+				animSteps[i] = -1;
+				activeSteps[i] = true;
+			}
+		
+			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+			var context = new (window.AudioContext || window.webkitAudioContext)();
+			
+			// Create a scheduler with a tempo of 60 bpm in 4/4 time with 1/16th note steps and queue, animation and tween event handlers
+			var scheduler = new Scheduler(context, {tempo: 60, beatsPerPattern: 2, onQueue: playStep, onAnim: animateStep, onTween: tweenStep, lookAhead: 0.01, scheduleAhead: 0.05});
+		
+			// Default state is not playing so pause and stop transport controls are switched off
+			toggleButton("stop", "off");
+			toggleButton("pause", "off");
+			
+			// Canvas dimensions (for playback head rendering)
+			var canvasW = 200;
+			var canvasH = 10;
+		
+			var canvas = document.getElementById("tweenCanvas");
+			var ctx = canvas.getContext("2d");
+			
+			ctx.canvas.width = canvasW;
+			ctx.canvas.height = canvasH;
+			
+			// Toggles a transport button on or off (really just changes the colour to indicate disabled state)
+			function toggleButton(id, state) {
+		
+				if(state == "on") {
+					
+					$("#"+id).css("color", "rgb(121, 121, 121)");
+					$("#"+id).css("border-color", "rgb(121, 121, 121)");
+				}
+				else {
+				
+					$("#"+id).css("color", "rgb(161, 161, 161)");
+					$("#"+id).css("border-color", "rgb(161, 161, 161)");
+				}
+			}
+			
+			// Event handler for scheduler's onQueue events
+			function playStep(step) {
+			
+				// Only queue this step if its entry in the active steps array is not false (inactivated by user)
+				if(activeSteps[step.stamp.patternPos]) {
+
+					// Create an oscillator node and connect it to the context's output
+					var oscillator = context.createOscillator();
+					oscillator.connect(context.destination);
+
+					// Queue osillator to start playback on step's playback time
+					oscillator.start(step.time.swing);
+
+					// If the step number has a remainder when divided by 4 (modulus operator: %), play 400 hz
+					// Otherwise (on beat), play 800 hz
+					if(step.stamp.step % 4)oscillator.frequency.value = 400;
+					else oscillator.frequency.value = 800;
+
+					// Queue oscillator to stop playback 100ms after step's playback time
+					oscillator.stop(step.time.swing + stepDuration); 
+				}
+				
+				// Modify the onQueue column in the event table to display this event's stamp information
+				$("#qBar").text(step.stamp.bar);
+				$("#qBeat").text(step.stamp.beat);
+				$("#qStep").text(step.stamp.step);
+				$("#qPattern").text(step.stamp.patternPos);
+				$("#qGUID").text(step.stamp.guid);
+			}
+			
+			// Event handler for scheduler's onAnim events
+			function animateStep(currentStep, lastStep) {
+
+				// Modify the onAnim column in the event table to display this event's stamp information
+				$("#aBar").text(currentStep.bar);
+				$("#aBeat").text(currentStep.beat);
+				$("#aStep").text(currentStep.step);
+				$("#aPattern").text(currentStep.patternPos);
+				$("#aGUID").text(currentStep.guid);
+				
+				// Set this step's animation time to now to initiate glow animation sequence
+				animSteps[currentStep.patternPos] = context.currentTime;
+			}
+			
+			// Event handler for scheduler's onTween events
+			function tweenStep(tween) {
+			
+				if(ctx) {
+					ctx.clearRect(0, 0, canvasW, canvasH);
+					
+					if(scheduler.isPlaying || scheduler.resumePlayback) {
+						
+						// Render a verticle line 1 pixel wide at the current tween position within the canvas
+						ctx.fillStyle="rgb(101, 101, 101);";
+						ctx.fillRect(tween * canvasW, 0, 1,canvasH);
+					}
+				}
+
+				// Modify the tween paragraph to display the current (rounded) tween value as a percentage
+				$("#tween").text("Pattern position: " + Math.trunc(tween * 100) + "%")
+				
+				// The glow effect for steps is calculated by subtracting the current time from the time value in the array for a given step (set in animateStep function) and using
+				// this difference as the amount of red to set the step's colour to. If the difference is past a certain threshold (fadeTime), turn off the animation for this step.
+				//
+				// Glow animation is calculated as follows:
+				// 1. For each step, check to see if an animation is currently taking place (animation array entry is not -1) or if the step has not been disabled by the user 
+				// 2. Calculate the time difference between now and the timing value for that step in the animation array
+				// 3. If the difference exceeds our threshold, set the step colour to black and set the timing value to -1 (turn off animation for this step)
+				// 4. Otherwise, divide the fade time by the difference to to get a value in the [0,1] range then subtract it from 1.0 to transform it into the [1,0] range
+				// 5. Use this normalized value as the scaler for the colour component in the [0,255] range. As the rgba property expects integers, truncate the result.
+				// 6. If the step is on the beat, use yellow as the colour, otherwise use red, and scale accordingly 
+				for(i = 0; i < 8; i++) {
+						
+					// 1.
+					if(animSteps[i] != -1 && activeSteps[i]) {
+						
+						// 2.
+						var diff = context.currentTime - animSteps[i];
+						
+						// 3.
+						if(diff >= fadeTime) {
+							$("#" + i).css("background-color", "black");
+							animSteps[i] = -1;
+						}
+						else {
+							
+							// 4.
+							t = 1.0 - (diff / fadeTime);
+							
+							// 5.
+							c = Math.trunc(t * 255);
+							
+							// 6.
+							if(i%4) $("#" + i).css("background-color", "rgba(" + c + ",0,0,255)");
+							else $("#" + i).css("background-color", "rgba(" + c + "," + c + ",0,255)");
+						}
+					}
+				}
+			}
+		
+			// Play transport button
+			$("#play").click(function() {
+			
+				if(scheduler.isPlaying == false) {
+				
+					scheduler.start();
+					scheduler.resumePlayback = false;
+					
+					toggleButton("play", "off");
+					toggleButton("stop", "on");
+					toggleButton("pause", "on");
+				}
+			});
+			
+			// Pause transport button
+			$("#pause").click(function() {
+			
+				if(scheduler.isPlaying == true) {
+				
+					scheduler.resumePlayback = true;
+					scheduler.stop();
+					
+					toggleButton("play", "on");
+					toggleButton("stop", "on");
+					toggleButton("pause", "off");
+				}
+			});
+			
+			// Stop transport button
+			$("#stop").click(function() {
+			
+				scheduler.resumePlayback = false;
+				scheduler.stop();
+				
+				toggleButton("play", "on");
+				toggleButton("stop", "off");
+				toggleButton("pause", "off");
+				
+				// Initialise all entries in the onQueue and onAnim table back to zero
+				$("#qBar").text(0);
+				$("#qBeat").text(0);
+				$("#qStep").text(0);
+				$("#qPattern").text(0);
+				$("#qGUID").text(0);
+				$("#aBar").text(0);
+				$("#aBeat").text(0);
+				$("#aStep").text(0);
+				$("#aPattern").text(0);
+				$("#aGUID").text(0);
+				
+			});
+		
+			// Pattern step on click handler
+			$(".step").click(function() {
+					
+				// If already active, set to inactive colour (gray)
+				if(activeSteps[this.id]) {
+					$("#" + this.id).css("background-color", "gray");
+				}
+				// Otherwise, set to active colour (black)
+				else {
+					$("#" + this.id).css("background-color", "black");
+				}
+				
+				// Toggle this step's active status (inactive steps won't be queued for playback)
+				activeSteps[this.id] = !activeSteps[this.id];
+			
+			});
+			
+			// Tempo GUI control
+			$("#tempo").slider({
+				orientation: "horizontal",
+				max: 200,
+				min: 40,
+				value: 60
+			});
+			
+			$("#tempo").on("slide", function(event, ui) {
+
+				scheduler.tempo = ui.value;
+				$("#tempoCell").text(ui.value);
+			} );
+			
+			// Step duration GUI control
+			$("#duration").slider({
+				orientation: "horizontal",
+				max: 250,
+				min: 10,
+				value: 100
+			});
+			
+			$("#duration").on("slide", function(event, ui) {
+
+				// Convert from milliseconds to seconds
+				stepDuration = ui.value / 1000;
+				$("#durationCell").text(ui.value);
+			} );
+			
+			// Swing amount GUI control
+			$("#swing").slider({
+				orientation: "horizontal",
+				max: 100,
+				min: 0
+			});
+			
+			$("#swing").on( "slide", function( event, ui) {
+			
+				// Convert from percentage to normalized value [0,1]
+				scheduler.swing = ui.value / 100;
+				$("#swingCell").text(ui.value);				
+			} );
+			
+			// Schedule/look ahead time GUI control
+			$("#ahead").slider({
+				orientation: "horizontal",
+				max: 300,
+				min: 5,
+				values: [10, 50],
+				range: true
+			});
+			
+			$("#ahead").on("slide", function(event, ui) {
+				
+				// Convert from milliseconds to seconds
+				scheduler.lookAheadTime = ui.values[0] / 1000;
+				scheduler.scheduleAheadTime = ui.values[1] / 1000;
+				$("#aheadCell").text(ui.values[0] + "/" + ui.values[1]);	
+			} );
+			
+			// Step glow animation effect duration GUI control
+			$("#glow").slider({
+				orientation: "horizontal",
+				max: 1000,
+				min: 0,
+				value: 400
+			});
+			
+			$("#glow").on("slide", function(event, ui) {
+
+				// Convert from milliseconds to seconds
+				fadeTime = ui.value / 1000;
+				$("#glowCell").text(ui.value);
+			} );
+		});
+
+		</script>
+	</body>
+</html>

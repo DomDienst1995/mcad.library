@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- Include jQuery and jQuery UI libraries -->
+		<link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
+		<script src="jquery-ui/external/jquery/jquery.js"></script>
+		<script src="jquery-ui/jquery-ui.min.js"></script>
+		<!-- Include the MCAD Scheduler class -->
+		<script src="../src/mcad.pattern.scheduler.v1-0.js"></script>
+		<!-- Add some basic styling to make the page look prettier -->
+		<style>
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+			
+			table {
+				width: 620px;
+			}
+			
+			th, td {
+				width: 33.334%;
+				text-align: center; 
+				font-family: 'Droid Sans', Arial, sans-serif;
+			}
+			
+			th {
+				background-color: #000000; 
+				color: #ffffff;
+			}
+			
+			td {
+				color: #000000; 
+				background-color: #ffffff;
+			}
+			
+			#tween {
+				text-align: center;
+			}
+			
+			#tweenAnim {
+				background-color: black;
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				margin: 0 auto;
+			}
+			
+		</style>
+		<!-- Page title (appears in browser/tab titlebar) -->
+		<title>MCAD Scheduler Tutorial 4</title>
+	</head>
+	<body>
+		<!-- Our HTML goes here -->
+		<div class="main">
+		<h1>Handling onTween Events</h1>
+		<p>Creates and initiates a scheduler with a tempo of 60 bpm in 4/4 time with 1/16<sup>th</sup> note steps.</p>
+		<p>If running in Google Chrome, open the Developer Tools (Ctl-Shift-J) and view the log output.</p>
+		<p>In this example, the scheduler is sending out three pulses, queue, animation and tween, in the form of an events. The queue event is used to queue up a step for future playback, the animation event is used to animate a step once the pattern playback position reaches that step in real-time and the tween event is used to perform smooth animations across the duration of the pattern.</p>
+		<p>The table below has its data modified in response to the queue and animation events. Note that the queue and animation positions are out of sync. This is because the queue position may well be in the future whereas the animation position always represents the real-time playback time of a given step.</p>
+		<p>The pattern position and circle elements below the table are being modified smoothly and independent of step playback, with the beginning of the pattern representing tween position <b>0.0</b> and the end of the pattern representing tween position <b>1.0.</b></p>
+		
+		<!-- Table displaying the onQueue and onAnim event data -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Stamp Property</strong></th>
+					<th><strong>onQueue Event</strong></th>
+					<th><strong>onAnim Event</strong></th>
+				</tr>
+				<tr>
+					<td>Bar</td>
+					<td id="qBar"></td>
+					<td id="aBar"></td>
+				</tr>
+				<tr>
+					<td>Beat</td>
+					<td id="qBeat"></td>
+					<td id="aBeat"></td>
+				</tr>
+				<tr>
+					<td>Step</td>
+					<td id="qStep"></td>
+					<td id="aStep"></td>
+				</tr>
+				<tr>
+					<td>Pattern Position</td>
+					<td id="qPattern"></td>
+					<td id="aPattern"></td>
+				</tr>
+				<tr>
+					<td>GUID</td>
+					<td id="qGUID"></td>
+					<td id="aGUID"></td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- Pattern position element -->
+		<p id="tween">Pattern position: 0%</p>
+		<!-- Animation element (circle from black to red) -->
+		<div id="tweenAnim">&nbsp</div>
+		</div>
+		<script>
+			
+			// Event handler for scheduler's onQueue events
+			function playStep(step) {
+
+				// Create an oscillator node and connect it to the context's output
+				var oscillator = context.createOscillator();
+				oscillator.connect(context.destination);
+
+				// Queue osillator to start playback on step's playback time
+				oscillator.start(step.time.swing);
+
+				// If the step number has a remainder when divided by 4 (modulus operator: %), play 400 hz
+				// Otherwise (on beat), play 800 hz
+				if(step.stamp.step % 4)oscillator.frequency.value = 400;
+				else oscillator.frequency.value = 800;
+
+				// Queue oscillator to stop playback 100ms after step's playback time
+				oscillator.stop(step.time.swing + 0.1); 
+				
+				// Modify the onQueue column in the event table to display this event's stamp information
+				$("#qBar").text(step.stamp.bar);
+				$("#qBeat").text(step.stamp.beat);
+				$("#qStep").text(step.stamp.step);
+				$("#qPattern").text(step.stamp.patternPos);
+				$("#qGUID").text(step.stamp.guid);
+			}
+			
+			// Event handler for scheduler's onAnim events
+			function animateStep(currentStep, lastStep) {
+
+				// Modify the onAnim column in the event table to display this event's stamp information
+				$("#aBar").text(currentStep.bar);
+				$("#aBeat").text(currentStep.beat);
+				$("#aStep").text(currentStep.step);
+				$("#aPattern").text(currentStep.patternPos);
+				$("#aGUID").text(currentStep.guid);
+			}
+			
+			// Event handler for scheduler's onTween events
+			function tweenStep(tween) {
+
+				// Modify the tween paragraph to display the current (rounded) tween value as a percentage
+				$("#tween").text("Pattern position: " + Math.trunc(tween * 100) + "%")
+				
+				// Smoothly animate the tweenAnim element's background colour from black (start of pattern) to red (end of pattern)
+				$("#tweenAnim").css("background-color", "rgba(" + Math.trunc(tween * 255) + ",0,0,255");
+			}
+		
+			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+			var context = new (window.AudioContext || window.webkitAudioContext)();
+			
+			// Create a scheduler with a tempo of 60 bpm in 4/4 time with 1/16th note steps and queue, animation and tween event handlers
+			var scheduler = new Scheduler(context, {tempo: 60, onQueue: playStep, onAnim: animateStep, onTween: tweenStep, scheduleAheadTime: 0.5, lookAheadTime: 0.25});
+			
+			// Initiate the scheduler's timing pulses
+			scheduler.start();
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- Include the MCAD Scheduler class -->
+		<script src="../src/mcad.pattern.scheduler.v1-0.js"></script>
+		<!-- Add some basic styling to make the page look prettier -->
+		<style>
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+		</style>
+		<!-- Page title (appears in browser/tab titlebar) -->
+		<title>MCAD Scheduler Tutorial 1</title>
+	</head>
+	<body>
+		<!-- Our HTML goes here -->
+		<div class="main">
+		<h1>A Simple Scheduler</h1>
+		<p>Creates and initiates a scheduler with a tempo of 128 bpm in 4/4 time with 1/16<sup>th</sup> note steps.</p>
+		<p>If running in Google Chrome, open the Developer Tools (Ctl-Shift-J) and view the log output.</p>
+		</div>
+		<script>
+		
+			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+			var context = new (window.AudioContext || window.webkitAudioContext)();
+			
+			// Create a scheduler with a tempo of 128 bpm in 4/4 time with 1/16th note steps
+			var scheduler = new Scheduler(context, {tempo: 128});
+			
+			// Initiate the scheduler's timing pulses
+			scheduler.start();
+
+		</script>
+	</body>
+</html>
