@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>mcad.pattern.scheduler.v1-0.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">mcad.pattern.scheduler.v1-0.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileOverview Contains the MCAD Pattern Scheduler class.
+ * @name MCAD Pattern Scheduler
+ * @version 1.0
+ */
+
+/**
+  * The position stamp of a step on the timeline (all values are 0-based).&lt;br>
+  * &lt;i>Position stamps should only be created and modified with the appropriate step stamp methods (create, clone, offset) and never directly.&lt;/i>
+  * @typedef  {object} StepStamp
+  * @property {number} bar         - the bar position of this step (the pattern is one bar on length).
+  * @property {number} beat        - the beat position of this step.
+  * @property {number} step        - the step position of this step (in the beat).
+  * @property {number} patternPos  - the step position of this step (in the pattern).
+  * @property {number} guid        - the unique absolute position of this step in playback.
+  * @example &lt;caption>A pattern of 4 beats of 1/16th notes&lt;/caption>
+  * // Values are 0-based (0 = 1st, 1 = 2nd, etc.)
+  * myStepStamp = someScheduler.createStepStamp(1,3,0); // 2nd bar, 4th beat, 1st step, patternPos = 12, guid = 28
+*/
+
+/**
+  * The time stamp of a step on the timeline.&lt;br>
+  * &lt;i>Time stamps should only be created and modified with the appropriate time stamp methods (create, clone) and never created or copied directly.&lt;/i>
+  * @typedef  {object} TimeStamp
+  * @property {number} straight - the absolute straight time position of a note.
+  * @property {number} swing    - the absolute swung time position of a note.
+*/
+
+/**
+  * The event handler callback functions for events triggered by the scheduler.
+  * @typedef  {object} ScheduleEventHandler
+  * @property {function} [onQueue] - triggered when a step has been queued up for playback.
+  * @property {function} [onAnim]  - triggered when the playback position meets a queued step (used for animating steps).
+  * @property {function} [onTween] - triggered every render frame with the normalized playback position within the bar in the {@linkcode [0,1]} range.
+*/
+
+/**
+ * Constructs a scheduler object.
+ * @class
+ * @classdesc A pattern-based scheduler for queuing and animating pattern steps and smooth playback position tweening. The scheduler will post events containing step time stamps for when a step is ready to be queued up for playback and when the playback head reaches a step for animating along with a smooth, continuous playback position for smooth, custom playback animations. 
+ * @param {!AudioContext} context                   - the audio context to use
+ * @param {?object} options                         - config options to override defaults.
+ * @param {number} [options.tempo=60]               - playback tempo.
+ * @param {number} [options.stepsPerBeat=4]         - number of steps in a beat.
+ * @param {number} [options.beatsPerPattern=4]      - number of beats in a bar/pattern.
+ * @param {number} [options.maxSwing=0.5]           - maximum swing time of step length (in seconds).
+ * @param {number} [options.scheduleAheadTime=0.02] - time (in seconds) the sceduler will look ahead to queue up notes for playback.
+ * @param {number} [options.lookAheadTime=0.01]     - time (in seconds) the sceduler will trigger another schedule event.
+ * @param {number} [options.onQueue=null]           - event handler for queueing up steps for playback.
+ * @param {number} [options.onAnim=null]            - event handler for animating steps during playback.
+ * @param {number} [options.onTween=null]           - event handler for tweening smooth animations during playback.
+ * @example &lt;caption>4/4 time with 1/16th steps at a tempo of 120bpm&lt;/caption>
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120}); 
+ * @example &lt;caption>2/4 time with 1/8th steps at a tempo of 60bpm with an event handler for playing steps&lt;/caption>
+ * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerPattern: 2, onQueue: playNote}); 
+ * @example &lt;caption>5/8 time with 1/32nd steps at a tempo of 96pm with event handlers for playing and animating steps&lt;/caption>
+ * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerPattern: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); 
+ * @example &lt;caption>Default values and no event handlers&lt;/caption>
+ * var scheduler = new Scheduler(audioCtx); 
+ */
+function Scheduler(context, options) {
+
+	/** 
+	 * Initial project tempo. 
+	 * @type {!number}
+	 * @default 60
+	 */
+	this.tempo = 60;
+	if(options.tempo) this.tempo = options.tempo;
+	
+	/** 
+	 * Number of pattern steps in a beat. 
+	 * @type {!number}
+	 * @default 4
+	 */
+	this.stepsPerBeat = 4;
+	if(options.stepsPerBeat) this.stepsPerBeat = options.stepsPerBeat;
+
+	/** 
+	 * Number of beats in a pattern. 
+	 * @type {!number}
+	 * @default 4
+	 */
+	this.beatsPerPattern = 4;
+	if(options.beatsPerPattern) this.beatsPerPattern = options.beatsPerPattern;
+	
+	/** 
+	 * Amount of swing to apply {@linkcode [0,1]} to even numbered steps. Used as multiplier for {@linkcode maxSwing}. 
+	 * @type {!number}
+	 * @default 0
+	 */
+	this.swing = 0;
+	
+	/** 
+	 * Maximum swing length (in steps) to be applied (final swing = {@linkcode swing} * {@linkcode maxSwing}). 
+	 * @type {!number}
+	 * @default 0.5
+	 */
+	this.maxSwing = 0.5;
+	if(options.maxSwing) this.maxSwing = options.maxSwing;
+	
+	/** 
+	 * Flag to signify whether or not we are currently playing back a pattern sequence. 
+	 * @type {boolean}
+	 * @readonly 
+	 * @default false
+	 */
+	this.isPlaying = false;
+	
+	/** 
+	 * Flag to signify whether or not we will restart or resume the play postion on playback. 
+	 * @type {!boolean}
+	 * @default false
+	 */
+	this.resumePlayback = false;
+	
+	/** 
+	  * Step position to resume playback (set by {@linkcode stop()} method). 
+	  * @type {StepStamp}
+	  * @readonly 
+	  */
+	this.resumeStamp = this.createStepStamp(0,0,0);
+	
+	/** 
+	  * Step position that playback was stopped on (set by  {@linkcode stop()} method). 
+	  * @type {StepStamp}
+	  * @readonly 
+	  */
+	this.stopStamp = this.createStepStamp(0,0,0);
+	
+	/**
+      * Event handlers for scheduling events.	
+	  * @type {ScheduleEventHandler} 
+	  * @example &lt;caption>Handling onQueue events&lt;/caption>
+	  * var scheduler = Scheduler(audioCtx, {onQueue: playNote}); 
+	  *
+      * function playNote(note) {
+	  *
+      *     var oscillator = audioCtx.createOscillator();
+      *     oscillator.connect(audioCtx.destination);
+	  *
+      *     // Queue osillator to start playback on step's playback time
+      *     oscillator.start(note.time.swing);
+	  *
+      *     oscillator.frequency.value = 800;
+	  *
+      *     // Queue oscillator to stop playback 50ms after step's playback time
+      *     oscillator.stop(note.time.swing + 0.05); 
+      * }
+	  * @example &lt;caption>Handling onAnim events&lt;/caption>
+	  * var scheduler = Scheduler(audioCtx, {onAnim: animateNote}); 
+	  *
+      * function animateNote(currentStamp, lastStamp) {
+	  *
+      *     console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);
+      *     console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);
+      * }
+	  * @example &lt;caption>Handling onTween events&lt;/caption>
+	  * var scheduler = Scheduler(audioCtx, {onTween: tweenNote}); 
+	  *
+      * function tweenNote(tween) {
+	  *
+	  *     // Only update the tween position if the sequence is playing back
+      *     if(scheduler.isPlaying) {
+	  *         console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");
+	  *     }
+      * }
+	  */
+	this.event = {onQueue: options.onQueue, onAnim: options.onAnim, onTween: options.onTween};
+	
+	/** 
+	  * Time window (in seconds) that scheduler will look ahead to queue steps.
+	  * @type {!number}
+	  * @default 0.02
+	  */
+	this.scheduleAheadTime = 0.02;
+	if(options.scheduleAheadTime) this.scheduleAheadTime = options.scheduleAheadTime;
+
+	/** 
+	  * This should be shorter than scheduleAheadTime so that the overlap between schedule events allows for some wiggle
+	  * room should the shedule event be delayed by other browser activities.
+	  * @Summary Time (in seconds) the scheduler will be queued for next schedule event.
+	  * @type {!number}
+	  * @default 0.01
+	  */
+	this.lookAheadTime = 0.01;
+	if(options.lookAheadTime) this.lookAheadTime = options.lookAheadTime;
+	
+	// Web Audio context
+	this._context = context;
+
+	// ID of schedule timer event (so we can stop it at a later date)
+	this._scheduleId = null;
+	
+	// ID of animation timer event (so we can stop it at a later date)
+	this._animId = null;
+	
+	// Current pattern step normalized queue time (so first note on playback is time=0)
+	this._stepTime = 0.0;
+	
+	// Time the playback started
+	this._startTime = null;
+	
+	// Index of current step queued in pattern (for 8 steps will be {@linkcode [0,7]}, i.e. 0 to 7 range)
+	this._currentStamp = this.createStepStamp(0,0,0);
+	
+	// Pattern steps that have been queued up for playback (used by animate function to update animation)
+	this._stepsInAnimationQueue = [];
+
+	// Pattern step index of last step animated by animate function
+	this._lastStepAnimated = {time: this.createTimeStamp(0,0), stamp: this.createStepStamp(0,0,-1)};	
+	
+	// Animation runs continuously regardless of whether or not we are playing back so kickstart animation loop here
+	this._animate();
+}
+
+/*
+Schedule Method
+---------------
+
+Responsible for looking into the future to see if any pattern steps fall within the schedule window (currentTime + sheduleAheadTime). If any are, queue them up to
+be played and push the time and rhythm index of each step onto the animation queue. The next shedule event is queued up in lookAheadTime milliseconds, which will be
+less than scheduleAheadTime. This allows for schedule events to overlap to accomodate jitter that can cause the schedule event to fire later than intended. If there
+was no overlap, a schedule event may miss notes due to being delayed by other processes (garbage collection, ajax requests, browser activity, etc.).
+*/
+Scheduler.prototype._schedule = function() {
+
+	var currentTime = this._context.currentTime;
+
+	// Normalize currentTime to [0,n] range (i.e. beginning would be = 0, not actual time)
+	currentTime -= this._startTime;
+	
+	// Loop round and que up steps while the current step being checked is within the schedule's look ahead window
+	while (this._stepTime &lt; currentTime + this.scheduleAheadTime) {
+		
+		// Time the step would be queued for playback without swing (needed for calculating tween values)
+		var stepPlayTimeStraight = this._stepTime + this._startTime;
+		
+		// Time the step will be queued for playback (inc. swing)
+		var stepPlayTimeSwing = stepPlayTimeStraight;
+		
+		// Length of step (in seconds, no swing)
+		var stepLength = this.getStepLength();
+		
+		// Amount of swing to apply to this queued step (in seconds)
+		var swing = this.swing * this.maxSwing * stepLength
+		
+		// Only even steps get swing
+		if(this._currentStamp.step % 2) stepPlayTimeSwing += swing;
+		
+		// Time stamp for this step (straight and swing)
+		var timeStamp = this.createTimeStamp(stepPlayTimeStraight, stepPlayTimeSwing);
+		
+		// Push the step on the animation queue. Each element has a time and position stamp so that we can deduce which steps to animate in the animate function
+		this._stepsInAnimationQueue.push({time: this.cloneTimeStamp(timeStamp), stamp: this.cloneStepStamp(this._currentStamp)});
+		
+		// Pass on the time and position stamps of this step to the user's event handler for queueing up the sound for playback
+		if(this.event.onQueue) this.event.onQueue({time: this.cloneTimeStamp(timeStamp), stamp: this.cloneStepStamp(this._currentStamp)});
+		
+		console.log("Step " + this._currentStamp.step + " queued for playback " + (this._stepTime + swing) + " seconds from start time");
+
+		// Advance the pattern sequence along by one step
+		this._advanceStep();
+	}
+	
+	// Queue another call to schedule function
+	var that = this;
+	this._scheduleId = setTimeout(function() { that._schedule(); }, this.lookAheadTime * 1000);
+}
+	
+/*
+Advance Step Method
+-------------------
+
+Responsible for moving the step position stamp along by one step after a step has been queued for playback. stepTime defines the time that the next pattern step should be queued
+for playback and is incremented by one step's worth of time.
+*/	
+Scheduler.prototype._advanceStep = function() {
+	
+	// Duration (in seconds) that a beat at this tempo lasts
+	var secondsPerBeat = 60.0 / this.tempo;
+
+	// Move the sequence along to the pattern's next step
+	this._currentStamp.step++;
+	
+	// clampStepStamp will handle wrapping of the stamp to the next bar if step reaches the end of the pattern
+	this.clampStepStamp(this._currentStamp);
+	
+	// Advance the step time along by one step's worth of time (in seconds)
+	this._stepTime += (1 / this.stepsPerBeat) * secondsPerBeat;
+}
+
+/*
+Animate Method
+--------------
+
+Responsible for animating the visual representation of the pattern steps in sync with the pattern playback. The reason we don't animate the steps in the scheduling function
+is because with long enough scheduleAheadTime windows and/or fast enough tempos, we may end up queueing up more than 1 note for playback when the pattern first starts. This 
+would cause the animation to jump forwards a few steps when playback is initiated. Instead, the requestAnimationFrame is a seperate timer event where the browser chooses the
+frequency of timing, usually synced to the moniter refresh. The browser can also put the requestAnimationFrame to sleep if the tab/browser isn't currently the focus to conserve
+CPU/GPU resources.
+
+To animate the correct step, we look in the step animation queue and find the most recent step in the past (by comparing it to the current time) to animate (we're not interested
+in animating older steps that aren't in sync with playback). Once we've found the most up to date step, we check to see if it's different from the last animated step (no point
+in animating the same step multiple times). If it is different, we call the user's animation event handler so that they can animate the steps in any way they see fit. Once we've
+finished our current animation frame, we queue up another animation frame with a call to requestAnimationFrame.
+*/
+Scheduler.prototype._animate = function(){
+
+	// We may not have a new step to animate so initialize current step to last step. If there isn't a new step to animate (because we haven't advanced to the next step yet),
+	// we won't bother animating the current step again.
+	var currentStep = this._lastStepAnimated;
+	var currentTime = this._context.currentTime;
+
+	// Find the most up to date step in queue (if any) for animating
+	while (this._stepsInAnimationQueue.length &amp;&amp; this._stepsInAnimationQueue[0].time.swing &lt; currentTime) {
+		
+		// Is this the most up to date step? Could be, so set our current animation step to this one
+		currentStep = this._stepsInAnimationQueue[0];
+		
+		// Remove this step from the queue (it's either up to date or old, in any case we won't need it after this animate call)
+		this._stepsInAnimationQueue.splice(0,1);  
+	}
+
+	// Perform the tween calculation and send the result to the tween event handler
+	this._tweenAnimate(currentTime);
+
+	// We only animate a step if it's not the same as the last step (otherwise we'd be wasting time animating the same step over and over)
+	if (this._lastStepAnimated.stamp.step != currentStep.stamp.step) {
+	
+		// The resume position stamp is where we will continue playback if the sequence is started again and resumePlayback is set to true. As the current animation step 
+		// represents the current playback position, we increment the resume stamp by one step so that playback continues after the last step we played.
+		this.resumeStamp = this.cloneStepStamp(currentStep.stamp);
+		this.offsetStepStamp(this.resumeStamp, 1);
+	
+		// Send the animation data for this step to the animation event handler
+		if(this.event.onAnim) this.event.onAnim(this.cloneStepStamp(currentStep.stamp), this.cloneStepStamp(this._lastStepAnimated.stamp));
+	
+		// Set the current step to the last step so the next call can check whetehr or not it's animating a new step
+		this._lastStepAnimated = currentStep;
+
+		console.log("Step " + currentStep.stamp.step + " animated");
+	}
+	
+	// Set up another animation frame request (the browser handles the sheduling time of animation frames for us)
+	var that = this;
+	this._animId = requestAnimationFrame(function() { that._animate(); });
+}
+
+/*
+Tween Method
+------------
+
+Responsible for outputting a smooth, continues playback position (within the current bar/pattern) in the [0,1] range for smooth animations (e.g. playback head). Unlike the 
+animation method, this method will continuously output a tween value, even when playback is stopped. 
+
+If playback has stopped but resumePlayback is set to true, the pause position (step before resumeStamp) will be used as the tween value. Otherwise, if playback has stopped then
+the start position (beginning of pattern) will be used.
+
+*/
+Scheduler.prototype._tweenAnimate = function(currentTime) {
+
+	// Position (between 0 and 1 inclusive) the current playback position is within the bar
+	var tween = 0;
+	
+	// Only calculate tween if this isn't the first step upon playback (-1 stepIndex causes miscalulation)
+	if(this._lastStepAnimated.stamp.step >= 0 &amp;&amp; this.isPlaying) {
+	
+		// Tween calculation is as follows:
+		// 1. Calculate where the current playback position between the current animated step and current (last) step (0 = beginning, 1 = end)
+		// 2. Calculate the step position within pattern of playback position (e.g. 7.5 = half way through the 8th step)
+		// 3. Divide this by the total number of steps in the pattern to get a tween value in the [0,1] range
+		// 
+		// Note: the time without swing is used rather than the swing time. This is because the swing time causes problems when calculating the 
+		// tween value as the start and end times of steps are irregular (due to the late starts of swung notes)
+		
+		// 1. 
+		var stepLength = this.getStepLength();                              // Length of step (in seconds)
+		var stepTween = currentTime - this._lastStepAnimated.time.straight; // Time position of playback in current step (0 = beginning, stepLength = end)
+		var t = stepTween / stepLength;                                     // Normalized position of current playback in current step (0 = beginning, 1 = end)
+		
+		// 2. 
+		var stepPos = this._lastStepAnimated.stamp.patternPos + t;          // Step position of playback in pattern (e.g. 7.5 = halfway through 8th step)
+		var stepsPerPattern = this._stepsPerPattern();                      // Number of steps in a pattern
+		
+		// 3. 
+		tween = stepPos / stepsPerPattern;                                  // Tween value of playback position in pattern (0 = beginning, 1 = end of pattern)
+	}
+	// If playback has stopped but resumePlayback is set to true, use the pause position (step before the resume stamp) as the tween value
+	else if(this.resumePlayback){
+		pause = this.cloneStepStamp(this.resumeStamp);
+		this.offsetStepStamp(pause, -1)
+		tween = pause.patternPos / this._stepsPerPattern();
+	}
+	// If playback has stopped and resumePlayback is set to false, use the start position (beginning of pattern) as the tween value
+	else tween = 0;
+	
+	if(this.event.onTween) this.event.onTween(tween);
+}
+
+/*
+stepsPerPattern Method
+----------------------
+
+Returns the number of steps in a pattern (bar).
+
+*/
+Scheduler.prototype._stepsPerPattern = function() {
+	
+	return (this.stepsPerBeat * this.beatsPerPattern);
+}
+
+/** 
+  * Starts playback of sequence.
+  * @param {StepStamp} [startStamp] - the step position stamp to resume playback (otherwise, will be beginning of pattern or resumeStamp).
+  * @example &lt;caption>Start the sequence playback from the beginning&lt;/caption>
+  * someScheduler.start();
+  * @example &lt;caption>Start the sequence playback from supplied step position stamp&lt;/caption>
+  * someScheduler.start(someStepStamp);
+  */
+Scheduler.prototype.start = function(startStamp) { 
+
+	// If the pattern is currently playing back, stop playback before resetting playback
+	if(this.isPlaying == true) this.Stop();
+
+	console.clear();
+	console.log("Playback started...");
+	
+	// Set the flag to signfy that playback has started
+	this.isPlaying = true;
+	
+	// Reset book keeping variables
+	this._stepTime = 0.0;
+	this._startTime = this._context.currentTime;
+	
+	// If user has supplied a position stamp, use that as the start position. Otherwise, use resumePlayback or start at the beginning of the pattern (depending on whether or not
+	// the resumePlayback flag has been set to true).
+	if(startStamp) this._currentStamp = this.cloneStepStamp(this.startStamp);
+	else if(this.resumePlayback) this._currentStamp = this.cloneStepStamp(this.resumeStamp);
+	else this._currentStamp = this.createStepStamp(0,0,0);
+	
+	// The last step animated is set to the null step (position -1) to signify that the step animation has been restarted
+	this._lastStepAnimated = {time: this.createTimeStamp(this._context.currentTime,this._context.currentTime), stamp: this.createStepStamp(0,0,-1)};
+
+	// Kickstart the scheduler timer loop
+	this._schedule();
+}
+
+/** 
+  * Stops playback of sequence.
+  * @example
+  * // Stop sequence playback
+  * someScheduler.stop();
+  */
+Scheduler.prototype.stop = function() {
+
+	console.log("Playback stopped...");
+			
+	// Set the flag to signfy that playback has stopped
+	this.isPlaying = false;
+
+	// Stop the scheduler
+	clearTimeout(this._scheduleId);
+	
+	// Stop stamp is step position playback was stopped on, resume position is next step after stop position
+	this.stopStamp = this.cloneStepStamp(this._lastStepAnimated.stamp);
+	this.resumeStamp = this.cloneStepStamp(this.stopStamp);
+	this.offsetStepStamp(this.resumeStamp, 1);
+}
+
+/** 
+  * Calculates the length (in seconds) of a straight step.
+  * @returns {number} - the step duration (in seconds).
+  * @example 
+  * // Log the duration (in seconds) of a straight step on the pattern
+  * console.log(someScheduler.getStepLength());
+  */
+Scheduler.prototype.getStepLength = function() { 
+
+	return (60 / this.tempo) * (1 / this.stepsPerBeat);
+}
+
+/** 
+  * Clones a step position stamp
+  * @param {StepStamp} stamp - the step position stamp to be cloned.
+  * @returns {StepStamp} - the cloned copy of the supplied step position stamp.
+  * @example 
+  * var myStepStamp = someScheduler.cloneStepStamp(someStepStamp);
+  */
+Scheduler.prototype.cloneStepStamp = function(stamp) {
+
+	var result = {bar: stamp.bar, beat: stamp.beat, step: stamp.step, patternPos: stamp.patternPos, guid: stamp.guid};
+	
+	return result;
+}
+
+/** 
+  * Creates a step position stamp from bar, beat and step positions.
+  * @param {number} bar  - the bar position of this stamp.
+  * @param {number} beat - the beat position of this stamp.
+  * @param {number} step - the step position of this stamp.
+  * @returns {StepStamp} - the newly created step position stamp.
+  * @example
+  * // Create a step position stamp at 3rd bar, 2nd beat, 4th step
+  * var myStepStamp = someScheduler.createStepStamp(2, 1, 3);
+  */
+Scheduler.prototype.createStepStamp = function(bar, beat, step) {
+
+	var result = {bar: bar, beat: beat, step: step};
+	
+	this.clampStepStamp(result);
+	
+	return result;
+}
+
+/** 
+  * Wraps and clamps a step position stamp into valid ranges.
+  * @param {StepStamp} stamp - the step position stamp to wrap and clamp.
+  * @returns {StepStamp}     - the clamped step position stamp.
+  * @example
+  * // Assuming an 8 step pattern:
+  * // bar: 2, beat: 1, step: 10 // Invalid! Wrap the stamp round to a valid range
+  * // Becomes: 
+  * // bar: 3, beat: 0, step: 2
+  * var myStepStamp = someScheduler.clampTimeStamp(myStepStamp);
+  */
+Scheduler.prototype.clampStepStamp = function(stamp) {
+
+	var totalSteps = stamp.step + (stamp.bar * this._stepsPerPattern()) + (stamp.beat * this.stepsPerBeat);
+	
+	// Negative total steps means this is a null step (pattern position is -1)
+	if(totalSteps &lt; 0) stamp = {step: -1, bar: 0, beat: 0, patternPos: 0, guid: -1};
+	else {
+	
+		stamp.bar = Math.floor(totalSteps / this._stepsPerPattern());
+		
+		totalSteps -= stamp.bar * this._stepsPerPattern();
+		
+		stamp.beat = Math.floor(totalSteps / this.stepsPerBeat);
+		
+		totalSteps -= Math.floor(stamp.beat * this.stepsPerBeat);
+		
+		stamp.step = totalSteps;
+		
+		stamp.patternPos = (stamp.beat * this.stepsPerBeat) + stamp.step;
+		
+		stamp.guid = (stamp.bar * this._stepsPerPattern())  + stamp.patternPos;
+	}
+}
+
+/** 
+  * Offsets a step position stamp by a positive or negative number of steps.
+  * @param {StepStamp} stamp - the step position stamp to offset.
+  * @param {StepStamp}       - the number of steps forwards or backwards to offset.
+  * @example &lt;caption>Offset a step position stamp by 12 steps backwards&lt;/caption>
+  * someScheduler.offsetStepStamp(myStepStamp, -12);
+  * @example &lt;caption>Offset a step position stamp by 3 steps forwards&lt;/caption>
+  * someScheduler.offsetStepStamp(myStepStamp, 3);
+  */
+Scheduler.prototype.offsetStepStamp = function(stamp, steps) {
+
+	stamp.step += steps;
+	
+	this.clampStepStamp(stamp);
+}
+
+/** 
+  * Clones a time position stamp
+  * @param {TimeStamp} stamp - the time position stamp to be cloned.
+  * @returns {TimeStamp}     - the cloned copy of the supplied time position stamp.
+  * @example 
+  * var myTimeStamp = someScheduler.cloneTimeStamp(someTimeStamp);
+  */
+Scheduler.prototype.cloneTimeStamp = function(stamp) {
+
+	var result = {straight: stamp.straight, swing: stamp.swing};
+	
+	return result;
+}
+
+/** 
+  * Creates a time position stamp from straight and swung timing values.
+  * @param {number} straight  - the straight step time of this stamp.
+  * @param {number} swung     - the swung step time of this stamp.
+  * @returns {TimeStamp}      - the newly created time position stamp.
+  * @example 
+  * // Create a time position stamp with 0.5s and 0.75s straight and swung timing values
+  * var myTimeStamp = someScheduler.createTimeStamp(0.5, 0.75);
+  */
+Scheduler.prototype.createTimeStamp = function(straight, swing) {
+
+	var result = {straight: straight, swing: swing};
+	
+	return result;
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Dec 29 2015 15:27:49 GMT+0000 (GMT Standard Time)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Scheduler-1 - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Scheduler-1</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Scheduler-1</h2>
+</header>
+
+<article>
+    <style>
+
+h3 {
+	font-size: 1.1em;
+}
+
+</style>
+
+<p>This tutorial demonstrates the creation of a scheduling object with a tempo of 128 bpm. Note that no other parameters have been specified, instead the defaults have been used (4/4 time, 16<sup>th</sup> notes, no event handlers, etc.).</p>
+
+<p>To run this program, copy the code in Listing 1 into a new HTML file and copy the MCAD Pattern Scheduler javascript file into the same folder. The program itself will not produce any output, however opening up the console window (Ctl-Shift-J in Google Chrome) will produce log out put as in Figure 1 below.</p>
+
+<h3>Code Breakdown</h3>
+
+The scheduler object is created using the appropriate constructor and supplying the Web Audio API audio context along with the (optional) configuration parameters. The configuration parameters are always placed between two squiggly braces with the comma separated parameter/value pairs. Any parameter not specified by the user will be set to the default value specified in the scheduler constructor.
+
+<br/>
+
+Once the scheduling object has been created, the scheduler can be started by calling the <code>start</code> method. This will initiate the timing pulses for firing the <code>onQueue</code>, <code>onAnim</code> and <code>onTween</code> events.
+
+<h2>Code Listing</h2>
+
+<pre class="prettyprint">
+&lt;!doctype html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;!-- Include the MCAD Sampler class (make sure to copy to your project folder) --&gt;
+		&lt;script src=&quot;mcad.pattern.scheduler.v1-0.js&quot;&gt;&lt;/script&gt;
+		&lt;!-- Add some basic styling to make the page look prettier --&gt;
+		&lt;style&gt;
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+		&lt;/style&gt;
+		&lt;!-- Page title (appears in browser/tab titlebar) --&gt;
+		&lt;title&gt;MCAD Scheduler Tutorial 1&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;!-- Our HTML goes here --&gt;
+		&lt;h1&gt;A Simple Scheduler&lt;/h1&gt;
+		&lt;p&gt;Creates and initiates a scheduler with a tempo of 128 bpm in 4/4 time with 1/16&lt;sup&gt;th&lt;/sup&gt; note steps.&lt;/p&gt;
+		&lt;p&gt;If running in Google Chrome, open the Developer Tools (Ctl-Shift-J) and view the log output.&lt;/p&gt;
+		&lt;script&gt;
+		
+			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+			var context = new (window.AudioContext || window.webkitAudioContext)();
+			
+			// Create a scheduler with a tempo of 128 bpm in 4/4 time with 1/16th note steps
+			var scheduler = new Scheduler(context, {tempo: 128});
+			
+			// Initiate the scheduler's timing pulses
+			scheduler.start();
+
+		&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+Listing 1. - HTML listing for basic scheduler.
+
+<h2>Example Output</h2>
+
+
+<figure style="margin-left: 0;">
+  <img src="Scheduler-1-F1.png" style="margin-top: 15px; border:1px solid #aaaaaa">
+  <figcaption>Figure 1. - The basic scheduler application with console output window.</figcaption>
+</figure>
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Dec 29 2015 15:27:49 GMT+0000 (GMT Standard Time)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

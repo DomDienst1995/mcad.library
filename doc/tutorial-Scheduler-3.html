@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Scheduler-3 - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: Scheduler-3</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>Scheduler-3</h2>
+</header>
+
+<article>
+    <style>
+
+h3 {
+	font-size: 1.1em;
+}
+
+</style>
+
+<p>This tutorial demonstrates the handling of <code>onQueue</code> and <code>onAnim</code> events by attaching appropriate event handlers and using the timing information contained within the event to queue up a sound for playback and modify HTML elements in real-time in response to events.</p>
+
+<p>To run this program, copy the code in Listing 1 into a new HTML file and copy the MCAD Pattern Scheduler and jQuery javascript files into the same folder. The program will produce output in the form of a metronome ticking for each 1/16<sup>th</sup> note whilst modifying tabular data in real-time in response to events. Opening up the console window (Ctl-Shift-J in Google Chrome) will produce log out put as in Figure 1 below.</p>
+
+<h3>Code Breakdown</h3>
+
+<p>With this example, the scheduler is sending out pulses in the form of events for every step as it is due to be queued for playback and as the step is actually played back in real-time. By attaching our event handler to the <code>onQueue</code> and <code>onAnim</code> events, our handlers are called every time a step is ready to be queued or when it is played back. The <code>onQueue</code> handler has one argument (in this instance it has been called <code>step</code>, but can be called anything), that contains both the timing and pattern stamps of the step to be queued whereas the <code>onAnim</code> handler has two arguments of type <code>StepStamp</code> representing the current (and previous) step position to be animated.</p>
+
+<p>The <code>onQueue</code> event handler queues up an oscillator for playback in the same manner as the previous tutorial but also uses jQuery to modify the <code>onQueue</code> table column to the  step stamp of the step in the <code>onQueue</code> event.</p>
+
+<p>The <code>onAnim</code> event handler modifies the other column with this event's current step stamp in the same fashion as the <code>onQueue</code> handler. However, note that the <code>onQueue</code> and <code>onAnim</code> stamps are out of sync. This is because the <code>onQueue</code> events are in the future whereas the <code>onAnim</code> events are fired in real-time as the step is played back (the <code>lookAheadTime</code> and <code>scheduleAheadTime</code> options have been exaggerated to pronounce this effect). This means that the <code>onQueue</code> events cannot be relied on for real-time animation of step playback, hence the inclusion of the <code>onAnim</code> timing pulse.</p>
+
+<h2>Code Listing</h2>
+
+<pre class="prettyprint">
+&lt;!doctype html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;!-- Include the MCAD Sampler class (make sure to copy to your project folder) --&gt;
+		&lt;script src=&quot;mcad.pattern.scheduler.v1-0.js&quot;&gt;&lt;/script&gt;
+		&lt;!-- Include the jQuery library files --&gt;
+		&lt;link rel=&quot;stylesheet&quot; href=&quot;jquery-ui.min.css&quot;&gt;
+		&lt;script src=&quot;external/jquery/jquery.js&quot;&gt;&lt;/script&gt;
+		&lt;script src=&quot;jquery-ui.min.js&quot;&gt;&lt;/script&gt;
+		&lt;!-- Add some basic styling to make the page look prettier --&gt;
+		&lt;style&gt;
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+			
+			table {
+				width: 620px;
+			}
+			
+			th, td {
+				width: 33.334%;
+				text-align: center; 
+				font-family: 'Droid Sans', Arial, sans-serif;
+			}
+			
+			th {
+				background-color: #000000; 
+				color: #ffffff;
+			}
+			
+			td {
+				color: #000000; 
+				background-color: #ffffff;
+			}
+			
+		&lt;/style&gt;
+		&lt;!-- Page title (appears in browser/tab titlebar) --&gt;
+		&lt;title&gt;MCAD Scheduler Tutorial 3&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;!-- Our HTML goes here --&gt;
+		&lt;div class=&quot;main&quot;&gt;
+		&lt;h1&gt;Handling onAnim Events&lt;/h1&gt;
+		&lt;p&gt;Creates and initiates a scheduler with a tempo of 60 bpm in 4/4 time with 1/16&lt;sup&gt;th&lt;/sup&gt; note steps.&lt;/p&gt;
+		&lt;p&gt;If running in Google Chrome, open the Developer Tools (Ctl-Shift-J) and view the log output.&lt;/p&gt;
+		&lt;p&gt;In this example, the scheduler is sending out two pulses, queue and animation, in the form of an events. The queue event is used to queue up a step for future playback whereas the animation event is used to animate a step once the pattern playback position reaches that step in real-time.&lt;/p&gt;
+		&lt;p&gt;The table below has its data modified in response to the queue and animation events. Note that the queue and animation positions are out of sync. This is because the queue position may well be in the future whereas the animation position always represents the real-time playback time of a given step.&lt;/p&gt;
+		
+		&lt;!-- Table displaying the onQueue and onAnim event data --&gt;
+		&lt;table border=&quot;1&quot; align=&quot;center&quot; cellpadding=&quot;5&quot; cellspacing=&quot;0&quot;&gt;
+			&lt;tbody&gt;
+				&lt;tr&gt;
+					&lt;th&gt;&lt;strong&gt;Stamp Property&lt;/strong&gt;&lt;/th&gt;
+					&lt;th&gt;&lt;strong&gt;onQueue Event&lt;/strong&gt;&lt;/th&gt;
+					&lt;th&gt;&lt;strong&gt;onAnim Event&lt;/strong&gt;&lt;/th&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Bar&lt;/td&gt;
+					&lt;td id=&quot;qBar&quot;&gt;&lt;/td&gt;
+					&lt;td id=&quot;aBar&quot;&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Beat&lt;/td&gt;
+					&lt;td id=&quot;qBeat&quot;&gt;&lt;/td&gt;
+					&lt;td id=&quot;aBeat&quot;&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Step&lt;/td&gt;
+					&lt;td id=&quot;qStep&quot;&gt;&lt;/td&gt;
+					&lt;td id=&quot;aStep&quot;&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;Pattern Position&lt;/td&gt;
+					&lt;td id=&quot;qPattern&quot;&gt;&lt;/td&gt;
+					&lt;td id=&quot;aPattern&quot;&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;GUID&lt;/td&gt;
+					&lt;td id=&quot;qGUID&quot;&gt;&lt;/td&gt;
+					&lt;td id=&quot;aGUID&quot;&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/tbody&gt;
+		&lt;/table&gt;
+		&lt;/div&gt;
+		&lt;script&gt;
+			
+			// Event handler for scheduler's onQueue events
+			function playStep(step) {
+
+				// Create an oscillator node and connect it to the context's output
+				var oscillator = context.createOscillator();
+				oscillator.connect(context.destination);
+
+				// Queue osillator to start playback on step's playback time
+				oscillator.start(step.time.swing);
+
+				// If the step number has a remainder when divided by 4 (modulus operator: %), play 400 hz
+				// Otherwise (on beat), play 800 hz
+				if(step.stamp.step % 4)oscillator.frequency.value = 400;
+				else oscillator.frequency.value = 800;
+
+				// Queue oscillator to stop playback 100ms after step's playback time
+				oscillator.stop(step.time.swing + 0.1); 
+				
+				// Modify the onQueue column in the event table to display this event's stamp information
+				$(&quot;#qBar&quot;).text(step.stamp.bar);
+				$(&quot;#qBeat&quot;).text(step.stamp.beat);
+				$(&quot;#qStep&quot;).text(step.stamp.step);
+				$(&quot;#qPattern&quot;).text(step.stamp.patternPos);
+				$(&quot;#qGUID&quot;).text(step.stamp.guid);
+			}
+			
+			// Event handler for scheduler's onAnim events
+			function animateStep(currentStep, lastStep) {
+
+				// Modify the onAnim column in the event table to display this event's stamp information
+				$(&quot;#aBar&quot;).text(currentStep.bar);
+				$(&quot;#aBeat&quot;).text(currentStep.beat);
+				$(&quot;#aStep&quot;).text(currentStep.step);
+				$(&quot;#aPattern&quot;).text(currentStep.patternPos);
+				$(&quot;#aGUID&quot;).text(currentStep.guid);
+			}
+		
+			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+			var context = new (window.AudioContext || window.webkitAudioContext)();
+			
+			// Create a scheduler with a tempo of 60 bpm in 4/4 time with 1/16th note steps and queue and animation event handlers
+			var scheduler = new Scheduler(context, {tempo: 60, onQueue: playStep, onAnim: animateStep, scheduleAheadTime: 0.5, lookAheadTime: 0.25});
+			
+			// Initiate the scheduler's timing pulses
+			scheduler.start();
+
+		&lt;/script&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+Listing 1. - HTML listing for onQueue and onAnim event handling scheduler.
+
+<h2>Example Output</h2>
+
+<figure style="margin-left: 0;">
+  <img src="Scheduler-3-F1.png" style="margin-top: 15px; border:1px solid #aaaaaa">
+  <figcaption>Figure 1. - The onQueue and onAnim event handling scheduler application with console output window.</figcaption>
+</figure>
+
+
+</article>
+
+</section>
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Dec 29 2015 15:27:49 GMT+0000 (GMT Standard Time)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
