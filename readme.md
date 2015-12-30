@@ -13,4 +13,4 @@ To use the library classes in your own projects, copy the .js file(s) of the cla
 <script src="mcad.pattern.scheduler.v1-0.js"></script>
 ```
 
-For further information as to how to use each class, please see the Tutorials section.
+For further information as to how to use each class, please see the Tutorials section in the documentation.
