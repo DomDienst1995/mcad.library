@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		
+		<!-- Include jQuery and jQuery UI libraries -->
+		<script src="jquery-ui/external/jquery/jquery.js"></script>
+		
+		<!-- Include the MCAD utility functions -->
+		<script src="../src/mcad.utils.v1-0.js"></script>
+		
+		<!-- Add some basic styling to make the page look prettier -->
+		<style>
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+			
+			table {
+				width: 620px;
+			}
+			
+			th, td {
+				width: 25%;
+				text-align: center; 
+				font-family: 'Droid Sans', Arial, sans-serif;
+			}
+			
+			th {
+				background-color: #000000; 
+				color: #ffffff;
+			}
+			
+			td {
+				color: #000000; 
+				background-color: #ffffff;
+			}
+		</style>
+		
+		<!-- Page title (appears in browser/tab titlebar) -->
+		<title>MCAD Utils</title>
+	</head>
+	<body>
+		<!-- Our HTML goes here -->
+		<div class="main">
+		<h1>Parameter Range Mapping</h1>
+		<p>Uses the MCAD utility functions to perform parameter range mapping to and from signed/unsigned normalized values.</p>
+		
+		<!-- Table displaying conversion from parameter values to unsigned normalized values -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Parameter Value</strong></th>
+					<th><strong>Minimum Value</strong></th>
+					<th><strong>Maximum Value</strong></th>
+					<th><strong>Unsigned Normalized</strong></th>
+				</tr>
+				<tr>
+					<td id="p1v">32</td>
+					<td id="p1min">0</td>
+					<td id="p1max">60</td>
+					<td id="p1n"></td>
+				</tr>		
+				<tr>
+					<td id="p2v">0</td>
+					<td id="p2min">-10</td>
+					<td id="p2max">25</td>
+					<td id="p2n"></td>
+				</tr>			
+				<tr>
+					<td id="p3v">52</td>
+					<td id="p3min">20</td>
+					<td id="p3max">80</td>
+					<td id="p3n"></td>
+				</tr>		
+				<tr>
+					<td id="p4v">1000</td>
+					<td id="p4min">300</td>
+					<td id="p4max">20000</td>
+					<td id="p4n"></td>
+				</tr>						
+			</tbody>
+		</table>
+		
+		<br/>
+		
+				<!-- Table displaying conversion from unsigned normalized values to parameter values -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Unsigned Normalized</strong></th>
+					<th><strong>Minimum Value</strong></th>
+					<th><strong>Maximum Value</strong></th>
+					<th><strong>Parameter Value</strong></th>
+				</tr>
+				<tr>
+					<td id="p9n"></td>
+					<td id="p9min">0</td>
+					<td id="p9max">60</td>
+					<td id="p9v"></td>
+				</tr>		
+				<tr>
+					<td id="p10n"></td>
+					<td id="p10min">-10</td>
+					<td id="p10max">25</td>
+					<td id="p10v"></td>
+				</tr>			
+				<tr>
+					<td id="p11n"></td>
+					<td id="p11min">20</td>
+					<td id="p11max">80</td>
+					<td id="p11v"></td>
+				</tr>		
+				<tr>
+					<td id="p12n"></td>
+					<td id="p12min">300</td>
+					<td id="p12max">20000</td>
+					<td id="p12v"></td>
+				</tr>						
+			</tbody>
+		</table>
+		
+		<br/>
+		
+		<!-- Table displaying conversion from parameter values to signed normalized values -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Parameter Value</strong></th>
+					<th><strong>Minimum Value</strong></th>
+					<th><strong>Maximum Value</strong></th>
+					<th><strong>Signed Normalized</strong></th>
+				</tr>
+				<tr>
+					<td id="p5v">32</td>
+					<td id="p5min">0</td>
+					<td id="p5max">60</td>
+					<td id="p5n"></td>
+				</tr>		
+				<tr>
+					<td id="p6v">0</td>
+					<td id="p6min">-10</td>
+					<td id="p6max">25</td>
+					<td id="p6n"></td>
+				</tr>			
+				<tr>
+					<td id="p7v">52</td>
+					<td id="p7min">20</td>
+					<td id="p7max">80</td>
+					<td id="p7n"></td>
+				</tr>		
+				<tr>
+					<td id="p8v">1000</td>
+					<td id="p8min">300</td>
+					<td id="p8max">20000</td>
+					<td id="p8n"></td>
+				</tr>						
+			</tbody>
+		</table>
+		
+		<br/>
+		
+		<!-- Table displaying conversion from signed normalized values to parameter values -->
+		<table border="1" align="center" cellpadding="5" cellspacing="0">
+			<tbody>
+				<tr>
+					<th><strong>Signed Normalized</strong></th>
+					<th><strong>Minimum Value</strong></th>
+					<th><strong>Maximum Value</strong></th>
+					<th><strong>Parameter Value</strong></th>
+				</tr>
+				<tr>
+					<td id="p13n"></td>
+					<td id="p13min">0</td>
+					<td id="p13max">60</td>
+					<td id="p13v"></td>
+				</tr>		
+				<tr>
+					<td id="p14n"></td>
+					<td id="p14min">-10</td>
+					<td id="p14max">25</td>
+					<td id="p14v"></td>
+				</tr>			
+				<tr>
+					<td id="p15n"></td>
+					<td id="p15min">20</td>
+					<td id="p15max">80</td>
+					<td id="p15v"></td>
+				</tr>		
+				<tr>
+					<td id="p16n"></td>
+					<td id="p16min">300</td>
+					<td id="p16max">20000</td>
+					<td id="p16v"></td>
+				</tr>						
+			</tbody>
+		</table>
+		
+		</div>
+		<script>
+		
+			$(document).ready(function() {
+			
+				for(var i = 1; i <= 4; i++) {
+				
+					var p = parseFloat($("#p" + i + "v").text());
+					var min = parseFloat($("#p" + i + "min").text());
+					var max = parseFloat($("#p" + i + "max").text());
+					
+					var t = mcad.paramToUnsignedNorm(p, min, max);
+					
+					$("#p" + i + "n").text(t.toFixed(3));
+					
+					$("#p" + (i + 8) + "n").text(t.toFixed(3));
+					
+					p = mcad.unsignedNormToParam(t, min, max).toFixed(3);
+					
+					$("#p" + (i + 8) + "v").text(p);
+				}
+				
+				for(var i = 5; i <= 8; i++) {
+				
+					var p = parseFloat($("#p" + i + "v").text());
+					var min = parseFloat($("#p" + i + "min").text());
+					var max = parseFloat($("#p" + i + "max").text());
+					
+					var t = mcad.paramToSignedNorm(p, min, max);
+					
+					$("#p" + i + "n").text(t.toFixed(3));
+					
+					$("#p" + (i + 8) + "n").text(t.toFixed(3));
+					
+					p = mcad.signedNormToParam(t, min, max).toFixed(3);
+					
+					$("#p" + (i + 8) + "v").text(p);
+				}
+				
+			});
+
+		</script>
+	</body>
+</html>

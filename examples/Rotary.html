@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- Include jQuery library -->
+		<script src="jquery-ui/external/jquery/jquery.js"></script>
+		
+		<!-- Include the MCAD utility functions -->
+		<script src="../src/mcad.utils.v1-0.js"></script>
+		
+		<!-- Include the MCAD Rotary class -->
+		<script src="../src/mcad.rotary.v1-0.js"></script>
+		
+		<!-- Include the hammer.js library -->
+		<script src="hammer.min.js"></script>
+		
+		<!-- Add some basic styling to make the page look prettier -->
+		<style>
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+			
+			.rotary {
+				margin: 0 auto; 
+			}
+			
+			.readout {
+				text-align: center;
+			}
+		</style>
+		<!-- Page title (appears in browser/tab titlebar) -->
+		<title>MCAD Rotary</title>
+	</head>
+	<body>
+		<!-- Our HTML goes here -->
+		<div class="main">
+		<h1>A rotary widget</h1>
+		<p>Use the mouse (or pinch/pan gestures if on a touchscreen device) to rotate the pitch knob.</p>
+		
+		<!-- The pitch knob -->
+		<div id="pitchKnob" class="rotary"></div>
+		
+		<!-- The pitch knob parameter readout -->
+		<p id="pitchValue" class="readout">Value: </p>	
+		</div>	
+		
+		<script>
+		
+			$(document).ready(function() {			
+			
+				// create web audio api context
+				var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+				// create Oscillator node
+				var oscillator = audioCtx.createOscillator();
+
+				oscillator.connect(audioCtx.destination);
+				oscillator.type = 'square';
+				oscillator.start();
+				
+				// Pitch knob
+				var pitchKnob = new Rotary("#pitchKnob", {image_src: "resources/knob.png", onChange: pitchKnobChange, width: "128px", height: "128px", paramMin: 300, paramMax: 20000, pinch: false, pan: false});
+			
+				// When the rotary widget is manipulated, the onChange event is triggered and handled here
+				function pitchKnobChange(paramValue, normValue) {
+
+					// Update the pitch knob readout and oscilaltor pitch to the new parameter value
+					$("#pitchValue").text(paramValue + "hz");
+					oscillator.frequency.value = paramValue;
+				}				
+			});
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		
+		<!-- Include jQuery and jQuery UI libraries -->
+		<script src="jquery-ui/external/jquery/jquery.js"></script>
+		
+		<!-- Include the MCAD Buffer Load class -->
+		<script src="../src/mcad.buffer.loader.v1-0.js"></script>		
+		
+		<!-- Include the MCAD Scheduler class -->
+		<script src="../src/mcad.pattern.scheduler.v1-0.js"></script>
+		
+		<!-- Add some basic styling to make the page look prettier -->
+		<style>
+			body {
+				background-color: rgb(245, 245, 245);
+				color: rgb(121, 121, 121);
+				font-family: 'Droid Sans', Arial, sans-serif;
+				font-size: 1em;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			.main {
+				width: 620px;
+				margin: 0 auto; 
+			}
+			
+			table {
+				width: 620px;
+			}
+			
+			th, td {
+				width: 25%;
+				text-align: center; 
+				font-family: 'Droid Sans', Arial, sans-serif;
+			}
+			
+			th {
+				background-color: #000000; 
+				color: #ffffff;
+			}
+			
+			td {
+				color: #000000; 
+				background-color: #ffffff;
+			}
+		</style>
+		
+		<!-- Page title (appears in browser/tab titlebar) -->
+		<title>Sample Loading</title>
+	</head>
+	<body>
+		<!-- Our HTML goes here -->
+		<div class="main">
+		<h1>Sample Loading</h1>
+		<p>Uses the MCAD Buffer Loader class to load samples including handling of samples that could not be found (snare1.wav). A scheduler then plays back the kick sample on the beat at 60 bpm when the single sample example is successfully loaded.</p>
+		
+		<p>Note: This example requires a webserver (local or otherwise) to run.
+		
+		<!-- Our HTML goes here -->
+		<table class="sampleLoading">
+			<caption>Load Sample List</caption>
+			<thead>
+			<tr>
+				<th>Key</th>
+				<th>Result</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td id="listkickKey">&nbsp;</td>
+				<td id="listkickResult">&nbsp;</td>
+			</tr>
+			<tr>
+				<td id="listhatKey">&nbsp;</td>
+				<td id="listhatResult">&nbsp;</td>
+			</tr>
+			<tr>
+				<td id="listsnareKey">&nbsp;</td>
+				<td id="listsnareResult">&nbsp;</td>
+			</tr>
+			</tbody>
+		</table>
+		<p id=sampleList></p>
+		<table class="sampleLoading">
+			<caption>Load Sample Array</caption>
+			<thead>
+			<tr>
+				<th>Index</th>
+				<th>Result</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td id="array0Index">&nbsp;</td>
+				<td id="array0Result">&nbsp;</td>
+			</tr>
+			<tr>
+				<td id="array1Index">&nbsp;</td>
+				<td id="array1Result">&nbsp;</td>
+			</tr>
+			<tr>
+				<td id="array2Index">&nbsp;</td>
+				<td id="array2Result">&nbsp;</td>
+			</tr>
+			</tbody>
+		</table>
+		<p id=sampleArray></p>
+		<table class="sampleLoading">
+			<caption>Single Sample</caption>
+			<thead>
+			<tr>
+				<th>URL</th>
+				<th>Result</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td id="sampleURL">&nbsp;</td>
+				<td id="sampleResult">&nbsp;</td>
+			</tr>
+			</tbody>
+		</table>
+		
+		</div>
+		<script>
+		
+			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+			var context = new (window.AudioContext || window.webkitAudioContext)();
+		
+			/*
+			Document Ready Function
+			---------------------
+
+			Event handler for when all of the page elements have been loaded. If we do any element manipulation, we need to do it here otherwise we may try and manipulate an element
+			that hasn't been loaded yet.
+			*/
+			
+			var BufferLoader, sample;
+			var sampleList = {} 
+			var sampleArray = [];
+			var urls = ["samples/kick.wav", "samples/hat1.wav", "samples/snare.wav"];
+			
+			sampleLoader = new BufferLoader(context);
+			
+			$(document).ready(function() {
+			
+				/*
+				Key/Value List Loading
+				---------------------
+
+				Loads a list of samples into an associative array buffer
+				*/
+				
+				sampleLoader.loadBufferList(sampleList, {"kick": "samples/kick.wav", "hat": "samples/hat.wav", "snare": "samples/snare1.wav"}, function() {
+						
+					console.log("Finished loading sample list!");
+						
+					for(key in sampleList){
+
+						var buffer = sampleList[key];
+						
+						console.log("Sample: " + key + ", buffer: " + buffer);
+						
+						$("#list" + key + "Key").text(key);
+						
+						if(buffer) $("#list" + key + "Result").text("Success");
+						else $("#list" + key + "Result").text("Failed");
+					}
+				},
+				function(result) {
+				
+					console.log("onLoad: file " + result.url + " with key " + result.key + " loaded: " + result.success);
+				
+				});
+						
+				/*
+				Array Loading
+				---------------------
+
+				Loads an array of samples into a sequential array buffer
+				*/
+				
+				sampleLoader.loadBufferList(sampleArray, urls, 
+				function() {
+				
+					console.log("Finished loading sample array!");
+						
+					for(i = 0; i < sampleArray.length; i++){
+
+						var buffer = sampleArray[i];
+						
+						console.log("Sample: " + i + ", buffer: " + buffer);
+						
+						$("#array" + i + "Index").text(i);
+						
+						if(buffer) $("#array" + i + "Result").text("Success");
+						else $("#array" + i + "Result").text("Failed");
+					}
+				},
+				function(result) {
+				
+					console.log("onLoad: file " + result.url + " with key " + result.key + " loaded: " + result.success);
+				
+				});
+				
+				/*
+				Single buffer Loading
+				---------------------
+
+				Loads a single sample
+				*/
+				
+				sampleLoader.loadBuffer("samples/kick.wav", 
+				function(result, url){
+				
+					$("#sampleURL").text(url);
+				
+					// Triggered when the sample fails to load/decode
+					if(result == null) {
+						console.log("Single file failed to load " + url);
+						$("#sampleResult").text("Failed");
+					}
+					// Triggered when the sample was successfully loaded
+					else {
+					
+						console.log("Finished loading single sample " + url);
+					
+						sample = result;
+						
+						console.log(sample);
+						
+						$("#sampleResult").text("Success");
+						
+						// Initiate the scheduler's timing pulses
+						scheduler.start();
+					}
+				});			
+				
+					function playStep(step) {
+					
+					var source = context.createBufferSource(); // creates a sound source
+					source.buffer = sample;                    // tell the source which sound to play
+					source.connect(context.destination);       // connect the source to the context's destination (the speakers)
+					source.start(0);                           // play the source now
+				}
+
+				// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
+				var context = new (window.AudioContext || window.webkitAudioContext)();
+				
+				// Create a scheduler with a tempo of 40 bpm in 4/4 time with 1/16th note steps and a queue event handler
+				var scheduler = new Scheduler(context, {tempo: 40, onQueue: playStep});
+			});
+
+		</script>
+	</body>
+</html>
