@@ -470,7 +470,7 @@ Scheduler.prototype.stop = function() {
 
 /** 
   * Calculates the length (in seconds) of a straight step.
-  * @returns {number} - the step duration (in seconds).
+  * @returns {number} The step duration (in seconds).
   * @example 
   * // Log the duration (in seconds) of a straight step on the pattern
   * console.log(someScheduler.getStepLength());
@@ -483,7 +483,7 @@ Scheduler.prototype.getStepLength = function() {
 /** 
   * Clones a step position stamp
   * @param {StepStamp} stamp - the step position stamp to be cloned.
-  * @returns {StepStamp} - the cloned copy of the supplied step position stamp.
+  * @returns {StepStamp}       The cloned copy of the supplied step position stamp.
   * @example 
   * var myStepStamp = someScheduler.cloneStepStamp(someStepStamp);
   */
@@ -499,7 +499,7 @@ Scheduler.prototype.cloneStepStamp = function(stamp) {
   * @param {number} bar  - the bar position of this stamp.
   * @param {number} beat - the beat position of this stamp.
   * @param {number} step - the step position of this stamp.
-  * @returns {StepStamp} - the newly created step position stamp.
+  * @returns {StepStamp}   The newly created step position stamp.
   * @example
   * // Create a step position stamp at 3rd bar, 2nd beat, 4th step
   * var myStepStamp = someScheduler.createStepStamp(2, 1, 3);
@@ -516,13 +516,13 @@ Scheduler.prototype.createStepStamp = function(bar, beat, step) {
 /** 
   * Wraps and clamps a step position stamp into valid ranges.
   * @param {StepStamp} stamp - the step position stamp to wrap and clamp.
-  * @returns {StepStamp}     - the clamped step position stamp.
+  * @returns {StepStamp}       The clamped step position stamp.
   * @example
   * // Assuming an 8 step pattern:
   * // bar: 2, beat: 1, step: 10 // Invalid! Wrap the stamp round to a valid range
   * // Becomes: 
   * // bar: 3, beat: 0, step: 2
-  * var myStepStamp = someScheduler.clampTimeStamp(myStepStamp);
+  * someScheduler.clampTimeStamp(myStepStamp);
   */
 Scheduler.prototype.clampStepStamp = function(stamp) {
 
@@ -567,7 +567,7 @@ Scheduler.prototype.offsetStepStamp = function(stamp, steps) {
 /** 
   * Clones a time position stamp
   * @param {TimeStamp} stamp - the time position stamp to be cloned.
-  * @returns {TimeStamp}     - the cloned copy of the supplied time position stamp.
+  * @returns {TimeStamp}       The cloned copy of the supplied time position stamp.
   * @example 
   * var myTimeStamp = someScheduler.cloneTimeStamp(someTimeStamp);
   */
@@ -582,7 +582,7 @@ Scheduler.prototype.cloneTimeStamp = function(stamp) {
   * Creates a time position stamp from straight and swung timing values.
   * @param {number} straight  - the straight step time of this stamp.
   * @param {number} swung     - the swung step time of this stamp.
-  * @returns {TimeStamp}      - the newly created time position stamp.
+  * @returns {TimeStamp}        The newly created time position stamp.
   * @example 
   * // Create a time position stamp with 0.5s and 0.75s straight and swung timing values
   * var myTimeStamp = someScheduler.createTimeStamp(0.5, 0.75);

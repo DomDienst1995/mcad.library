@@ -4,6 +4,8 @@ The MCAD Web Audio Library provides a number of classes for performing common au
 
   - MCAD Pattern Scheduler
   - MCAD Buffer Loader
+  - MCAD Utility Functions
+  - MCAD Rotary Widget
 
 ### Usage
 
