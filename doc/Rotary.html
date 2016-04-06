@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Rotary - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Rotary.html">Rotary</a><ul class='methods'><li data-type='method'><a href="Rotary.html#getNormValue">getNormValue</a></li><li data-type='method'><a href="Rotary.html#getParamValue">getParamValue</a></li><li data-type='method'><a href="Rotary.html#setNormValue">setNormValue</a></li><li data-type='method'><a href="Rotary.html#setParamValue">setParamValue</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="mcad.html">mcad</a><ul class='methods'><li data-type='method'><a href="mcad.html#.paramToSignedNorm">paramToSignedNorm</a></li><li data-type='method'><a href="mcad.html#.paramToUnsignedNorm">paramToUnsignedNorm</a></li><li data-type='method'><a href="mcad.html#.signedNormToParam">signedNormToParam</a></li><li data-type='method'><a href="mcad.html#.signedNtoUnsignedN">signedNtoUnsignedN</a></li><li data-type='method'><a href="mcad.html#.unsignedNormToParam">unsignedNormToParam</a></li><li data-type='method'><a href="mcad.html#.unsignedNtoSignedN">unsignedNtoSignedN</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Rotary</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        Rotary
+        </h2>
+        
+            <div class="class-description">A rotary widget that supports mouse and touch input (pinch and pan). The widget will handle all input and rotary mechanics and inform the user of value changes via the onChange event handler.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Rotary"><span class="type-signature"></span>new Rotary<span class="signature">(selector<span class="signature-attributes">non-null</span>, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Constructs a rotary widget object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">jQuery selector string to select the element that represents this widget.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">config options to override defaults.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>image_src</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">path to the image file to be used for the rotary.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onChange</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">event handler for parameter value changes).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">width of the widget (suffix with units, e.g. px or %).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">width of the widget (suffix with units, e.g. px or %).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramMin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">minimum parameter value for this widget.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">maximum parameter value for this widget.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>degMin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    225
+                
+                </td>
+            
+
+            <td class="description last">minimum degree position for this widget.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>degMax</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    135
+                
+                </td>
+            
+
+            <td class="description last">maximum degree position for this widget.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pinch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">allow pinch gestures to rotate widget.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pan</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last">allow pan gestures to rotate widget.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.rotary.v1-0.js.html">mcad.rotary.v1-0.js</a>, <a href="mcad.rotary.v1-0.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+        <p class="code-caption">Pitch knob with 300hz to 20khz parameter range</p>
+    
+    <pre class="prettyprint"><code>&lt;div id="pitchKnob">&lt;/div>&lt;script>   function pitchKnobChange(pValue, nValue) {       console.log("Parameter value: " + pValue + "hz, normalized value: " + nValue);    }   var pitchKnob = new Rotary("#pitchKnob", {image_src: "resources/knob.png", onChange: pitchKnobChange, width: "128px", height: "128px", paramMin: 300, paramMax: 20000});&lt;/script></code></pre>
+
+        <p class="code-caption">Pitch knob with 300hz to 20khz parameter range but no pinch gestures</p>
+    
+    <pre class="prettyprint"><code>&lt;div id="pitchKnob">&lt;/div>&lt;script>   function pitchKnobChange(pValue, nValue) {       console.log("Parameter value: " + pValue + "hz, normalized value: " + nValue);    }   var pitchKnob = new Rotary("#pitchKnob", {image_src: "resources/knob.png", onChange: pitchKnobChange, width: "128px", height: "128px", paramMin: 300, paramMax: 20000, pinch: false});&lt;/script></code></pre>
+
+
+<hr>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="getNormValue"><span class="type-signature"></span>getNormValue<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the normalized value of this rotary in the <code>[0,1]</code> range.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.rotary.v1-0.js.html">mcad.rotary.v1-0.js</a>, <a href="mcad.rotary.v1-0.js.html#line223">line 223</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The parameter value in the <code>[0,1]</code> range.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>console.log(pitchKnob.getNormValue());</code></pre>
+
+
+<hr>
+
+        
+            
+
+    
+
+    <h4 class="name" id="getParamValue"><span class="type-signature"></span>getParamValue<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the parameter value of this rotary in the <code>paramMin</code> to <code>paramMax</code> range.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.rotary.v1-0.js.html">mcad.rotary.v1-0.js</a>, <a href="mcad.rotary.v1-0.js.html#line235">line 235</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The parameter value in the <code>paramMin</code> to <code>paramMax</code> range.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>console.log(pitchKnob.getParamValue());</code></pre>
+
+
+<hr>
+
+        
+            
+
+    
+
+    <h4 class="name" id="setNormValue"><span class="type-signature"></span>setNormValue<span class="signature">(value)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets the normalized value of this rotary to the supplied value.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">normalized value in the <code>[0,1]</code> range.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.rotary.v1-0.js.html">mcad.rotary.v1-0.js</a>, <a href="mcad.rotary.v1-0.js.html#line182">line 182</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Set the pitch knob to the half way position (12 o'clock).pitchKnob.setNormValue(0.5);</code></pre>
+
+
+<hr>
+
+        
+            
+
+    
+
+    <h4 class="name" id="setParamValue"><span class="type-signature"></span>setParamValue<span class="signature">(value)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets the parameter value of this rotary to the supplied value.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">parameter value in the <code>paramMin</code> to <code>paramMax</code> range.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.rotary.v1-0.js.html">mcad.rotary.v1-0.js</a>, <a href="mcad.rotary.v1-0.js.html#line211">line 211</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Set the pitch knob to the half way position (12 o'clock).pitchKnob.setParamValue(9850);</code></pre>
+
+
+<hr>
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Wed Apr 06 2016 14:44:42 GMT+0100 (GMT Daylight Time)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
