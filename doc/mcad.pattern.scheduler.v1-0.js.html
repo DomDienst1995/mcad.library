@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Rotary.html">Rotary</a><ul class='methods'><li data-type='method'><a href="Rotary.html#getNormValue">getNormValue</a></li><li data-type='method'><a href="Rotary.html#getParamValue">getParamValue</a></li><li data-type='method'><a href="Rotary.html#setNormValue">setNormValue</a></li><li data-type='method'><a href="Rotary.html#setParamValue">setParamValue</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="mcad.html">mcad</a><ul class='methods'><li data-type='method'><a href="mcad.html#.paramToSignedNorm">paramToSignedNorm</a></li><li data-type='method'><a href="mcad.html#.paramToUnsignedNorm">paramToUnsignedNorm</a></li><li data-type='method'><a href="mcad.html#.signedNormToParam">signedNormToParam</a></li><li data-type='method'><a href="mcad.html#.signedNtoUnsignedN">signedNtoUnsignedN</a></li><li data-type='method'><a href="mcad.html#.unsignedNormToParam">unsignedNormToParam</a></li><li data-type='method'><a href="mcad.html#.unsignedNtoSignedN">unsignedNtoSignedN</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
 </nav>
 
 <div id="main">
@@ -510,7 +510,7 @@ Scheduler.prototype.stop = function() {
 
 /** 
   * Calculates the length (in seconds) of a straight step.
-  * @returns {number} - the step duration (in seconds).
+  * @returns {number} The step duration (in seconds).
   * @example 
   * // Log the duration (in seconds) of a straight step on the pattern
   * console.log(someScheduler.getStepLength());
@@ -523,7 +523,7 @@ Scheduler.prototype.getStepLength = function() {
 /** 
   * Clones a step position stamp
   * @param {StepStamp} stamp - the step position stamp to be cloned.
-  * @returns {StepStamp} - the cloned copy of the supplied step position stamp.
+  * @returns {StepStamp}       The cloned copy of the supplied step position stamp.
   * @example 
   * var myStepStamp = someScheduler.cloneStepStamp(someStepStamp);
   */
@@ -539,7 +539,7 @@ Scheduler.prototype.cloneStepStamp = function(stamp) {
   * @param {number} bar  - the bar position of this stamp.
   * @param {number} beat - the beat position of this stamp.
   * @param {number} step - the step position of this stamp.
-  * @returns {StepStamp} - the newly created step position stamp.
+  * @returns {StepStamp}   The newly created step position stamp.
   * @example
   * // Create a step position stamp at 3rd bar, 2nd beat, 4th step
   * var myStepStamp = someScheduler.createStepStamp(2, 1, 3);
@@ -556,13 +556,13 @@ Scheduler.prototype.createStepStamp = function(bar, beat, step) {
 /** 
   * Wraps and clamps a step position stamp into valid ranges.
   * @param {StepStamp} stamp - the step position stamp to wrap and clamp.
-  * @returns {StepStamp}     - the clamped step position stamp.
+  * @returns {StepStamp}       The clamped step position stamp.
   * @example
   * // Assuming an 8 step pattern:
   * // bar: 2, beat: 1, step: 10 // Invalid! Wrap the stamp round to a valid range
   * // Becomes: 
   * // bar: 3, beat: 0, step: 2
-  * var myStepStamp = someScheduler.clampTimeStamp(myStepStamp);
+  * someScheduler.clampTimeStamp(myStepStamp);
   */
 Scheduler.prototype.clampStepStamp = function(stamp) {
 
@@ -607,7 +607,7 @@ Scheduler.prototype.offsetStepStamp = function(stamp, steps) {
 /** 
   * Clones a time position stamp
   * @param {TimeStamp} stamp - the time position stamp to be cloned.
-  * @returns {TimeStamp}     - the cloned copy of the supplied time position stamp.
+  * @returns {TimeStamp}       The cloned copy of the supplied time position stamp.
   * @example 
   * var myTimeStamp = someScheduler.cloneTimeStamp(someTimeStamp);
   */
@@ -622,7 +622,7 @@ Scheduler.prototype.cloneTimeStamp = function(stamp) {
   * Creates a time position stamp from straight and swung timing values.
   * @param {number} straight  - the straight step time of this stamp.
   * @param {number} swung     - the swung step time of this stamp.
-  * @returns {TimeStamp}      - the newly created time position stamp.
+  * @returns {TimeStamp}        The newly created time position stamp.
   * @example 
   * // Create a time position stamp with 0.5s and 0.75s straight and swung timing values
   * var myTimeStamp = someScheduler.createTimeStamp(0.5, 0.75);
@@ -644,7 +644,7 @@ Scheduler.prototype.createTimeStamp = function(straight, swing) {
 <br class="clear">
 
 <footer>
-    Documentation generated at Tue Dec 29 2015 15:31:00 GMT+0000 (GMT Standard Time)
+    Documentation generated at Wed Apr 06 2016 14:44:42 GMT+0100 (GMT Daylight Time)
 </footer>
 
 <script>prettyPrint();</script>

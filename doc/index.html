@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Rotary.html">Rotary</a><ul class='methods'><li data-type='method'><a href="Rotary.html#getNormValue">getNormValue</a></li><li data-type='method'><a href="Rotary.html#getParamValue">getParamValue</a></li><li data-type='method'><a href="Rotary.html#setNormValue">setNormValue</a></li><li data-type='method'><a href="Rotary.html#setParamValue">setParamValue</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="mcad.html">mcad</a><ul class='methods'><li data-type='method'><a href="mcad.html#.paramToSignedNorm">paramToSignedNorm</a></li><li data-type='method'><a href="mcad.html#.paramToUnsignedNorm">paramToUnsignedNorm</a></li><li data-type='method'><a href="mcad.html#.signedNormToParam">signedNormToParam</a></li><li data-type='method'><a href="mcad.html#.signedNtoUnsignedN">signedNtoUnsignedN</a></li><li data-type='method'><a href="mcad.html#.unsignedNormToParam">unsignedNormToParam</a></li><li data-type='method'><a href="mcad.html#.unsignedNtoSignedN">unsignedNtoSignedN</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
 </nav>
 
 <div id="main">
@@ -53,7 +53,7 @@
 <li>MCAD Buffer Loader</li>
 </ul>
 <h3>Usage</h3><p>To use the library classes in your own projects, copy the .js file(s) of the classes you wish to use and include them as you would any other JavaScript file. For example, assuming the pattern scheduler .js file is in your project's root, you would use:</p>
-<pre class="prettyprint source"><code>&lt;script src=&quot;mcad.pattern.scheduler.v1-0.js&quot;>&lt;/script></code></pre><p>For further information as to how to use each class, please see the Tutorials section.</p></article>
+<pre class="prettyprint source"><code>&lt;script src=&quot;mcad.pattern.scheduler.v1-0.js&quot;>&lt;/script></code></pre><p>For further information as to how to use each class, please see the Tutorials section in the documentation.</p></article>
     </section>
 
 
@@ -253,12 +253,204 @@
 
 
 
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        MCAD Rotary Widget
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Contains the MCAD Rotary Widget class.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.rotary.v1-0.js.html">mcad.rotary.v1-0.js</a>, <a href="mcad.rotary.v1-0.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        MCAD Utility
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Contains the MCAD Utility class.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="mcad.utils.v1-0.js.html">mcad.utils.v1-0.js</a>, <a href="mcad.utils.v1-0.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
 </div>
 
 <br class="clear">
 
 <footer>
-    Documentation generated at Tue Dec 29 2015 15:31:00 GMT+0000 (GMT Standard Time)
+    Documentation generated at Wed Apr 06 2016 14:44:42 GMT+0100 (GMT Daylight Time)
 </footer>
 
 <script>prettyPrint();</script>
