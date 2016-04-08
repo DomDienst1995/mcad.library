@@ -71,7 +71,7 @@
 				oscillator.start();
 				
 				// Pitch knob
-				var pitchKnob = new Rotary("#pitchKnob", {image_src: "resources/knob.png", onChange: pitchKnobChange, width: "128px", height: "128px", paramMin: 300, paramMax: 20000, pinch: false, pan: false});
+				var pitchKnob = new Rotary("#pitchKnob", {image_src: "resources/knob.png", onChange: pitchKnobChange, width: "128px", height: "128px", paramMin: 300, paramMax: 20000});
 			
 				// When the rotary widget is manipulated, the onChange event is triggered and handled here
 				function pitchKnobChange(paramValue, normValue) {
