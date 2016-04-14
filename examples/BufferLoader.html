@@ -247,7 +247,7 @@
 					var source = context.createBufferSource(); // creates a sound source
 					source.buffer = sample;                    // tell the source which sound to play
 					source.connect(context.destination);       // connect the source to the context's destination (the speakers)
-					source.start(0);                           // play the source now
+					source.start(step.time.swing);                           // play the source now
 				}
 
 				// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
