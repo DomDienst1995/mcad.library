@@ -81,8 +81,8 @@ function Rotary(selector, options) {
 	// Normalized parameter value
 	this._nVal = 0.0;
 	
-	$(this._selector).css("width", "128px");
-	$(this._selector).css("height", "128px");
+	$(this._selector).css("width", this._width);
+	$(this._selector).css("height", this._height);
 	
 	$(this._selector).append("<img></img>");
 	
