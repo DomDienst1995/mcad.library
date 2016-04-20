@@ -1,44 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>mcad.mseg.v1-0.js - Documentation</title>
-
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-<body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3 class="globals"><a href="global.html">Global</a></h3><h3>Classes</h3><ul><li><a href="BufferLoader.html">BufferLoader</a><ul class='methods'><li data-type='method'><a href="BufferLoader.html#loadBuffer">loadBuffer</a></li><li data-type='method'><a href="BufferLoader.html#loadBufferList">loadBufferList</a></li></ul></li><li><a href="Mseg.html">Mseg</a><ul class='methods'><li data-type='method'><a href="Mseg.html#addRelease">addRelease</a></li><li data-type='method'><a href="Mseg.html#addStage">addStage</a></li><li data-type='method'><a href="Mseg.html#durationOfRelease">durationOfRelease</a></li><li data-type='method'><a href="Mseg.html#noteOff">noteOff</a></li><li data-type='method'><a href="Mseg.html#noteOn">noteOn</a></li><li data-type='method'><a href="Mseg.html#noteOnAndOff">noteOnAndOff</a></li></ul></li><li><a href="Rotary.html">Rotary</a><ul class='methods'><li data-type='method'><a href="Rotary.html#getNormValue">getNormValue</a></li><li data-type='method'><a href="Rotary.html#getParamValue">getParamValue</a></li><li data-type='method'><a href="Rotary.html#setNormValue">setNormValue</a></li><li data-type='method'><a href="Rotary.html#setParamValue">setParamValue</a></li></ul></li><li><a href="Scheduler.html">Scheduler</a><ul class='methods'><li data-type='method'><a href="Scheduler.html#clampStepStamp">clampStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneStepStamp">cloneStepStamp</a></li><li data-type='method'><a href="Scheduler.html#cloneTimeStamp">cloneTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#createStepStamp">createStepStamp</a></li><li data-type='method'><a href="Scheduler.html#createTimeStamp">createTimeStamp</a></li><li data-type='method'><a href="Scheduler.html#getStepLength">getStepLength</a></li><li data-type='method'><a href="Scheduler.html#offsetStepStamp">offsetStepStamp</a></li><li data-type='method'><a href="Scheduler.html#start">start</a></li><li data-type='method'><a href="Scheduler.html#stop">stop</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="mcad.html">mcad</a><ul class='methods'><li data-type='method'><a href="mcad.html#.paramToSignedNorm">paramToSignedNorm</a></li><li data-type='method'><a href="mcad.html#.paramToUnsignedNorm">paramToUnsignedNorm</a></li><li data-type='method'><a href="mcad.html#.signedNormToParam">signedNormToParam</a></li><li data-type='method'><a href="mcad.html#.signedNtoUnsignedN">signedNtoUnsignedN</a></li><li data-type='method'><a href="mcad.html#.unsignedNormToParam">unsignedNormToParam</a></li><li data-type='method'><a href="mcad.html#.unsignedNtoSignedN">unsignedNtoSignedN</a></li></ul></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Scheduler-1.html">Scheduler-1</a></li><li><a href="tutorial-Scheduler-2.html">Scheduler-2</a></li><li><a href="tutorial-Scheduler-3.html">Scheduler-3</a></li><li><a href="tutorial-Scheduler-4.html">Scheduler-4</a></li><li><a href="tutorial-Scheduler-5.html">Scheduler-5</a></li></ul>
-</nav>
-
-<div id="main">
-    
-    <h1 class="page-title">mcad.mseg.v1-0.js</h1>
-    
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
+/**
  * @fileOverview Contains the MCAD Multi-Stage Envelope Generator class.
  * @name MCAD MSEG
  * @version 1.0
@@ -63,7 +23,7 @@ function Mseg() {
  * @param {number} stage.value           - normalized parameter value in the {@linkcode [0,1]} range for this stage to reach.
  * @param {number} stage.duration          - duration (in seconds) taken to reach the the stage value.
  * @param {("linear"|"exp")} [stage.type="linear"] - curvature of this stage, either linear or exponential.
- * @example &lt;caption>Creating an attack-decay envelope that rises from {@linkcode 0.0} to {@linkcode 1.0} linearly in 0.25 seconds and back down to {@linkcode 0.0} exponentially over 0.5 seconds&lt;/caption>
+ * @example <caption>Creating an attack-decay envelope that rises from {@linkcode 0.0} to {@linkcode 1.0} linearly in 0.25 seconds and back down to {@linkcode 0.0} exponentially over 0.5 seconds</caption>
  * // Attack-decay envelope for a gain parameter
  * var gainEnv = new Mseg();
  *
@@ -98,7 +58,7 @@ Mseg.prototype.addStage = function(stage) {
  * @param {object} release                 - the stage parameters to add.
  * @param {number} stage.duration          - duration (in seconds) taken to reach {@linkcode 0.0}.
  * @param {("linear"|"exp")} [stage.type="linear"] - curvature of this stage, either linear or exponential.
- * @example &lt;caption>Creating an attack-decay envelope that rises from {@linkcode 0.0} to {@linkcode 1.0} linearly in 0.25 seconds and back down to {@linkcode 0.0} exponentially over 0.5 seconds with a 1 second linear release time&lt;/caption>
+ * @example <caption>Creating an attack-decay envelope that rises from {@linkcode 0.0} to {@linkcode 1.0} linearly in 0.25 seconds and back down to {@linkcode 0.0} exponentially over 0.5 seconds with a 1 second linear release time</caption>
  * // Attack-decay envelope for a gain parameter
  * var gainEnv = new Mseg();
  *
@@ -148,7 +108,7 @@ Mseg.prototype._applyRelease = function(param, when, range) {
 
 /** 
  * Returns the duration of the release stage of an MSEG. This is needed to correctly calculate the proper duration (including release) of oscillators that have a predetermined duration (e.g. steps triggered by a pattern scheduler).
- * @example &lt;caption>Applies the stages of an MSEG to an oscillator's gain node sone second from the current context time&lt;/caption>
+ * @example <caption>Applies the stages of an MSEG to an oscillator's gain node sone second from the current context time</caption>
  * // Note duration of 0.25 seconds
  * var noteDuration = 0.25;
  *
@@ -167,7 +127,7 @@ Mseg.prototype.durationOfRelease = function() {
  * @param {object} range           - the range of parameter modulation to apply.
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
- * @example &lt;caption>Applies the stages of an MSEG to an oscillator's frequency and gain immediately&lt;/caption>
+ * @example <caption>Applies the stages of an MSEG to an oscillator's frequency and gain immediately</caption>
  * function keyboardDown() {
  *     // Note that the amp envelope does not need to specify a min and max paramater range as the default range is between 0.0 and 1.0
  *     ampEnv.noteOn(masterGain.gain, context.currentTime);
@@ -189,7 +149,7 @@ Mseg.prototype.noteOn = function(param, when, range) {
 		if(range.max) paramMax = range.max;
 	}
 	
-	for (var i = 0; i &lt; this._stages.length; i++) {
+	for (var i = 0; i < this._stages.length; i++) {
 			
 		var value = mcad.unsignedNormToParam(this._stages[i][1], paramMin, paramMax);
 		var stageDuration = when + stageTimeAccum + this._stages[i][0];
@@ -212,7 +172,7 @@ Mseg.prototype.noteOn = function(param, when, range) {
  * @param {object} range           - the range of parameter modulation to apply.
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
- * @example &lt;caption>Applies the release stage of an MSEG to an oscillator's frequency and gain immediately&lt;/caption>
+ * @example <caption>Applies the release stage of an MSEG to an oscillator's frequency and gain immediately</caption>
  * function keyboardUp() {
  *     // Note that the amp envelope does not need to specify a min and max paramater range as the default range is between 0.0 and 1.0
  *     ampEnv.noteOff(masterGain.gain, context.currentTime);
@@ -239,7 +199,7 @@ Mseg.prototype.noteOff = function(param, when, range) {
  * @param {object} range           - the range of parameter modulation to apply.
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
- * @example &lt;caption>Applies all stages to the pitch and gain of an oscillator triggered by a pattern scheduler&lt;/caption>
+ * @example <caption>Applies all stages to the pitch and gain of an oscillator triggered by a pattern scheduler</caption>
  * // Create and oscillator node and connect it to a gain node
  * var oscillator = context.createOscillator();
  * var gainNode = context.createGain();
@@ -276,22 +236,4 @@ Mseg.prototype.noteOnAndOff = function(param, when, duration, range) {
 
 	this.noteOn(param, when, range);
 	if(this._release[0] > 0.0) this._applyRelease(param, when + duration);	
-}</code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated at Wed Apr 20 2016 18:32:03 GMT+0100 (GMT Daylight Time)
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
-</body>
-</html>
+}
