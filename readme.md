@@ -6,6 +6,7 @@ The MCAD Web Audio Library provides a number of classes for performing common au
   - MCAD Buffer Loader
   - MCAD Utility Functions
   - MCAD Rotary Widget
+  - MCAD Multi-Stage Envelope
 
 ### Usage
 
@@ -15,4 +16,4 @@ To use the library classes in your own projects, copy the .js file(s) of the cla
 <script src="mcad.pattern.scheduler.v1-0.js"></script>
 ```
 
-For further information as to how to use each class, please see the Tutorials section in the documentation.
+For further information as to how to use each class, please read the documentation for each class.
