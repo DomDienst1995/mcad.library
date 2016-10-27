@@ -38,13 +38,13 @@
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Usage</strong>
 </h2>
 
-<p>There are two ways to include the MCAD library files in your projects: from the online CDN and from a local copy.</p>
+<p>There are two ways to include the MCAD library files in your projects: from the online CDN or from a local copy.</p>
 
 <h4>
 <a id="including-from-the-online-cdn" class="anchor" href="#including-from-the-online-cdn" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Including from the online CDN</strong>
 </h4>
 
-<p>This method includes the library files from the online content delivery network. This is the easiest way to include the library files as the source file paths are always the same regardless of your app directory structure and you are guaranteed to be using the latest version of the library. However, as the CDN is online, you must be connected to the internet. This is ideal for developing your web apps but when developing a mobile app or on an offline web app, you will need to use a local copy otherwise your app will require an internet connection to function.</p>
+<p>This method includes the library files from the online content delivery network. This is the easiest way to include the library files as the source file paths are always the same regardless of your app folder structure and you are guaranteed to be using the latest version of the library. However, as the CDN is online, you must be connected to the internet. This is ideal for developing your web apps but when developing mobile or on an offline web apps you will need to use a local copy otherwise your app will require an internet connection to function.</p>
 
 <p>Copy and paste the appropriate <code>script</code> tag(s) below into your HTML document's <code>head</code> section for the library component(s) you wish to use:</p>
 
@@ -89,8 +89,8 @@
 <ol>
 <li>
 <a href="https://github.com/drjferraris/mcad.library/zipball/master">Download</a> the .zip archive</li>
-<li>Extract the archive to somehwere convinient on your hard drive</li>
-<li>Copy the javascript files from the <code>src</code> folder to somewhere in your app's folder</li>
+<li>Extract the archive to somewhere convenient on your hard drive</li>
+<li>Copy the javascript files from the MCAD library's <code>src</code> folder to somewhere in your app's folder</li>
 </ol>
 
 <p>Below is an example of a fairly typical web/Cordova app folder structure:</p>
@@ -119,7 +119,7 @@ D:\MYAPP
 
 <p>Here, we can see that the app is in a folder called "MyApp" and the <code>index.html</code> resides in the root of this folder. The stylesheet for this app is called <code>style.css</code> and is located in a subfolder called <code>css</code>. Likewise, the javascript file <code>script.js</code> is located in a subfolder called <code>js</code>. The library files for this app are further located in a subfolder called <code>lib</code>. Specifically, the MCAD library files are located in a folder called <code>mcad</code> inside the <code>lib</code> folder.</p>
 
-<p>With this in mind, the <code>script</code> tags to include the appropriate MCAD library components for this example's <code>index.html</code> are as follows (<strong>note:</strong> your directory structure may be different):</p>
+<p>With this in mind, the <code>script</code> tags to include the appropriate MCAD library components for this example's <code>index.html</code> are as follows (<strong>note:</strong> your app's folder may be different):</p>
 
 <h5>
 <a id="pattern-scheduler-1" class="anchor" href="#pattern-scheduler-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Pattern Scheduler</strong>
