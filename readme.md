@@ -1,7 +1,5 @@
 # MCAD Web Audio Library 
 
-[Click here for the online documentation for this library](http://drjferraris.github.io/mcad.library/doc/index.html)
-
 The MCAD Web Audio Library provides a number of classes for performing common audio operations for web and mobile application development. Currently, the library includes the following classes:
 
   - [MCAD Pattern Scheduler](doc/Scheduler.html)
