@@ -23,31 +23,31 @@ Copy and paste the appropriate `script` tag(s) below into your HTML document's `
 ##### **Pattern Scheduler**
 
 ```html
-<script src="http://drjferraris.github.io/mcad.library/src/mcad.pattern.scheduler.v1-0.js"></script>
+<script src="https://drjferraris.github.io/mcad.library/src/mcad.pattern.scheduler.v1-0.js"></script>
 ```
 
 ##### **Buffer Loader**
 
 ```html
-<script src="http://drjferraris.github.io/mcad.library/src/mcad.buffer.loader.v1-0.js"></script>
+<script src="https://drjferraris.github.io/mcad.library/src/mcad.buffer.loader.v1-0.js"></script>
 ```
 
 ##### **Utility Functions**
 
 ```html
-<script src="http://drjferraris.github.io/mcad.library/src/mcad.utils.v1-0.js"></script>
+<script src="https://drjferraris.github.io/mcad.library/src/mcad.utils.v1-0.js"></script>
 ```
 
 ##### **Rotary Widget**
 
 ```html
-<script src="http://drjferraris.github.io/mcad.library/src/mcad.rotary.v1-0.js"></script>
+<script src="https://drjferraris.github.io/mcad.library/src/mcad.rotary.v1-0.js"></script>
 ```
 
 ##### **Multi-Stage Envelope**
 
 ```html
-<script src="http://drjferraris.github.io/mcad.library/src/mcad.mseg.v1-0.js"></script>
+<script src="https://drjferraris.github.io/mcad.library/src/mcad.mseg.v1-0.js"></script>
 ```
 
 #### **Including from a local copy**
