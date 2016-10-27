@@ -35,7 +35,7 @@ Copy and paste the appropriate `script` tag(s) below into your HTML document's `
 ##### **Utility Functions**
 
 ```html
-<script src="http://drjferraris.github.io/mcad.library/src/mcad.utility.v1-0.js"></script>
+<script src="http://drjferraris.github.io/mcad.library/src/mcad.utils.v1-0.js"></script>
 ```
 
 ##### **Rotary Widget**
@@ -103,7 +103,7 @@ With this in mind, the `script` tags to include the appropriate MCAD library com
 ##### **Utility Functions**
 
 ```html
-<script src="js/lib/mcad/mcad.utility.v1-0.js"></script>
+<script src="js/lib/mcad/mcad.utils.v1-0.js"></script>
 ```
 
 ##### **Rotary Widget**
