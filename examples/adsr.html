@@ -1,0 +1,109 @@
+<!-- Include the MCAD utility functions -->
+<script src="jquery-ui/external/jquery/jquery.js"></script>
+<script src="../src/mcad.utils.v1-0.js"></script>
+<script src="../src/mcad.pattern.scheduler.v1-0.js"></script>
+<script src="../src/mcad.mseg.v1-0.js"></script>
+<button id="sequence">Play</button>
+<button id="trigger">Trigger</button>
+<script>
+
+$(document).ready(function() {	
+
+	// create web audio api context
+	var context = new (window.AudioContext || window.webkitAudioContext)();
+
+	var gainNode = context.createGain();
+	gainNode.connect(context.destination);
+	gainNode.gain.value = 0.0;
+	
+	var triggerOsc = context.createOscillator();
+	
+	triggerOsc.connect(gainNode);
+	triggerOsc.type = 'square';
+	triggerOsc.start();
+	
+	var isTriggering = false;
+	
+	var triggerADSR = new Mseg();
+	
+	triggerADSR.addStage({duration: 0.0, value: 0.0});
+	triggerADSR.addStage({duration: 0.5, value: 1.0});
+	triggerADSR.addRelease({duration: 0.5});
+
+
+	$("#sequence").click(function() {
+			
+		if(scheduler.isPlaying == true) {
+		
+			$(this).text("Play");
+			scheduler.resumePlayback = true;
+			scheduler.stop();
+		}
+		else {
+			
+			$(this).text("Stop");
+			scheduler.start();
+		}
+	});
+	
+	$("#trigger").click(function() {
+			
+		if(isTriggering == true) {
+		
+			$(this).text("Trigger");
+			
+			triggerADSR.noteOff(gainNode.gain, context.currentTime);
+			triggerADSR.noteOff(triggerOsc.frequency, context.currentTime, {min:400.0, max: 800.0});
+			
+			isTriggering = false;
+		}
+		else {
+			
+			$(this).text("Stop");
+			
+			triggerADSR.noteOn(gainNode.gain, context.currentTime);
+			triggerADSR.noteOn(triggerOsc.frequency, context.currentTime, {min:400.0, max: 800.0});
+			
+			isTriggering = true;
+		}
+	});
+
+	
+	
+	// Event handler for scheduler's onQueue events
+	function playStep(step) {
+		
+		// create Oscillator node
+		var oscillator = context.createOscillator();
+		var gainNode2 = context.createGain();
+		gainNode2.connect(context.destination);
+		
+		var adsr = new Mseg();
+		
+		adsr.addStage({duration: 0.0, value: 1.0});
+		adsr.addStage({duration: 0.1, value: 0.0});
+		adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});
+		adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});
+		
+		var noteLength = 0.1;
+		var totalLength = noteLength + triggerADSR.durationOfRelease();
+
+		triggerADSR.noteOnAndOff(gainNode2.gain, step.time.swing, noteLength);
+		adsr.noteOnAndOff(oscillator.frequency, step.time.swing, noteLength, {min: 400.0, max: 800.0});
+		
+		oscillator.connect(gainNode2);
+		oscillator.type = 'square';
+		oscillator.start(step.time.swing);
+		oscillator.stop(step.time.swing + totalLength);
+		
+	}
+
+	
+	
+	// Create a scheduler with a tempo of 40 bpm in 4/4 time with 1/16th note steps and a queue event handler
+	var scheduler = new Scheduler(context, {tempo: 60, onQueue: playStep, stepsPerBeat: 1});
+	
+			
+});
+
+</script>

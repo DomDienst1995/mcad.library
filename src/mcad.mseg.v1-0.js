@@ -22,7 +22,7 @@ function Mseg() {
  * @param {object} stage                 - the stage parameters to add.
  * @param {number} stage.value           - normalized parameter value in the {@linkcode [0,1]} range for this stage to reach.
  * @param {number} stage.duration          - duration (in seconds) taken to reach the the stage value.
- * @param {("linear"|"exp")} [stage.type="linear"] - curvature of this stage, either linear or exponential.
+ * @param {?("linear"|"exp")} [stage.type="linear"] - curvature of this stage, either linear or exponential.
  * @example <caption>Creating an attack-decay envelope that rises from {@linkcode 0.0} to {@linkcode 1.0} linearly in 0.25 seconds and back down to {@linkcode 0.0} exponentially over 0.5 seconds</caption>
  * // Attack-decay envelope for a gain parameter
  * var gainEnv = new Mseg();
@@ -57,7 +57,7 @@ Mseg.prototype.addStage = function(stage) {
  * Adds a release stage to the multi-stage envelope. Release stages are triggered on note off and modulate from the current parameter value (depending on what stage has currently been reached, if any) to {@linkcode 0.0}.
  * @param {object} release                 - the stage parameters to add.
  * @param {number} stage.duration          - duration (in seconds) taken to reach {@linkcode 0.0}.
- * @param {("linear"|"exp")} [stage.type="linear"] - curvature of this stage, either linear or exponential.
+ * @param {?("linear"|"exp")} [stage.type="linear"] - curvature of this stage, either linear or exponential.
  * @example <caption>Creating an attack-decay envelope that rises from {@linkcode 0.0} to {@linkcode 1.0} linearly in 0.25 seconds and back down to {@linkcode 0.0} exponentially over 0.5 seconds with a 1 second linear release time</caption>
  * // Attack-decay envelope for a gain parameter
  * var gainEnv = new Mseg();
@@ -124,7 +124,7 @@ Mseg.prototype.durationOfRelease = function() {
  * Schedules the given Web Audio parameter for modulation by the stages of a multi-stage envelope at a the specified time. This method should be used for oscillators that are continuously running (such as the voices of a synthesizer). For oscillators with a predetermined duration, the method noteOnAndOff should instead be used.
  * @param {object} param           - the Web Audio parameter to modulate.
  * @param {number} when            - the time to schedule the modulation for.
- * @param {object} range           - the range of parameter modulation to apply.
+ * @param {?object} range           - the range of parameter modulation to apply.
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
  * @example <caption>Applies the stages of an MSEG to an oscillator's frequency and gain immediately</caption>
@@ -169,7 +169,7 @@ Mseg.prototype.noteOn = function(param, when, range) {
  * Schedules the given Web Audio parameter for modulation by the release stage of a multi-stage envelope at a the specified time. This method should be used for oscillators that are continuously running (such as the voices of a synthesizer). For oscillators with a predetermined duration, the method noteOnAndOff should instead be used.
  * @param {object} param           - the Web Audio parameter to modulate.
  * @param {number} when            - the time to schedule the modulation for.
- * @param {object} range           - the range of parameter modulation to apply.
+ * @param {?object} range           - the range of parameter modulation to apply.
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
  * @example <caption>Applies the release stage of an MSEG to an oscillator's frequency and gain immediately</caption>
@@ -196,7 +196,7 @@ Mseg.prototype.noteOff = function(param, when, range) {
  * Schedules the given Web Audio parameter for modulation by all stages (including release) of a multi-stage envelope at a the specified time. This method should be used for oscillators that are not continuously running but instead have a predetermined duration (e.g. notes triggered by a pattern scheduler). For oscillators that have no specified duration (such as the continuously running voices of a synthesizer), the noteOn and noteOff methods should instead be used.
  * @param {object} param           - the Web Audio parameter to modulate.
  * @param {number} when            - the time to schedule the modulation for.
- * @param {object} range           - the range of parameter modulation to apply.
+ * @param {?object} range          - the range of parameter modulation to apply.
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
  * @example <caption>Applies all stages to the pitch and gain of an oscillator triggered by a pattern scheduler</caption>
