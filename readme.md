@@ -57,7 +57,7 @@ Including the library files from a local copy of the MCAD library files is margi
 First of all, you will need to:
 
 1. [Download](https://github.com/drjferraris/mcad.library/zipball/master) the .zip archive
-2. Extract the archive to somehwere convenient on your hard drive
+2. Extract the archive to somewhere convenient on your hard drive
 3. Copy the javascript files from the MCAD library's `src` folder to somewhere in your app's folder
 
 Below is an example of a fairly typical web/Cordova app folder structure:
