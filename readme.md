@@ -2,13 +2,13 @@
 
 The MCAD Web Audio Library provides a number of classes for performing common audio operations for web and mobile application development. Currently, the library includes the following classes:
 
-  - [MCAD Pattern Scheduler](doc/Scheduler.html)
-  - [MCAD Buffer Loader](doc/BufferLoader.html)
-  - [MCAD Utility Functions](doc/mcad.html)
-  - [MCAD Rotary Widget](doc/Rotary.html)
-  - [MCAD Multi-Stage Envelope](doc/Mseg.html)
+  - [MCAD Pattern Scheduler](http://drjferraris.github.io/mcad.library/doc/Scheduler.html)
+  - [MCAD Buffer Loader](http://drjferraris.github.io/mcad.library/doc/BufferLoader.html)
+  - [MCAD Utility Functions](http://drjferraris.github.io/mcad.library/doc/mcad.html)
+  - [MCAD Rotary Widget](http://drjferraris.github.io/mcad.library/doc/Rotary.html)
+  - [MCAD Multi-Stage Envelope](http://drjferraris.github.io/mcad.library/doc/Mseg.html)
   
-For further information, please read the [documentation](doc/index.html).
+For further information, please read the [documentation](http://drjferraris.github.io/mcad.library/doc/index.html).
 
 ## **Usage**
 
