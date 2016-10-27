@@ -86,7 +86,7 @@ D:\MYAPP
 
 Here, we can see that the app is in a folder called "MyApp" and the `index.html` resides in the root of this folder. The stylesheet for this app is called `style.css` and is located in a subfolder called `css`. Likewise, the javascript file `script.js` is located in a subfolder called `js`. The library files for this app are further located in a subfolder called `lib`. Specifically, the MCAD library files are located in a folder called `mcad` inside the `lib` folder.
 
-With this in mind, the `script` tags to include the appropriate MCAD library components for this example are as follows (**note:** your directory structure may be different):
+With this in mind, the `script` tags to include the appropriate MCAD library components for this example's `index.html` are as follows (**note:** your directory structure may be different):
 
 ##### **Pattern Scheduler**
 
