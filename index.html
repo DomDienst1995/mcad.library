@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>mcad.library by drjferraris</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">mcad.library</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/drjferraris/mcad.library" class="btn">View on GitHub</a>
+      <a href="https://github.com/drjferraris/mcad.library/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/drjferraris/mcad.library/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="mcad-web-audio-library" class="anchor" href="#mcad-web-audio-library" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MCAD Web Audio Library</h1>
+
+<p>The MCAD Web Audio Library provides a number of classes for performing common audio operations for web and mobile application development. Currently, the library includes the following classes:</p>
+
+<ul>
+<li><a href="doc/Scheduler.html">MCAD Pattern Scheduler</a></li>
+<li><a href="doc/BufferLoader.html">MCAD Buffer Loader</a></li>
+<li><a href="doc/mcad.html">MCAD Utility Functions</a></li>
+<li><a href="doc/Rotary.html">MCAD Rotary Widget</a></li>
+<li><a href="doc/mseg.html">MCAD Multi-Stage Envelope</a></li>
+</ul>
+
+<p>For further information, please read the <a href="doc/index.html">documentation</a>.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Usage</strong>
+</h2>
+
+<p>There are two ways to include the MCAD library files in your projects: from the online CDN or from a local copy.</p>
+
+<h4>
+<a id="including-from-the-online-cdn" class="anchor" href="#including-from-the-online-cdn" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Including from the online CDN</strong>
+</h4>
+
+<p>This method includes the library files from the online content delivery network. This is the easiest way to include the library files as the source file paths are always the same regardless of your app folder structure and you are guaranteed to be using the latest version of the library. However, as the CDN is online, you must be connected to the internet. This is ideal for developing your web apps but when developing mobile or on an offline web apps you will need to use a local copy otherwise your app will require an internet connection to function.</p>
+
+<p>Copy and paste the appropriate <code>script</code> tag(s) below into your HTML document's <code>head</code> section for the library component(s) you wish to use:</p>
+
+<h5>
+<a id="pattern-scheduler" class="anchor" href="#pattern-scheduler" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Pattern Scheduler</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.pattern.scheduler.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="buffer-loader" class="anchor" href="#buffer-loader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Buffer Loader</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.buffer.loader.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="utility-functions" class="anchor" href="#utility-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Utility Functions</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.utils.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="rotary-widget" class="anchor" href="#rotary-widget" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Rotary Widget</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.rotary.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="multi-stage-envelope" class="anchor" href="#multi-stage-envelope" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Multi-Stage Envelope</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.mseg.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h4>
+<a id="including-from-a-local-copy" class="anchor" href="#including-from-a-local-copy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Including from a local copy</strong>
+</h4>
+
+<p>Including the library files from a local copy of the MCAD library files is marginally more difficult than via the CDN but if you follow the steps carefully you shouldn't have any problems. </p>
+
+<p>First of all, you will need to:</p>
+
+<ol>
+<li>
+<a href="https://github.com/drjferraris/mcad.library/zipball/master">Download</a> the .zip archive</li>
+<li>Extract the archive to somewhere convenient on your hard drive</li>
+<li>Copy the javascript files from the MCAD library's <code>src</code> folder to somewhere in your app's folder</li>
+</ol>
+
+<p>Below is an example of a fairly typical web/Cordova app folder structure:</p>
+
+<pre>
+D:\MYAPP
+|   index.html
+|
++---css
+|       style.css
+|
++---js
+    |   script.js
+    |
+    +---lib
+        +---jquery
+        |       jquery.js
+        |
+        +---mcad
+                mcad.buffer.loader.v1-0.js
+                mcad.mseg.v1-0.js
+                mcad.pattern.scheduler.v1-0.js
+                mcad.rotary.v1-0.js
+                mcad.utils.v1-0.js
+</pre>
+
+<p>Here, we can see that the app is in a folder called "MyApp" and the <code>index.html</code> resides in the root of this folder. The stylesheet for this app is called <code>style.css</code> and is located in a subfolder called <code>css</code>. Likewise, the javascript file <code>script.js</code> is located in a subfolder called <code>js</code>. The library files for this app are further located in a subfolder called <code>lib</code>. Specifically, the MCAD library files are located in a folder called <code>mcad</code> inside the <code>lib</code> folder.</p>
+
+<p>With this in mind, the <code>script</code> tags to include the appropriate MCAD library components for this example's <code>index.html</code> are as follows (<strong>note:</strong> your app's folder may be different):</p>
+
+<h5>
+<a id="pattern-scheduler-1" class="anchor" href="#pattern-scheduler-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Pattern Scheduler</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.pattern.scheduler.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="buffer-loader-1" class="anchor" href="#buffer-loader-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Buffer Loader</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.buffer.loader.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="utility-functions-1" class="anchor" href="#utility-functions-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Utility Functions</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.utils.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="rotary-widget-1" class="anchor" href="#rotary-widget-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Rotary Widget</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.rotary.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h5>
+<a id="multi-stage-envelope-1" class="anchor" href="#multi-stage-envelope-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Multi-Stage Envelope</strong>
+</h5>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.mseg.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/drjferraris/mcad.library">mcad.library</a> is maintained by <a href="https://github.com/drjferraris">drjferraris</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
