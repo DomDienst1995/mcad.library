@@ -134,14 +134,14 @@ BufferLoader.prototype.loadBufferList = function(bufferList, urlList, onFinished
 	this._downloadQueue[this._downloadIndex].loaded = 0;
 	this._downloadQueue[this._downloadIndex].size = 0;
 	
-	for(key in urlList){
+	for(var key in urlList){
 			
 		this._downloadQueue[this._downloadIndex].urls[key] = urlList[key];
 		this._downloadQueue[this._downloadIndex].size++;
 	}
 	
 	this._loadQueue(bufferList, this._downloadIndex++, onFinished, onLoad);
-}
+};
 
 /*
 loadQueue Method
@@ -160,7 +160,7 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
 	
 	var queue = this._downloadQueue;
 
-	for(key in queue[index].urls) {
+	for(var key in queue[index].urls) {
 
 		// Attempt to load this sample in the queue
 		this.loadBuffer({url: queue[index].urls[key], key: key}, function(result, url) {
@@ -180,7 +180,7 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
 			}
 		});		
 	}
-}
+};
 
 /** 
   * Loads an audio sample into an AudioBuffer object.
@@ -238,8 +238,8 @@ BufferLoader.prototype.loadBuffer = function(resource, onFinished) {
 			console.log("Error decoding " + url);
 			onFinished(null, resource);
 		});	
-	}
+	};
 	
 	// Go ahead and submit the request
 	request.send();	
-}
+};

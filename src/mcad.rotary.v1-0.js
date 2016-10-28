@@ -138,7 +138,7 @@ function Rotary(selector, options) {
 			
 	});
 	
-	if(!options.pinch || options.pinch == true) {
+	if(!options.pinch || options.pinch === true) {
 	
 		this._rotaryHammer = new Hammer($(selector)[0]);
 
@@ -161,7 +161,7 @@ function Rotary(selector, options) {
 		});
 	}
 	
-	if(!options.pan || options.pan == true) {
+	if(!options.pan || options.pan === true) {
 		this._rotaryHammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 		
 		this._rotaryHammer.on("panup pandown", function(ev) {
@@ -197,7 +197,7 @@ Rotary.prototype.setNormValue = function(value) {
 	}
 
 	this._rotate(0);
-}
+};
 
 /** 
   * Sets the parameter value of this rotary to the supplied value.
@@ -211,7 +211,7 @@ Rotary.prototype.setNormValue = function(value) {
 Rotary.prototype.setParamValue = function(value) {
 
 	this.setNormValue(mcad.paramToUnsignedNorm(value, this._pMin, this._pMax));
-}
+};
 
 /** 
   * Gets the normalized value of this rotary in the {@linkcode [0,1]} range.
@@ -223,7 +223,7 @@ Rotary.prototype.setParamValue = function(value) {
 Rotary.prototype.getNormValue = function(value) {
 	
 	return this._nVal;
-}
+};
 
 /** 
   * Gets the parameter value of this rotary in the {@linkcode paramMin} to {@linkcode paramMax} range.
@@ -235,7 +235,7 @@ Rotary.prototype.getNormValue = function(value) {
 Rotary.prototype.getParamValue = function(value) {
 
 	return this._pVal;
-}
+};
 
 Rotary.prototype._rotate = function(degDelta) {
 
@@ -334,4 +334,4 @@ Rotary.prototype._rotate = function(degDelta) {
 	$(this._selector).css("transform", "rotate(" + this._rVal + "deg)");
 	
 	this._onChange(this._pVal.toFixed(0), this._nVal.toFixed(2));
-}
+};

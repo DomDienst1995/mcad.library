@@ -202,11 +202,11 @@
 		
 		// f_0
 		// Frequency (hz) of middle A
-		const f_0 = 440;
+		f_0 = 440;
 
 		// MidA
 		// The MIDI note value of our reference pitch (A440)
-		const MidA = 69;
+		MidA = 69;
 
 		// n
 		// The difference (in semitones) between middle A and the note we wish to calculate the frequency for
@@ -220,4 +220,4 @@
 		// The formula for calculating the frequency of a given note
 		return f_0 * Math.pow(a, n);
 	}
- }
+ };

@@ -51,7 +51,7 @@ Mseg.prototype.addStage = function(stage) {
 	
 	this._stages.push(new Array(duration, value, type));
 	this._stageLengthInSeconds += stage.duration;
-}
+};
 
 /** 
  * Adds a release stage to the multi-stage envelope. Release stages are triggered on note off and modulate from the current parameter value (depending on what stage has currently been reached, if any) to {@linkcode 0.0}.
@@ -86,7 +86,7 @@ Mseg.prototype.addRelease = function(release) {
 	}
 	
 	this._release = new Array(release.duration, type);
-}
+};
 
 Mseg.prototype._applyRelease = function(param, when, range) {
 
@@ -97,14 +97,14 @@ Mseg.prototype._applyRelease = function(param, when, range) {
 		if(range.min) paramMin = range.min;
 	}
 	
-	if(this._release[1] == 0) {
+	if(this._release[1] === 0) {
 		param.linearRampToValueAtTime(paramMin, when + this._release[0]);
 	}
 	else {
 		param.exponentialRampToValueAtTime(paramMin, when + this._release[0]);
 	}
 	
-}
+};
 
 /** 
  * Returns the duration of the release stage of an MSEG. This is needed to correctly calculate the proper duration (including release) of oscillators that have a predetermined duration (e.g. steps triggered by a pattern scheduler).
@@ -118,7 +118,7 @@ Mseg.prototype._applyRelease = function(param, when, range) {
 
 Mseg.prototype.durationOfRelease = function() {
 	return this._release[0];
-}
+};
 
 /** 
  * Schedules the given Web Audio parameter for modulation by the stages of a multi-stage envelope at a the specified time. This method should be used for oscillators that are continuously running (such as the voices of a synthesizer). For oscillators with a predetermined duration, the method noteOnAndOff should instead be used.
@@ -154,7 +154,7 @@ Mseg.prototype.noteOn = function(param, when, range) {
 		var value = mcad.unsignedNormToParam(this._stages[i][1], paramMin, paramMax);
 		var stageDuration = when + stageTimeAccum + this._stages[i][0];
 		
-		if(this._stages[i][2] == 0) {
+		if(this._stages[i][2] === 0) {
 			param.linearRampToValueAtTime(value, stageDuration);
 		}
 		else {
@@ -163,7 +163,7 @@ Mseg.prototype.noteOn = function(param, when, range) {
 		
 		stageTimeAccum += this._stages[i][0];
 	}
-}
+};
 
 /** 
  * Schedules the given Web Audio parameter for modulation by the release stage of a multi-stage envelope at a the specified time. This method should be used for oscillators that are continuously running (such as the voices of a synthesizer). For oscillators with a predetermined duration, the method noteOnAndOff should instead be used.
@@ -190,7 +190,7 @@ Mseg.prototype.noteOff = function(param, when, range) {
 		this._applyRelease(param, when, range);
 	}
 	
-}
+};
 
 /** 
  * Schedules the given Web Audio parameter for modulation by all stages (including release) of a multi-stage envelope at a the specified time. This method should be used for oscillators that are not continuously running but instead have a predetermined duration (e.g. notes triggered by a pattern scheduler). For oscillators that have no specified duration (such as the continuously running voices of a synthesizer), the noteOn and noteOff methods should instead be used.
@@ -236,4 +236,4 @@ Mseg.prototype.noteOnAndOff = function(param, when, duration, range) {
 
 	this.noteOn(param, when, range);
 	if(this._release[0] > 0.0) this._applyRelease(param, when + duration);	
-}
+};

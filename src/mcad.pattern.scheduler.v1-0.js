@@ -243,7 +243,7 @@ Scheduler.prototype._schedule = function() {
 		var stepLength = this.getStepLength();
 		
 		// Amount of swing to apply to this queued step (in seconds)
-		var swing = this.swing * this.maxSwing * stepLength
+		var swing = this.swing * this.maxSwing * stepLength;
 		
 		// Only even steps get swing
 		if(this._currentStamp.step % 2) stepPlayTimeSwing += swing;
@@ -266,7 +266,7 @@ Scheduler.prototype._schedule = function() {
 	// Queue another call to schedule function
 	var that = this;
 	this._scheduleId = setTimeout(function() { that._schedule(); }, this.lookAheadTime * 1000);
-}
+};
 	
 /*
 Advance Step Method
@@ -288,7 +288,7 @@ Scheduler.prototype._advanceStep = function() {
 	
 	// Advance the step time along by one step's worth of time (in seconds)
 	this._stepTime += (1 / this.stepsPerBeat) * secondsPerBeat;
-}
+};
 
 /*
 Animate Method
@@ -345,7 +345,7 @@ Scheduler.prototype._animate = function(){
 	// Set up another animation frame request (the browser handles the sheduling time of animation frames for us)
 	var that = this;
 	this._animId = requestAnimationFrame(function() { that._animate(); });
-}
+};
 
 /*
 Tween Method
@@ -389,14 +389,14 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
 	// If playback has stopped but resumePlayback is set to true, use the pause position (step before the resume stamp) as the tween value
 	else if(this.resumePlayback){
 		pause = this.cloneStepStamp(this.resumeStamp);
-		this.offsetStepStamp(pause, -1)
+		this.offsetStepStamp(pause, -1);
 		tween = pause.patternPos / this._stepsPerPattern();
 	}
 	// If playback has stopped and resumePlayback is set to false, use the start position (beginning of pattern) as the tween value
 	else tween = 0;
 	
 	if(this.event.onTween) this.event.onTween(tween);
-}
+};
 
 /*
 stepsPerPattern Method
@@ -408,7 +408,7 @@ Returns the number of steps in a pattern (bar).
 Scheduler.prototype._stepsPerPattern = function() {
 	
 	return (this.stepsPerBeat * this.beatsPerPattern);
-}
+};
 
 /** 
   * Starts playback of sequence.
@@ -421,7 +421,7 @@ Scheduler.prototype._stepsPerPattern = function() {
 Scheduler.prototype.start = function(startStamp) { 
 
 	// If the pattern is currently playing back, stop playback before resetting playback
-	if(this.isPlaying == true) this.Stop();
+	if(this.isPlaying === true) this.Stop();
 
 	console.clear();
 	console.log("Playback started...");
@@ -444,7 +444,7 @@ Scheduler.prototype.start = function(startStamp) {
 
 	// Kickstart the scheduler timer loop
 	this._schedule();
-}
+};
 
 /** 
   * Stops playback of sequence.
@@ -466,7 +466,7 @@ Scheduler.prototype.stop = function() {
 	this.stopStamp = this.cloneStepStamp(this._lastStepAnimated.stamp);
 	this.resumeStamp = this.cloneStepStamp(this.stopStamp);
 	this.offsetStepStamp(this.resumeStamp, 1);
-}
+};
 
 /** 
   * Calculates the length (in seconds) of a straight step.
@@ -478,7 +478,7 @@ Scheduler.prototype.stop = function() {
 Scheduler.prototype.getStepLength = function() { 
 
 	return (60 / this.tempo) * (1 / this.stepsPerBeat);
-}
+};
 
 /** 
   * Clones a step position stamp
@@ -492,7 +492,7 @@ Scheduler.prototype.cloneStepStamp = function(stamp) {
 	var result = {bar: stamp.bar, beat: stamp.beat, step: stamp.step, patternPos: stamp.patternPos, guid: stamp.guid};
 	
 	return result;
-}
+};
 
 /** 
   * Creates a step position stamp from bar, beat and step positions.
@@ -511,7 +511,7 @@ Scheduler.prototype.createStepStamp = function(bar, beat, step) {
 	this.clampStepStamp(result);
 	
 	return result;
-}
+};
 
 /** 
   * Wraps and clamps a step position stamp into valid ranges.
@@ -546,7 +546,7 @@ Scheduler.prototype.clampStepStamp = function(stamp) {
 		
 		stamp.guid = (stamp.bar * this._stepsPerPattern())  + stamp.patternPos;
 	}
-}
+};
 
 /** 
   * Offsets a step position stamp by a positive or negative number of steps.
@@ -562,7 +562,7 @@ Scheduler.prototype.offsetStepStamp = function(stamp, steps) {
 	stamp.step += steps;
 	
 	this.clampStepStamp(stamp);
-}
+};
 
 /** 
   * Clones a time position stamp
@@ -576,7 +576,7 @@ Scheduler.prototype.cloneTimeStamp = function(stamp) {
 	var result = {straight: stamp.straight, swing: stamp.swing};
 	
 	return result;
-}
+};
 
 /** 
   * Creates a time position stamp from straight and swung timing values.
@@ -592,4 +592,4 @@ Scheduler.prototype.createTimeStamp = function(straight, swing) {
 	var result = {straight: straight, swing: swing};
 	
 	return result;
-}
+};
