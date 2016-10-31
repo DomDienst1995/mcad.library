@@ -388,20 +388,7 @@
     
         <p class="code-caption">Creating an attack-decay envelope that rises from <code>0.0</code> to <code>1.0</code> linearly in 0.25 seconds and back down to <code>0.0</code> exponentially over 0.5 seconds with a 1 second linear release time</p>
     
-    <pre class="prettyprint"><code>// Attack-decay envelope for a gain parameter
-var gainEnv = new Mseg();
-
-// Start stage with 0.0 gain
-gainEnv.addStage({duration: 0.0, value: 0.0});
-
-// Attack stage of envelope
-gainEnv.addStage({duration: 0.25, value: 1.0});
-
-// Decay stage of envelope
-gainEnv.addStage({duration: 0.5, value: 0.0, type: "exp"});
-
-// Release stage of envelope
-gainEnv.addRelease({duration: 1.0});</code></pre>
+    <pre class="prettyprint"><code>// Attack-decay envelope for a gain parametervar gainEnv = new Mseg();// Start stage with 0.0 gaingainEnv.addStage({duration: 0.0, value: 0.0});// Attack stage of envelopegainEnv.addStage({duration: 0.25, value: 1.0});// Decay stage of envelopegainEnv.addStage({duration: 0.5, value: 0.0, type: "exp"});// Release stage of envelopegainEnv.addRelease({duration: 1.0});</code></pre>
 
 
 <hr>
@@ -684,17 +671,7 @@ gainEnv.addRelease({duration: 1.0});</code></pre>
     
         <p class="code-caption">Creating an attack-decay envelope that rises from <code>0.0</code> to <code>1.0</code> linearly in 0.25 seconds and back down to <code>0.0</code> exponentially over 0.5 seconds</p>
     
-    <pre class="prettyprint"><code>// Attack-decay envelope for a gain parameter
-var gainEnv = new Mseg();
-
-// Start stage with 0.0 gain
-gainEnv.addStage({duration: 0.0, value: 0.0});
-
-// Attack stage of envelope
-gainEnv.addStage({duration: 0.25, value: 1.0});
-
-// Decay stage of envelope
-gainEnv.addStage({duration: 0.5, value: 0.0, type: "exp"});</code></pre>
+    <pre class="prettyprint"><code>// Attack-decay envelope for a gain parametervar gainEnv = new Mseg();// Start stage with 0.0 gaingainEnv.addStage({duration: 0.0, value: 0.0});// Attack stage of envelopegainEnv.addStage({duration: 0.25, value: 1.0});// Decay stage of envelopegainEnv.addStage({duration: 0.5, value: 0.0, type: "exp"});</code></pre>
 
 
 <hr>
@@ -784,11 +761,7 @@ gainEnv.addStage({duration: 0.5, value: 0.0, type: "exp"});</code></pre>
     
         <p class="code-caption">Applies the stages of an MSEG to an oscillator's gain node sone second from the current context time</p>
     
-    <pre class="prettyprint"><code>// Note duration of 0.25 seconds
-var noteDuration = 0.25;
-
-// Total duration of tirggered note (otherwise the release stage would start after the oscillator had stopped)
-var totalDuration = noteDuration + adsr.durationOfRelease();</code></pre>
+    <pre class="prettyprint"><code>// Note duration of 0.25 secondsvar noteDuration = 0.25;// Total duration of tirggered note (otherwise the release stage would start after the oscillator had stopped)var totalDuration = noteDuration + adsr.durationOfRelease();</code></pre>
 
 
 <hr>
@@ -1109,11 +1082,7 @@ var totalDuration = noteDuration + adsr.durationOfRelease();</code></pre>
     
         <p class="code-caption">Applies the release stage of an MSEG to an oscillator's frequency and gain immediately</p>
     
-    <pre class="prettyprint"><code>function keyboardUp() {
-    // Note that the amp envelope does not need to specify a min and max paramater range as the default range is between 0.0 and 1.0
-    ampEnv.noteOff(masterGain.gain, context.currentTime);
-    pitchEnv.noteOff(oscillator.frequency, context.currentTime, {min: 400.0, max: 800.0});
-}</code></pre>
+    <pre class="prettyprint"><code>function keyboardUp() {    // Note that the amp envelope does not need to specify a min and max paramater range as the default range is between 0.0 and 1.0    ampEnv.noteOff(masterGain.gain, context.currentTime);    pitchEnv.noteOff(oscillator.frequency, context.currentTime, {min: 400.0, max: 800.0});}</code></pre>
 
 
 <hr>
@@ -1434,11 +1403,7 @@ var totalDuration = noteDuration + adsr.durationOfRelease();</code></pre>
     
         <p class="code-caption">Applies the stages of an MSEG to an oscillator's frequency and gain immediately</p>
     
-    <pre class="prettyprint"><code>function keyboardDown() {
-    // Note that the amp envelope does not need to specify a min and max paramater range as the default range is between 0.0 and 1.0
-    ampEnv.noteOn(masterGain.gain, context.currentTime);
-    pitchEnv.noteOn(oscillator.frequency, context.currentTime, {min: 400.0, max: 800.0});
-}</code></pre>
+    <pre class="prettyprint"><code>function keyboardDown() {    // Note that the amp envelope does not need to specify a min and max paramater range as the default range is between 0.0 and 1.0    ampEnv.noteOn(masterGain.gain, context.currentTime);    pitchEnv.noteOn(oscillator.frequency, context.currentTime, {min: 400.0, max: 800.0});}</code></pre>
 
 
 <hr>
@@ -1759,36 +1724,7 @@ var totalDuration = noteDuration + adsr.durationOfRelease();</code></pre>
     
         <p class="code-caption">Applies all stages to the pitch and gain of an oscillator triggered by a pattern scheduler</p>
     
-    <pre class="prettyprint"><code>// Create and oscillator node and connect it to a gain node
-var oscillator = context.createOscillator();
-var gainNode = context.createGain();
-gainNode.connect(context.destination);
-oscillator.connect(gainNode);
-
-// Create an MSEG that starts at full intensity then falls to zero intensity lenearly over 0.1 seconds before rising back up to full intensity exponentially ovre a duration of 0.1 seconds
-var adsr = new Mseg(); 		
-adsr.addStage({duration: 0.0, value: 1.0});
-adsr.addStage({duration: 0.1, value: 0.0});
-adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});
-
-// Add the linear release stage of 0.25 seconds (the "linear" is optional)
-adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});
-	
-// Duration of the oscillator (without release) in seconds
-var noteLength = 0.1;
-
-// Duration of the oscillator (with release) in seconds
-var totalLength = noteLength + adsr.durationOfRelease();
-
-// Schedule the gain and freuency modulation immediately
-adsr.noteOnAndOff(gainNode.gain, conext.currentTime, noteLength);
-adsr.noteOnAndOff(oscillator.frequency, conext.currentTime, noteLength, {min: 400.0, max: 800.0});
-
-// Shedule the oscillator for immediate playback
-oscillator.start(conext.currentTime);
-
-// Shecdule the oscillator to play for the note length + MSEG release
-oscillator.stop(conext.currentTime + totalLength);</code></pre>
+    <pre class="prettyprint"><code>// Create and oscillator node and connect it to a gain nodevar oscillator = context.createOscillator();var gainNode = context.createGain();gainNode.connect(context.destination);oscillator.connect(gainNode);// Create an MSEG that starts at full intensity then falls to zero intensity lenearly over 0.1 seconds before rising back up to full intensity exponentially ovre a duration of 0.1 secondsvar adsr = new Mseg();         adsr.addStage({duration: 0.0, value: 1.0});adsr.addStage({duration: 0.1, value: 0.0});adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});// Add the linear release stage of 0.25 seconds (the "linear" is optional)adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});    // Duration of the oscillator (without release) in secondsvar noteLength = 0.1;// Duration of the oscillator (with release) in secondsvar totalLength = noteLength + adsr.durationOfRelease();// Schedule the gain and freuency modulation immediatelyadsr.noteOnAndOff(gainNode.gain, conext.currentTime, noteLength);adsr.noteOnAndOff(oscillator.frequency, conext.currentTime, noteLength, {min: 400.0, max: 800.0});// Shedule the oscillator for immediate playbackoscillator.start(conext.currentTime);// Shecdule the oscillator to play for the note length + MSEG releaseoscillator.stop(conext.currentTime + totalLength);</code></pre>
 
 
 <hr>
@@ -1811,7 +1747,7 @@ oscillator.stop(conext.currentTime + totalLength);</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Oct 28 2016 00:13:45 GMT+0100 (GMT Daylight Time)
+    Documentation generated at Mon Oct 31 2016 11:35:42 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>

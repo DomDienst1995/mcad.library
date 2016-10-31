@@ -11,10 +11,10 @@
  * @example var adsr = new Mseg();
  */
 function Mseg() {
-		
-	this._stages = [];
-	this._release = [0, 0];
-	this._stageLengthInSeconds = 0;
+        
+    this._stages = [];
+    this._release = [0, 0];
+    this._stageLengthInSeconds = 0;
 }
 
 /** 
@@ -39,18 +39,18 @@ function Mseg() {
 
 Mseg.prototype.addStage = function(stage) {
 
-	var duration = stage.duration;
-	var value = stage.value;
-	var type = 0;
-	
-	if(stage.type) {
-		
-		if(stage.type == "linear") type = 0;
-		else type = 1;
-	}
-	
-	this._stages.push(new Array(duration, value, type));
-	this._stageLengthInSeconds += stage.duration;
+    var duration = stage.duration;
+    var value = stage.value;
+    var type = 0;
+    
+    if(stage.type) {
+        
+        if(stage.type == "linear") type = 0;
+        else type = 1;
+    }
+    
+    this._stages.push(new Array(duration, value, type));
+    this._stageLengthInSeconds += stage.duration;
 };
 
 /** 
@@ -77,33 +77,33 @@ Mseg.prototype.addStage = function(stage) {
 
 Mseg.prototype.addRelease = function(release) {
 
-	var type = 0;
-	
-	if(release.type) {
-		
-		if(release.type == "linear") type = 0;
-		else type = 1;
-	}
-	
-	this._release = new Array(release.duration, type);
+    var type = 0;
+    
+    if(release.type) {
+        
+        if(release.type == "linear") type = 0;
+        else type = 1;
+    }
+    
+    this._release = new Array(release.duration, type);
 };
 
 Mseg.prototype._applyRelease = function(param, when, range) {
 
-	var paramMin = 0.0;
-	
-	if(range) {
-	
-		if(range.min) paramMin = range.min;
-	}
-	
-	if(this._release[1] === 0) {
-		param.linearRampToValueAtTime(paramMin, when + this._release[0]);
-	}
-	else {
-		param.exponentialRampToValueAtTime(paramMin, when + this._release[0]);
-	}
-	
+    var paramMin = 0.0;
+    
+    if(range) {
+    
+        if(range.min) paramMin = range.min;
+    }
+    
+    if(this._release[1] === 0) {
+        param.linearRampToValueAtTime(paramMin, when + this._release[0]);
+    }
+    else {
+        param.exponentialRampToValueAtTime(paramMin, when + this._release[0]);
+    }
+    
 };
 
 /** 
@@ -117,7 +117,7 @@ Mseg.prototype._applyRelease = function(param, when, range) {
  */
 
 Mseg.prototype.durationOfRelease = function() {
-	return this._release[0];
+    return this._release[0];
 };
 
 /** 
@@ -136,33 +136,33 @@ Mseg.prototype.durationOfRelease = function() {
  */
 Mseg.prototype.noteOn = function(param, when, range) {
 
-	param.cancelScheduledValues(when);
-	param.setValueAtTime(param.value, when);
+    param.cancelScheduledValues(when);
+    param.setValueAtTime(param.value, when);
 
-	var stageTimeAccum = 0;
-	var paramMin = 0.0;
-	var paramMax = 1.0;
-	
-	if(range) {
-	
-		if(range.min) paramMin = range.min;
-		if(range.max) paramMax = range.max;
-	}
-	
-	for (var i = 0; i < this._stages.length; i++) {
-			
-		var value = mcad.unsignedNormToParam(this._stages[i][1], paramMin, paramMax);
-		var stageDuration = when + stageTimeAccum + this._stages[i][0];
-		
-		if(this._stages[i][2] === 0) {
-			param.linearRampToValueAtTime(value, stageDuration);
-		}
-		else {
-			param.exponentialRampToValueAtTime(value, stageDuration);
-		}
-		
-		stageTimeAccum += this._stages[i][0];
-	}
+    var stageTimeAccum = 0;
+    var paramMin = 0.0;
+    var paramMax = 1.0;
+    
+    if(range) {
+    
+        if(range.min) paramMin = range.min;
+        if(range.max) paramMax = range.max;
+    }
+    
+    for (var i = 0; i < this._stages.length; i++) {
+            
+        var value = mcad.unsignedNormToParam(this._stages[i][1], paramMin, paramMax);
+        var stageDuration = when + stageTimeAccum + this._stages[i][0];
+        
+        if(this._stages[i][2] === 0) {
+            param.linearRampToValueAtTime(value, stageDuration);
+        }
+        else {
+            param.exponentialRampToValueAtTime(value, stageDuration);
+        }
+        
+        stageTimeAccum += this._stages[i][0];
+    }
 };
 
 /** 
@@ -182,14 +182,14 @@ Mseg.prototype.noteOn = function(param, when, range) {
 
 Mseg.prototype.noteOff = function(param, when, range) {
 
-	param.cancelScheduledValues(when);
-	param.setValueAtTime(param.value, when);
+    param.cancelScheduledValues(when);
+    param.setValueAtTime(param.value, when);
 
-	if(this._release[0] > 0.0) {
-		
-		this._applyRelease(param, when, range);
-	}
-	
+    if(this._release[0] > 0.0) {
+        
+        this._applyRelease(param, when, range);
+    }
+    
 };
 
 /** 
@@ -207,14 +207,14 @@ Mseg.prototype.noteOff = function(param, when, range) {
  * oscillator.connect(gainNode);
  *
  * // Create an MSEG that starts at full intensity then falls to zero intensity lenearly over 0.1 seconds before rising back up to full intensity exponentially ovre a duration of 0.1 seconds
- * var adsr = new Mseg(); 		
+ * var adsr = new Mseg();         
  * adsr.addStage({duration: 0.0, value: 1.0});
  * adsr.addStage({duration: 0.1, value: 0.0});
  * adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});
  *
  * // Add the linear release stage of 0.25 seconds (the "linear" is optional)
  * adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});
- * 	
+ *     
  * // Duration of the oscillator (without release) in seconds
  * var noteLength = 0.1;
  *
@@ -234,6 +234,6 @@ Mseg.prototype.noteOff = function(param, when, range) {
 
 Mseg.prototype.noteOnAndOff = function(param, when, duration, range) {
 
-	this.noteOn(param, when, range);
-	if(this._release[0] > 0.0) this._applyRelease(param, when + duration);	
+    this.noteOn(param, when, range);
+    if(this._release[0] > 0.0) this._applyRelease(param, when + duration);    
 };

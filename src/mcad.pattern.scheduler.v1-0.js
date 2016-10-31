@@ -423,7 +423,7 @@ Scheduler.prototype.start = function(startStamp) {
 	// If the pattern is currently playing back, stop playback before resetting playback
 	if(this.isPlaying === true) this.Stop();
 
-	console.clear();
+	//console.clear();
 	console.log("Playback started...");
 	
 	// Set the flag to signfy that playback has started

@@ -158,7 +158,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.buffer.loader.v1-0.js.html">mcad.buffer.loader.v1-0.js</a>, <a href="mcad.buffer.loader.v1-0.js.html#line16">line 16</a>
+        <a href="mcad.buffer.loader.v1-0.js.html">mcad.buffer.loader.v1-0.js</a>, <a href="mcad.buffer.loader.v1-0.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -185,7 +185,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); </code></pre>
 
 
 <hr>
@@ -343,7 +343,7 @@
 
         <tr>
             
-                <td class="name"><code>buffer</code></td>
+                <td class="name"><code>result</code></td>
             
 
             <td class="type">
@@ -448,7 +448,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.buffer.loader.v1-0.js.html">mcad.buffer.loader.v1-0.js</a>, <a href="mcad.buffer.loader.v1-0.js.html#line207">line 207</a>
+        <a href="mcad.buffer.loader.v1-0.js.html">mcad.buffer.loader.v1-0.js</a>, <a href="mcad.buffer.loader.v1-0.js.html#line322">line 322</a>
     </li></ul></dd>
     
 
@@ -477,7 +477,7 @@
     
         <p class="code-caption">Load a single sample into a buffer</p>
     
-    <pre class="prettyprint"><code>var url = "../kits/909/kick.wav"bufferLoader.loadBuffer(url, function(result, url){				    // Sample failed to load/decode    if(result == null) {        console.log("Single file failed to load " + url);    }    // Sample was successfully loaded    else {	        console.log("Finished loading single sample " + url);    }});				</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // URL of sample to loadvar sample = "samples/909kick.wav"// Load the kick samplebufferLoader.loadBuffer(url, function(result, url){                    // Sample failed to load/decode    if(result === null) {        console.log("Single file failed to load " + url);    }    // Sample was successfully loaded    else {            // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = sample;         source.connect(audioCtx.destination);        source.start();      }});                </code></pre>
 
 
 <hr>
@@ -847,7 +847,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.buffer.loader.v1-0.js.html">mcad.buffer.loader.v1-0.js</a>, <a href="mcad.buffer.loader.v1-0.js.html#line124">line 124</a>
+        <a href="mcad.buffer.loader.v1-0.js.html">mcad.buffer.loader.v1-0.js</a>, <a href="mcad.buffer.loader.v1-0.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -876,23 +876,19 @@
     
         <p class="code-caption">Loading an array of key/value samples</p>
     
-    <pre class="prettyprint"><code>var samples; bufferLoader.loadBufferList(samples, {"kick": "samples/kick.wav", "hat": "samples/hat.wav", "snare": "samples/snare.wav"}, function() {					    console.log("Finished loading samples!");			    for(key in samples) {        var buffer = samples[key];		        console.log("Sample: " + key + ", buffer: " + buffer);    }});// Elsewhere in the code...playBuffer(samples.kick); // Or playBuffer(samples["kick"]);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // List to hold all of our audio buffersvar samples;// Flag to determine whether or not the samples have finished loadingvar samplesLoaded = false; // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keysbufferLoader.loadBufferList(samples, {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"}, function() {        console.log("Finished loading samples!");    samplesLoaded = true;});// When the element with id "kick" is clicked...$("#kick").click(function() {    if(samplesLoaded) {        // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = samples["kick"]; // Or source.buffer = samples.kick;        source.connect(audioCtx.destination);        source.start();      }    else console.log("Sampled not loaded yet!");});</code></pre>
 
         <p class="code-caption">Handling sample load/decode failures</p>
     
-    <pre class="prettyprint"><code>var samples;bufferLoader.loadBufferList(samples, {"kick": "samples/kick.wav", "hat": "samples/hat.wav", "snare": "samples/snare.wav"}, function() {    					    console.log("Finished loading samples!");			    for(key in samples) {        console.log("Sample: " + key + ", buffer: " + samples[key]);    }},function(result) {				   if(!result.success) console.log("File " + result.url + " with key " + result.key + " failed to load!");   else console.log("File " + result.url + " with key " + result.key + " loaded successfully!");			});</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // List to hold all of our audio buffersvar samples;// Flag to determine whether or not the samples have finished loadingvar samplesLoaded = false; // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keysbufferLoader.loadBufferList(samples, {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"}, function() {        console.log("Finished loading samples!");    samplesLoaded = true;},function(result) {                   if(!result.success) console.log("File " + result.url + " with key " + result.key + " failed to load!");   else console.log("File " + result.url + " with key " + result.key + " loaded successfully!");            });// When the element with id "kick" is clicked...$("#kick").click(function() {    if(samplesLoaded) {        // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = samples["kick"]; // Or source.buffer = samples.kick;        source.connect(audioCtx.destination);        source.start();      }    else console.log("Sampled not loaded yet!");});</code></pre>
 
         <p class="code-caption">Using a key/value array specified elsewhere in the code</p>
     
-    <pre class="prettyprint"><code>var samples;var toLoad = {"kick": "samples/kick.wav", "hat": "samples/hat.wav", "snare": "samples/snare.wav"};bufferLoader.loadBufferList(samples, toLoad, function() {			    console.log("Finished loading samples!");});</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // List to hold all of our audio buffersvar samples;// List of samples (and their associated key values) to loadtoLoad = {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"};// Flag to determine whether or not the samples have finished loadingvar samplesLoaded = false; // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keysbufferLoader.loadBufferList(samples, toLoad, function() {        console.log("Finished loading samples!");    samplesLoaded = true;});// When the element with id "kick" is clicked...$("#kick").click(function() {    if(samplesLoaded) {        // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = samples["kick"]; // Or source.buffer = samples.kick;        source.connect(audioCtx.destination);        source.start();      }    else console.log("Sampled not loaded yet!");});</code></pre>
 
         <p class="code-caption">Loading an sequential array of samples</p>
     
-    <pre class="prettyprint"><code>var samples;var urls = ["samples/kick.wav", "samples/hat.wav", "samples/snare.wav"];bufferLoader.loadBufferList(samples, urls, function() {					    for(i = 0; i &lt; samples.length; i++) {        console.log("Sample: " + i + ", buffer: " + samples[i]);    }});// Elsewhere in the code...playBuffer(samples[2]); // Plays back snare.wav;</code></pre>
-
-        <p class="code-caption">Using event handlers specified elsewhere in the code</p>
-    
-    <pre class="prettyprint"><code>var samples;function finishedEventHandler() {				    for(i = 0; i &lt; samples.length; i++) {        console.log("Sample: " + i + ", buffer: " + samples[i]);    }}function onLoadEventHandler(result) {				    if(!result.success) console.log("File " + result.url + " with key " + result.key + " failed to load!");    else console.log("File " + result.url + " with key " + result.key + " loaded successfully!");}// URL arrays can be specified inlinebufferLoader.loadBufferList(samples, ["samples/kick.wav", "samples/hat.wav", "samples/snare.wav"], finishedEventHandler, onLoadEventHandler);// Elsewhere in the code...playBuffer(samples[2]); // Plays back snare.wav;</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // Array to hold all of our audio buffersvar samples;// Array of samples to loadvar toLoad = ["samples/909kick.wav", "samples/909hat.wav", "samples/909snare.wav"];// Flag to determine whether or not the samples have finished loadingvar samplesLoaded = false; // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keysbufferLoader.loadBufferList(samples, toLoad, function() {        console.log("Finished loading samples!");    samplesLoaded = true;});// When the element with id "kick" is clicked...$("#kick").click(function() {    if(samplesLoaded) {        // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = samples[0];         source.connect(audioCtx.destination);        source.start();      }    else console.log("Sampled not loaded yet!");});</code></pre>
 
 
 <hr>
@@ -915,7 +911,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Oct 28 2016 00:13:45 GMT+0100 (GMT Daylight Time)
+    Documentation generated at Mon Oct 31 2016 11:35:42 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
