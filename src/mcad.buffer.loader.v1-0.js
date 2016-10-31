@@ -206,7 +206,7 @@ BufferLoader.prototype.loadBufferList = function(bufferList, urlList, onFinished
     
     //-------------------------------------------------------------------------------------------------------------------------------------
     console.info("@@BufferLoader.loadBufferList@@Loading sample list/array...");
-    console.log(urlList);
+    console.debug(urlList);
     //-------------------------------------------------------------------------------------------------------------------------------------
     
     if(urlList === null) throw new TypeError("(BufferLoader.loadBufferList) List of samples to load is invalid");
@@ -275,7 +275,7 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
             if(++queue[index].loaded >= queue[index].size) {
                 //------------------------------------------------------------------------------------------------------------------------------------
                 console.info("@@BufferLoader._loadQueue@@Finished loading " + queue[index].size + " samples");
-                console.log(queue[index].urls);
+                console.debug(queue[index].urls);
                 //------------------------------------------------------------------------------------------------------------------------------------
                 delete queue[index];
                 onFinished();
@@ -323,7 +323,7 @@ BufferLoader.prototype.loadBuffer = function(resource, onFinished) {
 
     //-------------------------------------------------------------------------------------------------------------------------------------
     console.info("@@BufferLoader.loadBuffer@@Loading buffer...");
-    console.log(resource);
+    console.debug(resource);
     //-------------------------------------------------------------------------------------------------------------------------------------
     
     if(resource === null) throw new TypeError("(BufferLoader.loadBuffer) Sample resource to load is invalid");
@@ -355,7 +355,7 @@ BufferLoader.prototype.loadBuffer = function(resource, onFinished) {
         function(buffer) {                                              // Callback function for successful decoding    
             //------------------------------------------------------------------------------------------------------------------------------------
             console.info("@@BufferLoader.loadBuffer@@Successfully decoded " + url);
-            console.log(buffer);
+            console.debug(buffer);
             //------------------------------------------------------------------------------------------------------------------------------------
             onFinished(buffer, resource);
         },        
