@@ -477,7 +477,7 @@
     
         <p class="code-caption">Load a single sample into a buffer</p>
     
-    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // URL of sample to loadvar url = "samples/909kick.wav"// Load the kick samplebufferLoader.loadBuffer(url, function(result, url){                    // Sample failed to load/decode    if(result === null) {        console.log("Single file failed to load " + url);    }    // Sample was successfully loaded    else {            // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = result;         source.connect(audioCtx.destination);        source.start();      }});                </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a buffer loader objectvar bufferLoader = new BufferLoader(audioCtx); // URL of sample to loadvar kickURL = "samples/909kick.wav"// Load the kick samplebufferLoader.loadBuffer(kickURL, function(result, url){                    // Sample failed to load/decode    if(result === null) {        console.log("Single file failed to load " + url);    }    // Sample was successfully loaded    else {            // Play back the kick sample        var source = audioCtx.createBufferSource();        source.buffer = result;         source.connect(audioCtx.destination);        source.start();      }});                </code></pre>
 
 
 <hr>
@@ -911,7 +911,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Mon Oct 31 2016 13:11:31 GMT+0000 (GMT Standard Time)
+    Documentation generated at Mon Oct 31 2016 15:03:19 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
