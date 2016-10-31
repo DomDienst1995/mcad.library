@@ -12,7 +12,7 @@ For further information, please read the [documentation](http://drjferraris.gith
 
 ## **Debug & Release Builds**
 
-There are two builds of this library in the `dist` folder that you can use in the development of your apps: **Debug** and **Release**. Both builds contain concatinated and compressed versions of the individual source files that make up this library so are not easily human readable. However the `src` folder contains the fully commentated source files for each module in this library.
+There are two builds of this library in the `dist` folder that you can use in the development of your apps: **Debug** and **Release**. Both builds contain concatenated and compressed versions of the individual source files that make up this library so are not easily human readable. However the `src` folder contains the fully commentated source files for each module in this library.
 
 ##### **Debug Build**
 

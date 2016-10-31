@@ -299,7 +299,7 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // URL of sample to load
- * var sample = "samples/909kick.wav"
+ * var url = "samples/909kick.wav"
  * 
  * // Load the kick sample
  * bufferLoader.loadBuffer(url, function(result, url){
@@ -313,7 +313,7 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
  *     
  *         // Play back the kick sample
  *         var source = audioCtx.createBufferSource();
- *         source.buffer = sample; 
+ *         source.buffer = result; 
  *         source.connect(audioCtx.destination);
  *         source.start();  
  *     }
