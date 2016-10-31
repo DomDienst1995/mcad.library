@@ -35,6 +35,24 @@
 <p>For further information, please read the <a href="doc/index.html">documentation</a>.</p>
 
 <h2>
+<a id="debug--release-builds" class="anchor" href="#debug--release-builds" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Debug &amp; Release Builds</strong>
+</h2>
+
+<p>There are two builds of this library in the <code>dist</code> folder that you can use in the development of your apps: <strong>Debug</strong> and <strong>Release</strong>. Both builds contain concatenated and compressed versions of the individual source files that make up this library so are not easily human readable. However the <code>src</code> folder contains the fully commentated source files for each module in this library.</p>
+
+<h5>
+<a id="debug-build" class="anchor" href="#debug-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Debug Build</strong>
+</h5>
+
+<p>The classes and functions in the Debug build make use of the different <code>console</code> outputting methods to give you real-time information and feedback about the configuration and operations. Use this build for development to help you track down bugs and errors in your code.</p>
+
+<h5>
+<a id="release-build" class="anchor" href="#release-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Release Build</strong>
+</h5>
+
+<p>The Release build has all <code>console</code> commands stripped out for performance reasons so will give you no feedback on the configuration and operations of the library. It is reccomended that you switch to the Release build when you are ready to distribute your app. </p>
+
+<h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Usage</strong>
 </h2>
 
@@ -46,37 +64,19 @@
 
 <p>This method includes the library files from the online content delivery network. This is the easiest way to include the library files as the source file paths are always the same regardless of your app folder structure and you are guaranteed to be using the latest version of the library. However, as the CDN is online, you must be connected to the internet. This is ideal for developing your web apps but when developing mobile or on an offline web apps you will need to use a local copy otherwise your app will require an internet connection to function.</p>
 
-<p>Copy and paste the appropriate <code>script</code> tag(s) below into your HTML document's <code>head</code> section for the library component(s) you wish to use:</p>
+<p>Copy and paste the appropriate <code>script</code> tag below into your HTML document's <code>head</code> section for the build you wish to use:</p>
 
 <h5>
-<a id="pattern-scheduler" class="anchor" href="#pattern-scheduler" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Pattern Scheduler</strong>
+<a id="debug-build-1" class="anchor" href="#debug-build-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Debug Build</strong>
 </h5>
 
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.pattern.scheduler.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/dist/mcad.library.v1-0.min-d.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
 <h5>
-<a id="buffer-loader" class="anchor" href="#buffer-loader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Buffer Loader</strong>
+<a id="release-build-1" class="anchor" href="#release-build-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Release Build</strong>
 </h5>
 
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.buffer.loader.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
-
-<h5>
-<a id="utility-functions" class="anchor" href="#utility-functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Utility Functions</strong>
-</h5>
-
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.utils.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
-
-<h5>
-<a id="rotary-widget" class="anchor" href="#rotary-widget" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Rotary Widget</strong>
-</h5>
-
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.rotary.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
-
-<h5>
-<a id="multi-stage-envelope" class="anchor" href="#multi-stage-envelope" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Multi-Stage Envelope</strong>
-</h5>
-
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/src/mcad.mseg.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>https://drjferraris.github.io/mcad.library/dist/mcad.library.v1-0.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
 <h4>
 <a id="including-from-a-local-copy" class="anchor" href="#including-from-a-local-copy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Including from a local copy</strong>
@@ -90,7 +90,7 @@
 <li>
 <a href="https://github.com/drjferraris/mcad.library/zipball/master">Download</a> the .zip archive</li>
 <li>Extract the archive to somewhere convenient on your hard drive</li>
-<li>Copy the javascript files from the MCAD library's <code>src</code> folder to somewhere in your app's folder</li>
+<li>Copy the javascript files from the MCAD library's <code>dist</code> folder to somewhere in your app's folder</li>
 </ol>
 
 <p>Below is an example of a fairly typical web/Cordova app folder structure:</p>
@@ -110,46 +110,25 @@ D:\MYAPP
         |       jquery.js
         |
         +---mcad
-                mcad.buffer.loader.v1-0.js
-                mcad.mseg.v1-0.js
-                mcad.pattern.scheduler.v1-0.js
-                mcad.rotary.v1-0.js
-                mcad.utils.v1-0.js
+                mcad.library.v1-0.min.js
+                mcad.library.v1-0.min-d.js
 </pre>
 
 <p>Here, we can see that the app is in a folder called "MyApp" and the <code>index.html</code> resides in the root of this folder. The stylesheet for this app is called <code>style.css</code> and is located in a subfolder called <code>css</code>. Likewise, the javascript file <code>script.js</code> is located in a subfolder called <code>js</code>. The library files for this app are further located in a subfolder called <code>lib</code>. Specifically, the MCAD library files are located in a folder called <code>mcad</code> inside the <code>lib</code> folder.</p>
 
-<p>With this in mind, the <code>script</code> tags to include the appropriate MCAD library components for this example's <code>index.html</code> are as follows (<strong>note:</strong> your app's folder may be different):</p>
+<p>With this in mind, the <code>script</code> tags to include the appropriate MCAD library files for this example's <code>index.html</code> are as follows (<strong>note:</strong> your app's folder may be different):</p>
 
 <h5>
-<a id="pattern-scheduler-1" class="anchor" href="#pattern-scheduler-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Pattern Scheduler</strong>
+<a id="debug-build-2" class="anchor" href="#debug-build-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Debug Build</strong>
 </h5>
 
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.pattern.scheduler.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.library.v1-0.min-d.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
 <h5>
-<a id="buffer-loader-1" class="anchor" href="#buffer-loader-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Buffer Loader</strong>
+<a id="release-build-2" class="anchor" href="#release-build-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Release Build</strong>
 </h5>
 
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.buffer.loader.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
-
-<h5>
-<a id="utility-functions-1" class="anchor" href="#utility-functions-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Utility Functions</strong>
-</h5>
-
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.utils.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
-
-<h5>
-<a id="rotary-widget-1" class="anchor" href="#rotary-widget-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Rotary Widget</strong>
-</h5>
-
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.rotary.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
-
-<h5>
-<a id="multi-stage-envelope-1" class="anchor" href="#multi-stage-envelope-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Multi-Stage Envelope</strong>
-</h5>
-
-<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.mseg.v1-0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>js/lib/mcad/mcad.library.v1-0.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/drjferraris/mcad.library">mcad.library</a> is maintained by <a href="https://github.com/drjferraris">drjferraris</a>.</span>
