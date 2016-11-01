@@ -27,11 +27,11 @@
 */
 
 /**
-  * The event handler callback functions for events triggered by the scheduler.
-  * @typedef  {object} ScheduleEventHandler
-  * @property {function} [onQueue] - triggered when a step has been queued up for playback.
-  * @property {function} [onAnim]  - triggered when the playback position meets a queued step (used for animating steps).
-  * @property {function} [onTween] - triggered every render frame with the normalized playback position within the bar in the {@linkcode [0,1]} range.
+ * The event handler callback functions for events triggered by the scheduler.
+ * @typedef  {object} ScheduleEventHandler
+ * @property {function} [onQueue] - triggered when a step has been queued up for playback.
+ * @property {function} [onAnim]  - triggered when the playback position meets a queued step (used for animating steps).
+ * @property {function} [onTween] - triggered every render frame with the normalized playback position within the bar in the {@linkcode [0,1]} range.
 */
 
 /**
@@ -59,6 +59,12 @@
  * var scheduler = new Scheduler(audioCtx); 
  */
 function Scheduler(context, options) {
+
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Scheduler.Scheduler@@Creating Scheduler instance...");
+    //-------------------------------------------------------------------------------------------------------------------------------------
+    
+    if(context === null) throw new TypeError("(Scheduler.Scheduler) Invalid AudioContext (did you make a typo or forget to create the context?");
 
 	/** 
 	 * Initial project tempo. 
@@ -212,6 +218,11 @@ function Scheduler(context, options) {
 	
 	// Animation runs continuously regardless of whether or not we are playing back so kickstart animation loop here
 	this._animate();
+	
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Scheduler.Scheduler@@Tempo: " + this.tempo + ", Steps Per Beat: " + this.stepsPerBeat + ", Beats Per Pattern: " + this.beatsPerPattern + "");
+    console.info("@@0@@Scheduler.Scheduler@@onQUeue: " + this.event.onQueue + ", onAmim: " + this.event.onAnim + ", onTween: " + this.event.onTween);
+    //-------------------------------------------------------------------------------------------------------------------------------------
 }
 
 /*
@@ -257,7 +268,9 @@ Scheduler.prototype._schedule = function() {
 		// Pass on the time and position stamps of this step to the user's event handler for queueing up the sound for playback
 		if(this.event.onQueue) this.event.onQueue({time: this.cloneTimeStamp(timeStamp), stamp: this.cloneStepStamp(this._currentStamp)});
 		
-		console.log("Step " + this._currentStamp.step + " queued for playback " + (this._stepTime + swing) + " seconds from start time");
+		//-------------------------------------------------------------------------------------------------------------------------------------
+		console.info("@@2@@Scheduler._schedule@@Step " + this._currentStamp.step + " queued for playback " + this._stepTime + " plus " + swing + " seconds from start time");
+		//-------------------------------------------------------------------------------------------------------------------------------------
 
 		// Advance the pattern sequence along by one step
 		this._advanceStep();
@@ -338,8 +351,11 @@ Scheduler.prototype._animate = function(){
 	
 		// Set the current step to the last step so the next call can check whetehr or not it's animating a new step
 		this._lastStepAnimated = currentStep;
-
-		console.log("Step " + currentStep.stamp.step + " animated");
+		
+		//-------------------------------------------------------------------------------------------------------------------------------------
+		console.info("@@1@@Scheduler._animate@@Step " + currentStep.stamp.step + " animated");
+		//-------------------------------------------------------------------------------------------------------------------------------------
+		
 	}
 	
 	// Set up another animation frame request (the browser handles the sheduling time of animation frames for us)
@@ -420,11 +436,12 @@ Scheduler.prototype._stepsPerPattern = function() {
   */
 Scheduler.prototype.start = function(startStamp) { 
 
+	//-------------------------------------------------------------------------------------------------------------------------------------
+	console.info("@@0@@Scheduler.start@@Playback started at " + (new Date()));
+	//-------------------------------------------------------------------------------------------------------------------------------------
+
 	// If the pattern is currently playing back, stop playback before resetting playback
 	if(this.isPlaying === true) this.Stop();
-
-	//console.clear();
-	console.log("Playback started...");
 	
 	// Set the flag to signfy that playback has started
 	this.isPlaying = true;
@@ -454,7 +471,9 @@ Scheduler.prototype.start = function(startStamp) {
   */
 Scheduler.prototype.stop = function() {
 
-	console.log("Playback stopped...");
+	//-------------------------------------------------------------------------------------------------------------------------------------
+	console.info("@@0@@Scheduler.stop@@Playback stopped at " + (new Date()));
+	//-------------------------------------------------------------------------------------------------------------------------------------
 			
 	// Set the flag to signfy that playback has stopped
 	this.isPlaying = false;

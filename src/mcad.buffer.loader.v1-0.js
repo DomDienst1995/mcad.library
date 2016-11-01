@@ -19,7 +19,7 @@
 function BufferLoader(context) {
     
     //-------------------------------------------------------------------------------------------------------------------------------------
-    console.info("@@BufferLoader.BufferLoader@@Creating buffer loader instance...");
+    console.info("@@0@@BufferLoader.BufferLoader@@Creating buffer loader instance...");
     //-------------------------------------------------------------------------------------------------------------------------------------
     
     if(context === null) throw new TypeError("(BufferLoader.BufferLoader) Invalid AudioContext (did you make a typo or forget to create the context?");
@@ -52,7 +52,7 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // List to hold all of our audio buffers
- * var samples;
+ * var samples = {};
  * 
  * // Flag to determine whether or not the samples have finished loading
  * var samplesLoaded = false;
@@ -88,7 +88,7 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // List to hold all of our audio buffers
- * var samples;
+ * var samples = {};
  * 
  * // Flag to determine whether or not the samples have finished loading
  * var samplesLoaded = false;
@@ -130,7 +130,7 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // List to hold all of our audio buffers
- * var samples;
+ * var samples = {};
  * 
  * // List of samples (and their associated key values) to load
  * toLoad = {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"};
@@ -162,7 +162,7 @@ function BufferLoader(context) {
  * 
  * });
  * 
- * @example  <caption>Loading an sequential array of samples</caption>
+ * @example  <caption>Loading a sequential array of samples</caption>
  * // Create web audio context
  * var audioCtx = new AudioContext();
  * 
@@ -170,7 +170,7 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // Array to hold all of our audio buffers
- * var samples;
+ * var samples = [];
  * 
  * // Array of samples to load
  * var toLoad = ["samples/909kick.wav", "samples/909hat.wav", "samples/909snare.wav"];
@@ -205,8 +205,8 @@ function BufferLoader(context) {
 BufferLoader.prototype.loadBufferList = function(bufferList, urlList, onFinished, onLoad) {
     
     //-------------------------------------------------------------------------------------------------------------------------------------
-    console.info("@@BufferLoader.loadBufferList@@Loading sample list/array...");
-    console.debug(urlList);
+    console.info("@@0@@BufferLoader.loadBufferList@@Loading sample list/array...");
+    console.debug("@@1" + urlList);
     //-------------------------------------------------------------------------------------------------------------------------------------
     
     if(urlList === null) throw new TypeError("(BufferLoader.loadBufferList) List of samples to load is invalid");
@@ -224,7 +224,7 @@ BufferLoader.prototype.loadBufferList = function(bufferList, urlList, onFinished
     
     for(var key in urlList){
         //-------------------------------------------------------------------------------------------------------------------------------------
-        console.info("@@BufferLoader.loadBufferList@@Adding " + urlList[key] + " with key " + key + " to decode queue...");
+        console.info("@@2@@BufferLoader.loadBufferList@@Adding " + urlList[key] + " with key " + key + " to decode queue...");
         //-------------------------------------------------------------------------------------------------------------------------------------
         this._downloadQueue[this._downloadIndex].urls[key] = urlList[key];
         this._downloadQueue[this._downloadIndex].size++;
@@ -249,7 +249,7 @@ of said book keeping variables which are then in turned returned back to this me
 BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLoad) {
     
     //------------------------------------------------------------------------------------------------------------------------------------------------
-    console.info("@@BufferLoader._loadQueue@@Loading sample queue...");
+    console.info("@@1@@BufferLoader._loadQueue@@Loading sample queue...");
     //------------------------------------------------------------------------------------------------------------------------------------------------
     
     var queue = this._downloadQueue;
@@ -257,7 +257,7 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
     for(var key in queue[index].urls) {
         
         //--------------------------------------------------------------------------------------------------------------------------------------------
-        console.info("@@BufferLoader._loadQueue@@Attempting to decode sample " + queue[index].urls[key] + " with key " + key + "...");
+        console.info("@@1@@BufferLoader._loadQueue@@Attempting to decode sample " + queue[index].urls[key] + " with key " + key + "...");
         //-------------------------------------------------------------------------------------------------------------------------------------------- 
         
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -274,8 +274,8 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
             // Once the number of loaded files in this list has equaled the total number of files, remove this queue from the master array and trigger the user's onFinish handler
             if(++queue[index].loaded >= queue[index].size) {
                 //------------------------------------------------------------------------------------------------------------------------------------
-                console.info("@@BufferLoader._loadQueue@@Finished loading " + queue[index].size + " samples");
-                console.debug(queue[index].urls);
+                console.info("@@1@@BufferLoader._loadQueue@@Finished loading " + queue[index].size + " samples");
+                console.debug("@@2" + queue[index].urls);
                 //------------------------------------------------------------------------------------------------------------------------------------
                 delete queue[index];
                 onFinished();
@@ -322,8 +322,8 @@ BufferLoader.prototype._loadQueue = function(bufferList, index, onFinished, onLo
 BufferLoader.prototype.loadBuffer = function(resource, onFinished) {
 
     //-------------------------------------------------------------------------------------------------------------------------------------
-    console.info("@@BufferLoader.loadBuffer@@Loading buffer...");
-    console.debug(resource);
+    console.info("@@0@@BufferLoader.loadBuffer@@Loading buffer...");
+    console.debug("@@1" + resource);
     //-------------------------------------------------------------------------------------------------------------------------------------
     
     if(resource === null) throw new TypeError("(BufferLoader.loadBuffer) Sample resource to load is invalid");
@@ -354,14 +354,14 @@ BufferLoader.prototype.loadBuffer = function(resource, onFinished) {
         loader._context.decodeAudioData(request.response,               // Source to be decoded (here, the response)
         function(buffer) {                                              // Callback function for successful decoding    
             //------------------------------------------------------------------------------------------------------------------------------------
-            console.info("@@BufferLoader.loadBuffer@@Successfully decoded " + url);
-            console.debug(buffer);
+            console.info("@@0@@BufferLoader.loadBuffer@@Successfully decoded " + url);
+            console.debug("@@1" + buffer);
             //------------------------------------------------------------------------------------------------------------------------------------
             onFinished(buffer, resource);
         },        
         function() {                                                    // Callback function for unsuccessful decoding    
             //------------------------------------------------------------------------------------------------------------------------------------
-            console.error("@@BufferLoader.loadBuffer@@Error decoding " + url);
+            console.error("@@0@@BufferLoader.loadBuffer@@Error decoding " + url);
             //------------------------------------------------------------------------------------------------------------------------------------
             onFinished(null, resource);
         });    

@@ -5,10 +5,7 @@
 		
 		<!-- Include jQuery and jQuery UI libraries -->
 		<script src="jquery-ui/external/jquery/jquery.js"></script>
-		
-		<!-- Include the MCAD Buffer Load class -->
-		<script src="../src/mcad.buffer.loader.v1-0.js"></script>		
-		
+				
 		<!-- Include the MCAD Scheduler class -->
 		<script src="../dist/mcad.library.v1-0.min-d.js"></script>
 		
@@ -129,6 +126,8 @@
 		
 		</div>
 		<script>
+		
+		MCAD_DEBUG = 1;
 		
 			// Attempt to create a Web Audio context, otherwise fallback on the older Webkit Audio context
 			var context = new (window.AudioContext || window.webkitAudioContext)();

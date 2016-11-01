@@ -58,6 +58,14 @@
 <p>For further information, please read the documentation.</p>
 <h2><strong>Debug &amp; Release Builds</strong></h2><p>There are two builds of this library in the <code>dist</code> folder that you can use in the development of your apps: <strong>Debug</strong> and <strong>Release</strong>. Both builds contain concatenated and compressed versions of the individual source files that make up this library so are not easily human readable. However the <code>src</code> folder contains the fully commentated source files for each module in this library.</p>
 <h5><strong>Debug Build</strong></h5><p>The classes and functions in the Debug build make use of the different <code>console</code> outputting methods to give you real-time information and feedback about the configuration and operations. Use this build for development to help you track down bugs and errors in your code.</p>
+<p><em>Debug Levels</em></p>
+<p>You can set the amount of log calls the libary outputs to the console by declaring a variable called <code>MCAD_DEBUG</code> at the top of your script and assigning it a number from <code>0</code> to <code>2</code>. If you don't explicitly specify the debug level like this, the default is <code>0</code>.</p>
+<p>The different debug levels are as follows:</p>
+<ul>
+<li><code>0</code>: Output basic information such as constructors and certain method calls</li>
+<li><code>1</code>: Output more detailed information including supplied function arguments, etc.</li>
+<li><code>2</code>: Output very detailed information including low-level operations</li>
+</ul>
 <h5><strong>Release Build</strong></h5><p>The Release build has all <code>console</code> commands stripped out for performance reasons so will give you no feedback on the configuration and operations of the library. It is reccomended that you switch to the Release build when you are ready to distribute your app. </p>
 <h2><strong>Usage</strong></h2><p>There are two ways to include the MCAD library files in your projects: from the online CDN or from a local copy.</p>
 <h4><strong>Including from the online CDN</strong></h4><p>This method includes the library files from the online content delivery network. This is the easiest way to include the library files as the source file paths are always the same regardless of your app folder structure and you are guaranteed to be using the latest version of the library. However, as the CDN is online, you must be connected to the internet. This is ideal for developing your web apps but when developing mobile or on an offline web apps you will need to use a local copy otherwise your app will require an internet connection to function.</p>
@@ -584,7 +592,7 @@ D:\MYAPP
 <br class="clear">
 
 <footer>
-    Documentation generated at Mon Oct 31 2016 15:03:19 GMT+0000 (GMT Standard Time)
+    Documentation generated at Tue Nov 01 2016 11:52:38 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
