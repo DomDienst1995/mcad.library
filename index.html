@@ -46,6 +46,21 @@
 
 <p>The classes and functions in the Debug build make use of the different <code>console</code> outputting methods to give you real-time information and feedback about the configuration and operations. Use this build for development to help you track down bugs and errors in your code.</p>
 
+<p><em>Debug Levels</em></p>
+
+<p>You can set the amount of log calls the libary outputs to the console by declaring a variable called <code>MCAD_DEBUG</code> at the top of your script and assigning it a number from <code>0</code> to <code>2</code>. If you don't explicitly specify the debug level like this, the default is <code>0</code>.</p>
+
+<p>The different debug levels are as follows:</p>
+
+<ul>
+<li>
+<code>0</code>: Output basic information such as constructors and certain method calls</li>
+<li>
+<code>1</code>: Output more detailed information including supplied function arguments, etc.</li>
+<li>
+<code>2</code>: Output very detailed information including low-level operations</li>
+</ul>
+
 <h5>
 <a id="release-build" class="anchor" href="#release-build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Release Build</strong>
 </h5>
