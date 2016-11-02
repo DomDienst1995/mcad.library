@@ -582,7 +582,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line61">line 61</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line83">line 83</a>
     </li></ul></dd>
     
 
@@ -611,19 +611,19 @@
     
         <p class="code-caption">4/4 time with 1/16th steps at a tempo of 120bpm</p>
     
-    <pre class="prettyprint"><code>var scheduler = new Scheduler(audioCtx, {tempo: 120}); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120}); </code></pre>
 
         <p class="code-caption">2/4 time with 1/8th steps at a tempo of 60bpm with an event handler for playing steps</p>
     
-    <pre class="prettyprint"><code>var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerPattern: 2, onQueue: playNote}); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerPattern: 2, onQueue: playNote}); </code></pre>
 
         <p class="code-caption">5/8 time with 1/32nd steps at a tempo of 96pm with event handlers for playing and animating steps</p>
     
-    <pre class="prettyprint"><code>var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerPattern: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerPattern: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); </code></pre>
 
         <p class="code-caption">Default values and no event handlers</p>
     
-    <pre class="prettyprint"><code>var scheduler = new Scheduler(audioCtx); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx); </code></pre>
 
 
 <hr>
@@ -706,7 +706,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line90">line 90</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -780,7 +780,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line175">line 175</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -799,15 +799,15 @@
     
         <p class="code-caption">Handling onQueue events</p>
     
-    <pre class="prettyprint"><code>var scheduler = Scheduler(audioCtx, {onQueue: playNote}); function playNote(note) {    var oscillator = audioCtx.createOscillator();    oscillator.connect(audioCtx.destination);    // Queue osillator to start playback on step's playback time    oscillator.start(note.time.swing);    oscillator.frequency.value = 800;    // Queue oscillator to stop playback 50ms after step's playback time    oscillator.stop(note.time.swing + 0.05); }</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onQueue: playNote}); // Start playback sheduler.start();function playNote(note) {    var oscillator = audioCtx.createOscillator();    oscillator.connect(audioCtx.destination);    // Queue osillator to start playback on step's playback time    oscillator.start(note.time.swing);    oscillator.frequency.value = 800;    // Queue oscillator to stop playback 50ms after step's playback time    oscillator.stop(note.time.swing + 0.05); }</code></pre>
 
         <p class="code-caption">Handling onAnim events</p>
     
-    <pre class="prettyprint"><code>var scheduler = Scheduler(audioCtx, {onAnim: animateNote}); function animateNote(currentStamp, lastStamp) {    console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);    console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);}</code></pre>
+    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); // Start playback sheduler.start();function animateNote(currentStamp, lastStamp) {    console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);    console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);}</code></pre>
 
         <p class="code-caption">Handling onTween events</p>
     
-    <pre class="prettyprint"><code>var scheduler = Scheduler(audioCtx, {onTween: tweenNote}); function tweenNote(tween) {    // Only update the tween position if the sequence is playing back    if(scheduler.isPlaying) {        console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");    }}</code></pre>
+    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); function tweenNote(tween) {    // Only update the tween position if the sequence is playing back    if(scheduler.isPlaying) {        console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");    }}</code></pre>
 
 
 <hr>
@@ -874,7 +874,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line114">line 114</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -955,7 +955,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line192">line 192</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -1034,7 +1034,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line105">line 105</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -1113,7 +1113,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line121">line 121</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line139">line 139</a>
     </li></ul></dd>
     
 
@@ -1187,7 +1187,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line128">line 128</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -1266,7 +1266,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line182">line 182</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -1345,7 +1345,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line82">line 82</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -1419,7 +1419,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line135">line 135</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -1498,7 +1498,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line98">line 98</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line117">line 117</a>
     </li></ul></dd>
     
 
@@ -1577,7 +1577,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line74">line 74</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -1705,7 +1705,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line546">line 546</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line601">line 601</a>
     </li></ul></dd>
     
 
@@ -1864,7 +1864,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line509">line 509</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line564">line 564</a>
     </li></ul></dd>
     
 
@@ -2023,7 +2023,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line593">line 593</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line648">line 648</a>
     </li></ul></dd>
     
 
@@ -2228,7 +2228,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line526">line 526</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line581">line 581</a>
     </li></ul></dd>
     
 
@@ -2410,7 +2410,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line609">line 609</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line664">line 664</a>
     </li></ul></dd>
     
 
@@ -2520,7 +2520,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line497">line 497</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line552">line 552</a>
     </li></ul></dd>
     
 
@@ -2702,7 +2702,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line579">line 579</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line634">line 634</a>
     </li></ul></dd>
     
 
@@ -2857,7 +2857,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line437">line 437</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -2951,7 +2951,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line472">line 472</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line527">line 527</a>
     </li></ul></dd>
     
 
@@ -3001,7 +3001,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Tue Nov 01 2016 12:02:52 GMT+0000 (GMT Standard Time)
+    Documentation generated at Wed Nov 02 2016 00:07:49 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>

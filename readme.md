@@ -18,7 +18,7 @@ There are two builds of this library in the `dist` folder that you can use in th
 
 The classes and functions in the Debug build make use of the different `console` outputting methods to give you real-time information and feedback about the configuration and operations. Use this build for development to help you track down bugs and errors in your code.
 
-*Debug Levels*
+###### *Debug Levels*
 
 You can set the amount of log calls the libary outputs to the console by declaring a variable called `MCAD_DEBUG` at the top of your script and assigning it a number from `0` to `2`. If you don't explicitly specify the debug level like this, the default is `0`.
 
