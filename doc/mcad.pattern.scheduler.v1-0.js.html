@@ -184,6 +184,82 @@ function Scheduler(context, options) {
      * @readonly 
      */
     this.resumeStamp = this.createStepStamp(0,0,0);
+	
+	/** 
+     * Step position that playback was stopped on (set by  {@linkcode stop()} method). 
+     * @type {StepStamp}
+     * @readonly 
+     */
+    this.stopStamp = this.createStepStamp(0,0,0);
+	
+	/**
+	 * Event handlers for scheduling events.    
+	 * @type {ScheduleEventHandler} 
+	 * // Create web audio context
+	 * var audioCtx = new AudioContext();
+	 * 
+	 * // Create a pattern scheduler instance
+	 * 
+	 * @example &lt;caption>Handling onQueue events&lt;/caption>
+	 * // Create web audio context
+	 * var audioCtx = new AudioContext();
+	 * 
+	 * // Create a pattern scheduler instance
+	 * var scheduler = new Scheduler(audioCtx, {onQueue: playNote}); 
+	 *
+	 * // Start playback 
+	 * sheduler.start();
+	 *
+	 * function playNote(note) {
+	 *
+	 *     var oscillator = audioCtx.createOscillator();
+	 *     oscillator.connect(audioCtx.destination);
+	 *
+	 *     // Queue osillator to start playback on step's playback time
+	 *     oscillator.start(note.time.swing);
+	 *
+	 *     oscillator.frequency.value = 800;
+	 *
+	 *     // Queue oscillator to stop playback 50ms after step's playback time
+	 *     oscillator.stop(note.time.swing + 0.05); 
+	 * }
+	 * @example &lt;caption>Handling onAnim events&lt;/caption>
+	 * // Set the MCAD library debug level to 1 to see the step animation logs
+	 * MCAD_LIBRARY = 1;
+	 * 
+	 * // Create web audio context
+	 * var audioCtx = new AudioContext();
+	 * 
+	 * // Create a pattern scheduler instance
+	 * var scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); 
+	 *
+	 * // Start playback 
+	 * sheduler.start();
+	 * 
+	 * function animateNote(currentStamp, lastStamp) {
+	 *
+	 *     console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);
+	 *     console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);
+	 * }
+	 * @example &lt;caption>Handling onTween events&lt;/caption>
+	 * // Set the MCAD library debug level to 1 to see the step animation logs
+	 * MCAD_LIBRARY = 1;
+	 * 
+	 * // Create web audio context
+	 * var audioCtx = new AudioContext();
+	 * 
+	 * // Create a pattern scheduler instance
+	 * var scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); 
+	 *
+	 * function tweenNote(tween) {
+	 *
+	 *     // Only update the tween position if the sequence is playing back
+	 *     if(scheduler.isPlaying) {
+	 *         console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");
+	 *     }
+	 * }
+	 */
+	this.event = {};
     
     /** 
      * Time window (in seconds) that scheduler will look ahead to queue steps.
@@ -210,80 +286,6 @@ function Scheduler(context, options) {
         if(options.stepsPerBeat) this.stepsPerBeat = options.stepsPerBeat;
         if(options.tempo) this.tempo = options.tempo;
         
-        /** 
-         * Step position that playback was stopped on (set by  {@linkcode stop()} method). 
-         * @type {StepStamp}
-         * @readonly 
-         */
-        this.stopStamp = this.createStepStamp(0,0,0);
-        
-        /**
-         * Event handlers for scheduling events.    
-         * @type {ScheduleEventHandler} 
-         * // Create web audio context
-         * var audioCtx = new AudioContext();
-         * 
-         * // Create a pattern scheduler instance
-         * 
-         * @example &lt;caption>Handling onQueue events&lt;/caption>
-         * // Create web audio context
-         * var audioCtx = new AudioContext();
-         * 
-         * // Create a pattern scheduler instance
-         * var scheduler = new Scheduler(audioCtx, {onQueue: playNote}); 
-         *
-         * // Start playback 
-         * sheduler.start();
-         *
-         * function playNote(note) {
-         *
-         *     var oscillator = audioCtx.createOscillator();
-         *     oscillator.connect(audioCtx.destination);
-         *
-         *     // Queue osillator to start playback on step's playback time
-         *     oscillator.start(note.time.swing);
-         *
-         *     oscillator.frequency.value = 800;
-         *
-         *     // Queue oscillator to stop playback 50ms after step's playback time
-         *     oscillator.stop(note.time.swing + 0.05); 
-         * }
-         * @example &lt;caption>Handling onAnim events&lt;/caption>
-         * // Set the MCAD library debug level to 1 to see the step animation logs
-         * MCAD_LIBRARY = 1;
-         * 
-         * // Create web audio context
-         * var audioCtx = new AudioContext();
-         * 
-         * // Create a pattern scheduler instance
-         * var scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); 
-         *
-         * // Start playback 
-         * sheduler.start();
-         * 
-         * function animateNote(currentStamp, lastStamp) {
-         *
-         *     console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);
-         *     console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);
-         * }
-         * @example &lt;caption>Handling onTween events&lt;/caption>
-         * // Set the MCAD library debug level to 1 to see the step animation logs
-         * MCAD_LIBRARY = 1;
-         * 
-         * // Create web audio context
-         * var audioCtx = new AudioContext();
-         * 
-         * // Create a pattern scheduler instance
-         * var scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); 
-         *
-         * function tweenNote(tween) {
-         *
-         *     // Only update the tween position if the sequence is playing back
-         *     if(scheduler.isPlaying) {
-         *         console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");
-         *     }
-         * }
-         */
         this.event = {onQueue: options.onQueue, onAnim: options.onAnim, onTween: options.onTween};
     }
     
@@ -718,7 +720,7 @@ Scheduler.prototype.createTimeStamp = function(straight, swing) {
 <br class="clear">
 
 <footer>
-    Documentation generated at Wed Nov 02 2016 00:15:33 GMT+0000 (GMT Standard Time)
+    Documentation generated at Wed Nov 02 2016 00:19:14 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
