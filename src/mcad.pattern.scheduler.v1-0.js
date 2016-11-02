@@ -210,6 +210,9 @@ function Scheduler(context, options) {
 	 * 
 	 * // Create a pattern scheduler instance
 	 * var scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); 
+	 * 
+	 * // Start playback 
+	 * scheduler.start();
 	 *
 	 * function tweenNote(tween) {
 	 *
@@ -484,13 +487,30 @@ Scheduler.prototype._stepsPerPattern = function() {
 };
 
 /** 
-  * Starts playback of sequence.
-  * @param {StepStamp} [startStamp] - the step position stamp to resume playback (otherwise, will be beginning of pattern or resumeStamp).
-  * @example <caption>Start the sequence playback from the beginning</caption>
-  * someScheduler.start();
-  * @example <caption>Start the sequence playback from supplied step position stamp</caption>
-  * someScheduler.start(someStepStamp);
-  */
+ * Starts playback of sequence.
+ * @param {StepStamp} [startStamp] - the step position stamp to resume playback (otherwise, will be beginning of pattern or resumeStamp).
+ * @example <caption>Start the sequence playback from the beginning</caption>
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+ * // Start playback
+ * someScheduler.start();
+ * @example <caption>Start the sequence playback from supplied step position stamp</caption>
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+ * // Create a step position stamp 8 bars from the start
+ * var startFromStamp = scheduler.createStepStamp(8,0,0); 
+ * 
+ * // Start playback at the specified step position stamp
+ * someScheduler.start(startFromStamp);
+ */
 Scheduler.prototype.start = function(startStamp) { 
 
     //-------------------------------------------------------------------------------------------------------------------------------------
@@ -521,11 +541,17 @@ Scheduler.prototype.start = function(startStamp) {
 };
 
 /** 
-  * Stops playback of sequence.
-  * @example
-  * // Stop sequence playback
-  * someScheduler.stop();
-  */
+ * Stops playback of sequence.
+ * @example
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+ * // Stop sequence playback
+ * someScheduler.stop();
+ */
 Scheduler.prototype.stop = function() {
 
     //-------------------------------------------------------------------------------------------------------------------------------------
@@ -545,24 +571,39 @@ Scheduler.prototype.stop = function() {
 };
 
 /** 
-  * Calculates the length (in seconds) of a straight step.
-  * @returns {number} The step duration (in seconds).
-  * @example 
-  * // Log the duration (in seconds) of a straight step on the pattern
-  * console.log(someScheduler.getStepLength());
-  */
+ * Calculates the length (in seconds) of a straight step.
+ * @returns {number} The step duration (in seconds).
+ * @example 
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+ * // Log the duration (in seconds) of a straight step on the pattern
+ * console.log(scheduler.getStepLength());
+ */
 Scheduler.prototype.getStepLength = function() { 
 
     return (60 / this.tempo) * (1 / this.stepsPerBeat);
 };
 
 /** 
-  * Clones a step position stamp
-  * @param {StepStamp} stamp - the step position stamp to be cloned.
-  * @returns {StepStamp}       The cloned copy of the supplied step position stamp.
-  * @example 
-  * var myStepStamp = someScheduler.cloneStepStamp(someStepStamp);
-  */
+ * Clones a step position stamp
+ * @param {StepStamp} stamp - the step position stamp to be cloned.
+ * @returns {StepStamp}       The cloned copy of the supplied step position stamp.
+ * @example 
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+ * // Create a step position stamp 8 bars from the start
+ * var stepStamp = scheduler.createStepStamp(8,0,0); 
+ * 
+ * var myStepStamp = someScheduler.cloneStepStamp(stepStamp);
+ */
 Scheduler.prototype.cloneStepStamp = function(stamp) {
 
     var result = {bar: stamp.bar, beat: stamp.beat, step: stamp.step, patternPos: stamp.patternPos, guid: stamp.guid};
@@ -571,15 +612,21 @@ Scheduler.prototype.cloneStepStamp = function(stamp) {
 };
 
 /** 
-  * Creates a step position stamp from bar, beat and step positions.
-  * @param {number} bar  - the bar position of this stamp.
-  * @param {number} beat - the beat position of this stamp.
-  * @param {number} step - the step position of this stamp.
-  * @returns {StepStamp}   The newly created step position stamp.
-  * @example
-  * // Create a step position stamp at 3rd bar, 2nd beat, 4th step
-  * var myStepStamp = someScheduler.createStepStamp(2, 1, 3);
-  */
+ * Creates a step position stamp from bar, beat and step positions.
+ * @param {number} bar  - the bar position of this stamp.
+ * @param {number} beat - the beat position of this stamp.
+ * @param {number} step - the step position of this stamp.
+ * @returns {StepStamp}   The newly created step position stamp.
+ * @example
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+ * // Create a step position stamp at 3rd bar, 2nd beat, 4th step
+ * var myStepStamp = scheduler.createStepStamp(2, 1, 3);
+ */
 Scheduler.prototype.createStepStamp = function(bar, beat, step) {
 
     var result = {bar: bar, beat: beat, step: step};
@@ -594,11 +641,17 @@ Scheduler.prototype.createStepStamp = function(bar, beat, step) {
   * @param {StepStamp} stamp - the step position stamp to wrap and clamp.
   * @returns {StepStamp}       The clamped step position stamp.
   * @example
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
   * // Assuming an 8 step pattern:
   * // bar: 2, beat: 1, step: 10 // Invalid! Wrap the stamp round to a valid range
   * // Becomes: 
   * // bar: 3, beat: 0, step: 2
-  * someScheduler.clampTimeStamp(myStepStamp);
+  * scheduler.clampTimeStamp(myStepStamp);
   */
 Scheduler.prototype.clampStepStamp = function(stamp) {
 
@@ -629,9 +682,21 @@ Scheduler.prototype.clampStepStamp = function(stamp) {
   * @param {StepStamp} stamp - the step position stamp to offset.
   * @param {StepStamp}       - the number of steps forwards or backwards to offset.
   * @example <caption>Offset a step position stamp by 12 steps backwards</caption>
-  * someScheduler.offsetStepStamp(myStepStamp, -12);
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+  * scheduler.offsetStepStamp(myStepStamp, -12);
   * @example <caption>Offset a step position stamp by 3 steps forwards</caption>
-  * someScheduler.offsetStepStamp(myStepStamp, 3);
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
+  * scheduler.offsetStepStamp(myStepStamp, 3);
   */
 Scheduler.prototype.offsetStepStamp = function(stamp, steps) {
 
@@ -660,8 +725,14 @@ Scheduler.prototype.cloneTimeStamp = function(stamp) {
   * @param {number} swung     - the swung step time of this stamp.
   * @returns {TimeStamp}        The newly created time position stamp.
   * @example 
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120});
+ * 
   * // Create a time position stamp with 0.5s and 0.75s straight and swung timing values
-  * var myTimeStamp = someScheduler.createTimeStamp(0.5, 0.75);
+  * var myTimeStamp = scheduler.createTimeStamp(0.5, 0.75);
   */
 Scheduler.prototype.createTimeStamp = function(straight, swing) {
 

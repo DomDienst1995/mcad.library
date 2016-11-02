@@ -52,15 +52,15 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // List to hold all of our audio buffers
- * var samples = {};
+ * var sampleBuffers = {};
  * 
  * // Flag to determine whether or not the samples have finished loading
  * var samplesLoaded = false;
  *  
  * // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keys
- * bufferLoader.loadBufferList(samples, {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"}, function() {
+ * bufferLoader.loadBufferList(sampleBuffers, {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"}, function() {
  *     
- *     console.log("Finished loading samples!");
+ *     console.log("Finished loading sampleBuffers!");
  *     samplesLoaded = true;
  * });
  *
@@ -72,7 +72,7 @@ function BufferLoader(context) {
  * 
  *         // Play back the kick sample
  *         var source = audioCtx.createBufferSource();
- *         source.buffer = samples["kick"]; // Or source.buffer = samples.kick;
+ *         source.buffer = sampleBuffers["kick"]; // Or source.buffer = sampleBuffers.kick;
  *         source.connect(audioCtx.destination);
  *         source.start();  
  * 
@@ -88,13 +88,13 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // List to hold all of our audio buffers
- * var samples = {};
+ * var sampleBuffers = {};
  * 
  * // Flag to determine whether or not the samples have finished loading
  * var samplesLoaded = false;
  *  
  * // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keys
- * bufferLoader.loadBufferList(samples, {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"}, function() {
+ * bufferLoader.loadBufferList(sampleBuffers, {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"}, function() {
  *     
  *     console.log("Finished loading samples!");
  *     samplesLoaded = true;
@@ -114,7 +114,7 @@ function BufferLoader(context) {
  * 
  *         // Play back the kick sample
  *         var source = audioCtx.createBufferSource();
- *         source.buffer = samples["kick"]; // Or source.buffer = samples.kick;
+ *         source.buffer = sampleBuffers["kick"]; // Or source.buffer = sampleBuffers.kick;
  *         source.connect(audioCtx.destination);
  *         source.start();  
  * 
@@ -130,7 +130,7 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // List to hold all of our audio buffers
- * var samples = {};
+ * var sampleBuffers = {};
  * 
  * // List of samples (and their associated key values) to load
  * toLoad = {"kick": "samples/909kick.wav", "hat": "samples/909hat.wav", "snare": "samples/909snare.wav"};
@@ -139,7 +139,7 @@ function BufferLoader(context) {
  * var samplesLoaded = false;
  *  
  * // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keys
- * bufferLoader.loadBufferList(samples, toLoad, function() {
+ * bufferLoader.loadBufferList(sampleBuffers, toLoad, function() {
  *     
  *     console.log("Finished loading samples!");
  *     samplesLoaded = true;
@@ -153,7 +153,7 @@ function BufferLoader(context) {
  * 
  *         // Play back the kick sample
  *         var source = audioCtx.createBufferSource();
- *         source.buffer = samples["kick"]; // Or source.buffer = samples.kick;
+ *         source.buffer = sampleBuffers["kick"]; // Or source.buffer = sampleBuffers.kick;
  *         source.connect(audioCtx.destination);
  *         source.start();  
  * 
@@ -170,7 +170,7 @@ function BufferLoader(context) {
  * var bufferLoader = new BufferLoader(audioCtx); 
  * 
  * // Array to hold all of our audio buffers
- * var samples = [];
+ * var sampleBuffers = [];
  * 
  * // Array of samples to load
  * var toLoad = ["samples/909kick.wav", "samples/909hat.wav", "samples/909snare.wav"];
@@ -179,7 +179,7 @@ function BufferLoader(context) {
  * var samplesLoaded = false;
  *  
  * // Load a kick, hat and snare sample into the list and associate them with the "kick", "hat" and "snare" keys
- * bufferLoader.loadBufferList(samples, toLoad, function() {
+ * bufferLoader.loadBufferList(sampleBuffers, toLoad, function() {
  *     
  *     console.log("Finished loading samples!");
  *     samplesLoaded = true;
@@ -193,7 +193,7 @@ function BufferLoader(context) {
  * 
  *         // Play back the kick sample
  *         var source = audioCtx.createBufferSource();
- *         source.buffer = samples[0]; 
+ *         source.buffer = sampleBuffers[0]; 
  *         source.connect(audioCtx.destination);
  *         source.start();  
  * 

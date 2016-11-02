@@ -780,7 +780,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line222">line 222</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line225">line 225</a>
     </li></ul></dd>
     
 
@@ -807,7 +807,7 @@
 
         <p class="code-caption">Handling onTween events</p>
     
-    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); function tweenNote(tween) {    // Only update the tween position if the sequence is playing back    if(scheduler.isPlaying) {        console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");    }}</code></pre>
+    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); // Start playback scheduler.start();function tweenNote(tween) {    // Only update the tween position if the sequence is playing back    if(scheduler.isPlaying) {        console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");    }}</code></pre>
 
 
 <hr>
@@ -955,7 +955,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line238">line 238</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line241">line 241</a>
     </li></ul></dd>
     
 
@@ -1266,7 +1266,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line229">line 229</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line232">line 232</a>
     </li></ul></dd>
     
 
@@ -1705,7 +1705,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line603">line 603</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line656">line 656</a>
     </li></ul></dd>
     
 
@@ -1754,7 +1754,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Assuming an 8 step pattern:// bar: 2, beat: 1, step: 10 // Invalid! Wrap the stamp round to a valid range// Becomes: // bar: 3, beat: 0, step: 2someScheduler.clampTimeStamp(myStepStamp);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Assuming an 8 step pattern:// bar: 2, beat: 1, step: 10 // Invalid! Wrap the stamp round to a valid range// Becomes: // bar: 3, beat: 0, step: 2scheduler.clampTimeStamp(myStepStamp);</code></pre>
 
 
 <hr>
@@ -1864,7 +1864,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line566">line 566</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line607">line 607</a>
     </li></ul></dd>
     
 
@@ -1913,7 +1913,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>var myStepStamp = someScheduler.cloneStepStamp(someStepStamp);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Create a step position stamp 8 bars from the startvar stepStamp = scheduler.createStepStamp(8,0,0); var myStepStamp = someScheduler.cloneStepStamp(stepStamp);</code></pre>
 
 
 <hr>
@@ -2023,7 +2023,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line650">line 650</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line715">line 715</a>
     </li></ul></dd>
     
 
@@ -2228,7 +2228,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line583">line 583</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line630">line 630</a>
     </li></ul></dd>
     
 
@@ -2277,7 +2277,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Create a step position stamp at 3rd bar, 2nd beat, 4th stepvar myStepStamp = someScheduler.createStepStamp(2, 1, 3);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Create a step position stamp at 3rd bar, 2nd beat, 4th stepvar myStepStamp = scheduler.createStepStamp(2, 1, 3);</code></pre>
 
 
 <hr>
@@ -2410,7 +2410,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line666">line 666</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line737">line 737</a>
     </li></ul></dd>
     
 
@@ -2459,7 +2459,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Create a time position stamp with 0.5s and 0.75s straight and swung timing valuesvar myTimeStamp = someScheduler.createTimeStamp(0.5, 0.75);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Create a time position stamp with 0.5s and 0.75s straight and swung timing valuesvar myTimeStamp = scheduler.createTimeStamp(0.5, 0.75);</code></pre>
 
 
 <hr>
@@ -2520,7 +2520,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line554">line 554</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line586">line 586</a>
     </li></ul></dd>
     
 
@@ -2569,7 +2569,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Log the duration (in seconds) of a straight step on the patternconsole.log(someScheduler.getStepLength());</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Log the duration (in seconds) of a straight step on the patternconsole.log(scheduler.getStepLength());</code></pre>
 
 
 <hr>
@@ -2702,7 +2702,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line636">line 636</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line701">line 701</a>
     </li></ul></dd>
     
 
@@ -2731,11 +2731,11 @@
     
         <p class="code-caption">Offset a step position stamp by 12 steps backwards</p>
     
-    <pre class="prettyprint"><code>someScheduler.offsetStepStamp(myStepStamp, -12);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});scheduler.offsetStepStamp(myStepStamp, -12);</code></pre>
 
         <p class="code-caption">Offset a step position stamp by 3 steps forwards</p>
     
-    <pre class="prettyprint"><code>someScheduler.offsetStepStamp(myStepStamp, 3);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});scheduler.offsetStepStamp(myStepStamp, 3);</code></pre>
 
 
 <hr>
@@ -2857,7 +2857,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line494">line 494</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line514">line 514</a>
     </li></ul></dd>
     
 
@@ -2886,11 +2886,11 @@
     
         <p class="code-caption">Start the sequence playback from the beginning</p>
     
-    <pre class="prettyprint"><code>someScheduler.start();</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Start playbacksomeScheduler.start();</code></pre>
 
         <p class="code-caption">Start the sequence playback from supplied step position stamp</p>
     
-    <pre class="prettyprint"><code>someScheduler.start(someStepStamp);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Create a step position stamp 8 bars from the startvar startFromStamp = scheduler.createStepStamp(8,0,0); // Start playback at the specified step position stampsomeScheduler.start(startFromStamp);</code></pre>
 
 
 <hr>
@@ -2951,7 +2951,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line529">line 529</a>
+        <a href="mcad.pattern.scheduler.v1-0.js.html">mcad.pattern.scheduler.v1-0.js</a>, <a href="mcad.pattern.scheduler.v1-0.js.html#line555">line 555</a>
     </li></ul></dd>
     
 
@@ -2978,7 +2978,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>// Stop sequence playbacksomeScheduler.stop();</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {tempo: 120});// Stop sequence playbacksomeScheduler.stop();</code></pre>
 
 
 <hr>
@@ -3001,7 +3001,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Wed Nov 02 2016 00:19:14 GMT+0000 (GMT Standard Time)
+    Documentation generated at Wed Nov 02 2016 20:59:51 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
