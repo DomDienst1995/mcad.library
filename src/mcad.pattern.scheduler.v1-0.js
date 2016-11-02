@@ -161,7 +161,7 @@ function Scheduler(context, options) {
      */
     this.lookAheadTime = 0.01;
     
-    if(options !== 'undefined') {
+    if(typeof options !== 'undefined') {
         
         if(options.lookAheadTime) this.lookAheadTime = options.lookAheadTime;
         if(options.scheduleAheadTime) this.scheduleAheadTime = options.scheduleAheadTime;
