@@ -146,82 +146,6 @@ function Scheduler(context, options) {
     this.resumeStamp = this.createStepStamp(0,0,0);
     
     /** 
-     * Step position that playback was stopped on (set by  {@linkcode stop()} method). 
-     * @type {StepStamp}
-     * @readonly 
-     */
-    this.stopStamp = this.createStepStamp(0,0,0);
-    
-    /**
-     * Event handlers for scheduling events.    
-     * @type {ScheduleEventHandler} 
-     * // Create web audio context
-     * var audioCtx = new AudioContext();
-     * 
-     * // Create a pattern scheduler instance
-     * 
-     * @example <caption>Handling onQueue events</caption>
-	 * // Create web audio context
-	 * var audioCtx = new AudioContext();
-	 * 
-	 * // Create a pattern scheduler instance
-     * var scheduler = new Scheduler(audioCtx, {onQueue: playNote}); 
-     *
-	 * // Start playback 
-	 * sheduler.start();
-	 *
-     * function playNote(note) {
-     *
-     *     var oscillator = audioCtx.createOscillator();
-     *     oscillator.connect(audioCtx.destination);
-     *
-     *     // Queue osillator to start playback on step's playback time
-     *     oscillator.start(note.time.swing);
-     *
-     *     oscillator.frequency.value = 800;
-     *
-     *     // Queue oscillator to stop playback 50ms after step's playback time
-     *     oscillator.stop(note.time.swing + 0.05); 
-     * }
-     * @example <caption>Handling onAnim events</caption>
-	 * // Set the MCAD library debug level to 1 to see the step animation logs
-	 * MCAD_LIBRARY = 1;
-	 * 
-     * // Create web audio context
-	 * var audioCtx = new AudioContext();
-	 * 
-	 * // Create a pattern scheduler instance
-     * var scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); 
-     *
-	 * // Start playback 
-	 * sheduler.start();
-	 * 
-     * function animateNote(currentStamp, lastStamp) {
-     *
-     *     console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);
-     *     console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);
-     * }
-     * @example <caption>Handling onTween events</caption>
-     * // Set the MCAD library debug level to 1 to see the step animation logs
-	 * MCAD_LIBRARY = 1;
-	 * 
-     * // Create web audio context
-	 * var audioCtx = new AudioContext();
-	 * 
-	 * // Create a pattern scheduler instance
-     * var scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); 
-     *
-     * function tweenNote(tween) {
-     *
-     *     // Only update the tween position if the sequence is playing back
-     *     if(scheduler.isPlaying) {
-     *         console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");
-     *     }
-     * }
-     */
-    this.event = {onQueue: options.onQueue, onAnim: options.onAnim, onTween: options.onTween};
-    
-    /** 
      * Time window (in seconds) that scheduler will look ahead to queue steps.
      * @type {!number}
      * @default 0.02
@@ -236,16 +160,92 @@ function Scheduler(context, options) {
      * @default 0.01
      */
     this.lookAheadTime = 0.01;
-	
-	if(options !== 'undefined') {
-		
-		if(options.lookAheadTime) this.lookAheadTime = options.lookAheadTime;
-		if(options.scheduleAheadTime) this.scheduleAheadTime = options.scheduleAheadTime;
-		if(options.maxSwing) this.maxSwing = options.maxSwing;
-		if(options.beatsPerPattern) this.beatsPerPattern = options.beatsPerPattern;
-		if(options.stepsPerBeat) this.stepsPerBeat = options.stepsPerBeat;
-		if(options.tempo) this.tempo = options.tempo;
-	}
+    
+    if(options !== 'undefined') {
+        
+        if(options.lookAheadTime) this.lookAheadTime = options.lookAheadTime;
+        if(options.scheduleAheadTime) this.scheduleAheadTime = options.scheduleAheadTime;
+        if(options.maxSwing) this.maxSwing = options.maxSwing;
+        if(options.beatsPerPattern) this.beatsPerPattern = options.beatsPerPattern;
+        if(options.stepsPerBeat) this.stepsPerBeat = options.stepsPerBeat;
+        if(options.tempo) this.tempo = options.tempo;
+        
+        /** 
+         * Step position that playback was stopped on (set by  {@linkcode stop()} method). 
+         * @type {StepStamp}
+         * @readonly 
+         */
+        this.stopStamp = this.createStepStamp(0,0,0);
+        
+        /**
+         * Event handlers for scheduling events.    
+         * @type {ScheduleEventHandler} 
+         * // Create web audio context
+         * var audioCtx = new AudioContext();
+         * 
+         * // Create a pattern scheduler instance
+         * 
+         * @example <caption>Handling onQueue events</caption>
+         * // Create web audio context
+         * var audioCtx = new AudioContext();
+         * 
+         * // Create a pattern scheduler instance
+         * var scheduler = new Scheduler(audioCtx, {onQueue: playNote}); 
+         *
+         * // Start playback 
+         * sheduler.start();
+         *
+         * function playNote(note) {
+         *
+         *     var oscillator = audioCtx.createOscillator();
+         *     oscillator.connect(audioCtx.destination);
+         *
+         *     // Queue osillator to start playback on step's playback time
+         *     oscillator.start(note.time.swing);
+         *
+         *     oscillator.frequency.value = 800;
+         *
+         *     // Queue oscillator to stop playback 50ms after step's playback time
+         *     oscillator.stop(note.time.swing + 0.05); 
+         * }
+         * @example <caption>Handling onAnim events</caption>
+         * // Set the MCAD library debug level to 1 to see the step animation logs
+         * MCAD_LIBRARY = 1;
+         * 
+         * // Create web audio context
+         * var audioCtx = new AudioContext();
+         * 
+         * // Create a pattern scheduler instance
+         * var scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); 
+         *
+         * // Start playback 
+         * sheduler.start();
+         * 
+         * function animateNote(currentStamp, lastStamp) {
+         *
+         *     console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);
+         *     console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);
+         * }
+         * @example <caption>Handling onTween events</caption>
+         * // Set the MCAD library debug level to 1 to see the step animation logs
+         * MCAD_LIBRARY = 1;
+         * 
+         * // Create web audio context
+         * var audioCtx = new AudioContext();
+         * 
+         * // Create a pattern scheduler instance
+         * var scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); 
+         *
+         * function tweenNote(tween) {
+         *
+         *     // Only update the tween position if the sequence is playing back
+         *     if(scheduler.isPlaying) {
+         *         console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");
+         *     }
+         * }
+         */
+        this.event = {onQueue: options.onQueue, onAnim: options.onAnim, onTween: options.onTween};
+    }
     
     // Web Audio context
     this._context = context;
