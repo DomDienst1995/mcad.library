@@ -49,7 +49,7 @@
  * @param {number} [options.tempo=60]               - playback tempo.
  * @param {number} [options.stepsPerBeat=4]         - number of steps in a beat.
  * @param {number} [options.beatsPerPattern=4]      - number of beats in a bar/pattern.
- * @param {number} [options.maxSwing=0.5]           - maximum swing time of step length (in seconds).
+ * @param {number} [options.maxSwing=0.5]           - maximum swing time of step length.
  * @param {number} [options.scheduleAheadTime=0.02] - time (in seconds) the sceduler will look ahead to queue up notes for playback.
  * @param {number} [options.lookAheadTime=0.01]     - time (in seconds) the sceduler will trigger another schedule event.
  * @param {number} [options.onQueue=null]           - event handler for queueing up steps for playback.
@@ -168,7 +168,7 @@ function Scheduler(context, options) {
 	 * var scheduler = new Scheduler(audioCtx, {onQueue: playNote}); 
 	 *
 	 * // Start playback 
-	 * sheduler.start();
+	 * scheduler.start();
 	 *
 	 * function playNote(note) {
 	 *
@@ -194,7 +194,7 @@ function Scheduler(context, options) {
 	 * var scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); 
 	 *
 	 * // Start playback 
-	 * sheduler.start();
+	 * scheduler.start();
 	 * 
 	 * function animateNote(currentStamp, lastStamp) {
 	 *
