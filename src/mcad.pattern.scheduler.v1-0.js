@@ -276,9 +276,6 @@ function Scheduler(context, options) {
     // Pattern step index of last step animated by animate function
     this._lastStepAnimated = {time: this.createTimeStamp(0,0), stamp: this.createStepStamp(0,0,-1)};    
     
-    // Animation runs continuously regardless of whether or not we are playing back so kickstart animation loop here
-    this._animate();
-    
     //-------------------------------------------------------------------------------------------------------------------------------------
     console.info("@@0@@Scheduler.Scheduler@@Tempo: " + this.tempo + ", Steps Per Beat: " + this.stepsPerBeat + ", Beats Per Pattern: " + this.beatsPerPattern + "");
     console.info("@@0@@Scheduler.Scheduler@@onQUeue: " + this.event.onQueue + ", onAmim: " + this.event.onAnim + ", onTween: " + this.event.onTween);
@@ -542,8 +539,9 @@ Scheduler.prototype.start = function(startStamp) {
     // The last step animated is set to the null step (position -1) to signify that the step animation has been restarted
     this._lastStepAnimated = {time: this.createTimeStamp(this._context.currentTime,this._context.currentTime), stamp: this.createStepStamp(0,0,-1)};
 
-    // Kickstart the scheduler timer loop
+    // Kickstart the scheduler timer loops
     this._schedule();
+    this._animate();
 };
 
 /** 
@@ -567,8 +565,12 @@ Scheduler.prototype.stop = function() {
     // Set the flag to signfy that playback has stopped
     this.isPlaying = false;
 
-    // Stop the scheduler
+    // Stop the scheduler timers
     clearTimeout(this._scheduleId);
+	cancelAnimationFrame(this._animId);
+	
+	// Reset tween value if not pausing
+	if(this.event.onTween && !this.resumePlayback) this.event.onTween(0.0);
     
     // Stop stamp is step position playback was stopped on, resume position is next step after stop position
     this.stopStamp = this.cloneStepStamp(this._lastStepAnimated.stamp);
