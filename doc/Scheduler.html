@@ -339,7 +339,7 @@
                 </td>
             
 
-            <td class="description last">maximum swing time of step length (in seconds).</td>
+            <td class="description last">maximum swing time of step length.</td>
         </tr>
 
     
@@ -799,11 +799,11 @@
     
         <p class="code-caption">Handling onQueue events</p>
     
-    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onQueue: playNote}); // Start playback sheduler.start();function playNote(note) {    var oscillator = audioCtx.createOscillator();    oscillator.connect(audioCtx.destination);    // Queue osillator to start playback on step's playback time    oscillator.start(note.time.swing);    oscillator.frequency.value = 800;    // Queue oscillator to stop playback 50ms after step's playback time    oscillator.stop(note.time.swing + 0.05); }</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onQueue: playNote}); // Start playback scheduler.start();function playNote(note) {    var oscillator = audioCtx.createOscillator();    oscillator.connect(audioCtx.destination);    // Queue osillator to start playback on step's playback time    oscillator.start(note.time.swing);    oscillator.frequency.value = 800;    // Queue oscillator to stop playback 50ms after step's playback time    oscillator.stop(note.time.swing + 0.05); }</code></pre>
 
         <p class="code-caption">Handling onAnim events</p>
     
-    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); // Start playback sheduler.start();function animateNote(currentStamp, lastStamp) {    console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);    console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);}</code></pre>
+    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); // Start playback scheduler.start();function animateNote(currentStamp, lastStamp) {    console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);    console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);}</code></pre>
 
         <p class="code-caption">Handling onTween events</p>
     
@@ -3001,7 +3001,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Wed Nov 02 2016 20:59:51 GMT+0000 (GMT Standard Time)
+    Documentation generated at Wed Nov 30 2016 17:47:46 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
