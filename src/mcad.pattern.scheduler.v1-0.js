@@ -260,6 +260,9 @@ function Scheduler(context, options) {
     
     // ID of animation timer event (so we can stop it at a later date)
     this._animId = null;
+	
+	// Position (between 0 and 1 inclusive) the current playback position is within the bar
+	this._tween = 0.0;
     
     // Current pattern step normalized queue time (so first note on playback is time=0)
     this._stepTime = 0.0;
@@ -431,11 +434,9 @@ If playback has stopped but resumePlayback is set to true, the pause position (s
 the start position (beginning of pattern) will be used.
 
 */
+
 Scheduler.prototype._tweenAnimate = function(currentTime) {
 
-    // Position (between 0 and 1 inclusive) the current playback position is within the bar
-    var tween = 0;
-    
     // Only calculate tween if this isn't the first step upon playback (-1 stepIndex causes miscalulation)
     if(this._lastStepAnimated.stamp.step >= 0 && this.isPlaying) {
     
@@ -457,18 +458,10 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
         var stepsPerPattern = this.getStepsPerPattern();                      // Number of steps in a pattern
         
         // 3. 
-        tween = stepPos / stepsPerPattern;                                  // Tween value of playback position in pattern (0 = beginning, 1 = end of pattern)
+        this._tween = stepPos / stepsPerPattern;                                  // Tween value of playback position in pattern (0 = beginning, 1 = end of pattern)
     }
-    // If playback has stopped but resumePlayback is set to true, use the pause position (step before the resume stamp) as the tween value
-    else if(this.resumePlayback){
-        pause = this.cloneStepStamp(this.resumeStamp);
-        this.offsetStepStamp(pause, -1);
-        tween = pause.patternPos / this.getStepsPerPattern();
-    }
-    // If playback has stopped and resumePlayback is set to false, use the start position (beginning of pattern) as the tween value
-    else tween = 0;
-    
-    if(this.event.onTween) this.event.onTween(tween);
+	
+    if(this.event.onTween) this.event.onTween(this._tween);
 };
 
 /** 
@@ -570,7 +563,10 @@ Scheduler.prototype.stop = function() {
 	cancelAnimationFrame(this._animId);
 	
 	// Reset tween value if not pausing
-	if(this.event.onTween && !this.resumePlayback) this.event.onTween(0.0);
+	if(this.event.onTween && !this.resumePlayback) {
+		this._tween = 0.0; 
+		this.event.onTween(this._tween);
+	}
     
     // Stop stamp is step position playback was stopped on, resume position is next step after stop position
     this.stopStamp = this.cloneStepStamp(this._lastStepAnimated.stamp);

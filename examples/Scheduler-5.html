@@ -374,12 +374,12 @@
 				if(ctx) {
 					ctx.clearRect(0, 0, canvasW, canvasH);
 					
-					if(scheduler.isPlaying || scheduler.resumePlayback) {
+					//if(scheduler.isPlaying || scheduler.resumePlayback) {
 						
 						// Render a verticle line 1 pixel wide at the current tween position within the canvas
 						ctx.fillStyle="rgb(101, 101, 101);";
 						ctx.fillRect(tween * canvasW, 0, 1,canvasH);
-					}
+					//}
 				}
 
 				// Modify the tween paragraph to display the current (rounded) tween value as a percentage
