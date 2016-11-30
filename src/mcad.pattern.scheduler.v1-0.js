@@ -66,13 +66,13 @@
  * var audioCtx = new AudioContext();
  * 
  * // Create a pattern scheduler instance
- * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerPattern: 2, onQueue: playNote}); 
+ * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerBeat: 2, onQueue: playNote}); 
  * @example <caption>5/8 time with 1/32nd steps at a tempo of 96pm with event handlers for playing and animating steps</caption>
  * // Create web audio context
  * var audioCtx = new AudioContext();
  * 
  * // Create a pattern scheduler instance
- * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerPattern: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); 
+ * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerBeat: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); 
  * @example <caption>Default values and no event handlers</caption>
  * // Create web audio context
  * var audioCtx = new AudioContext();
@@ -457,7 +457,7 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
         
         // 2. 
         var stepPos = this._lastStepAnimated.stamp.patternPos + t;          // Step position of playback in pattern (e.g. 7.5 = halfway through 8th step)
-        var stepsPerPattern = this._stepsPerPattern();                      // Number of steps in a pattern
+        var stepsPerPattern = this.getStepsPerPattern();                      // Number of steps in a pattern
         
         // 3. 
         tween = stepPos / stepsPerPattern;                                  // Tween value of playback position in pattern (0 = beginning, 1 = end of pattern)
@@ -466,7 +466,7 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
     else if(this.resumePlayback){
         pause = this.cloneStepStamp(this.resumeStamp);
         this.offsetStepStamp(pause, -1);
-        tween = pause.patternPos / this._stepsPerPattern();
+        tween = pause.patternPos / this.getStepsPerPattern();
     }
     // If playback has stopped and resumePlayback is set to false, use the start position (beginning of pattern) as the tween value
     else tween = 0;
@@ -474,14 +474,20 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
     if(this.event.onTween) this.event.onTween(tween);
 };
 
-/*
-stepsPerPattern Method
-----------------------
-
-Returns the number of steps in a pattern (bar).
-
-*/
-Scheduler.prototype._stepsPerPattern = function() {
+/** 
+ * Returns the number of steps per pattern.
+ * @returns {number} The number of steps per pattern.
+ * @example 
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create an 8/4 pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {tempo: 120, stepsPerBeat: 4, beatsPerPattern: 8});
+ * 
+ * // Log the number of steps per pattern (stepsPerBeat * beatsPerPattern)
+ * console.log(scheduler.getStepsPerPattern());
+ */
+Scheduler.prototype.getStepsPerPattern = function() {
     
     return (this.stepsPerBeat * this.beatsPerPattern);
 };
@@ -655,15 +661,15 @@ Scheduler.prototype.createStepStamp = function(bar, beat, step) {
   */
 Scheduler.prototype.clampStepStamp = function(stamp) {
 
-    var totalSteps = stamp.step + (stamp.bar * this._stepsPerPattern()) + (stamp.beat * this.stepsPerBeat);
+    var totalSteps = stamp.step + (stamp.bar * this.getStepsPerPattern()) + (stamp.beat * this.stepsPerBeat);
     
     // Negative total steps means this is a null step (pattern position is -1)
     if(totalSteps < 0) stamp = {step: -1, bar: 0, beat: 0, patternPos: 0, guid: -1};
     else {
     
-        stamp.bar = Math.floor(totalSteps / this._stepsPerPattern());
+        stamp.bar = Math.floor(totalSteps / this.getStepsPerPattern());
         
-        totalSteps -= stamp.bar * this._stepsPerPattern();
+        totalSteps -= stamp.bar * this.getStepsPerPattern();
         
         stamp.beat = Math.floor(totalSteps / this.stepsPerBeat);
         
@@ -673,7 +679,7 @@ Scheduler.prototype.clampStepStamp = function(stamp) {
         
         stamp.patternPos = (stamp.beat * this.stepsPerBeat) + stamp.step;
         
-        stamp.guid = (stamp.bar * this._stepsPerPattern())  + stamp.patternPos;
+        stamp.guid = (stamp.bar * this.getStepsPerPattern())  + stamp.patternPos;
     }
 };
 
