@@ -38,6 +38,42 @@
  * @property {function} [onQueue] - triggered when a step has been queued up for playback. Has two arguments: a {@linkcode timeStamp} and {@linkcode stepStamp} for the step to be queued.
  * @property {function} [onAnim]  - triggered when the playback position meets a queued step (used for animating steps). Has two arguments: a {@linkcode stepStamp} for the current step to animate and a {@linkcode stepStamp} for the previous step that was animated.
  * @property {function} [onTween] - triggered every render frame. Has one argument: the normalized playback position within the bar in the {@linkcode [0,1]} range.
+ * @example <caption>Logging event handler arguments</caption>
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ * 
+ * // Create a pattern scheduler instance
+ * var scheduler = new Scheduler(audioCtx, {onQueue: queueStep, onAnim: animateStep, onTween: tweenPattern});
+ *
+ * // onQueue event handler
+ * function queueStep(timeStamp, stepStamp) {
+ *     
+ *     console.log("timeStamp.straight: " + timeStamp.straight);
+ *     console.log("timeStamp.swing: " + timeStamp.swing);
+ * }
+ *
+ * // onAnim event handler
+ * function animateStep(currentStepStamp, previousStepStamp) {
+ *     
+ *     console.log("currentStepStamp.bar: " + currentStepStamp.bar);
+ *     console.log("currentStepStamp.beat: " + currentStepStamp.beat);
+ *     console.log("currentStepStamp.step: " + currentStepStamp.step);
+ *     console.log("currentStepStamp.patternPos: " + currentStepStamp.patternPos);
+ *     console.log("currentStepStamp.guid: " + currentStepStamp.guid);
+ *
+ *     console.log("previousStepStamp.bar: " + previousStepStamp.bar);
+ *     console.log("previousStepStamp.beat: " + previousStepStamp.beat);
+ *     console.log("previousStepStamp.step: " + previousStepStamp.step);
+ *     console.log("previousStepStamp.patternPos: " + previousStepStamp.patternPos);
+ *     console.log("previousStepStamp.guid: " + previousStepStamp.guid);
+ * }
+ * 
+ * // onTween event handler
+ * function tweenPattern(tween) {
+ *     console.log("tween: " + tween);
+ * }
+ *
+ * scheduler.start();
 */
 
 /**

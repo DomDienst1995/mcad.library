@@ -192,8 +192,7 @@
 
             
 
-            <td class="description last">triggered when a step has been queued up for playback. 
- Has two arguments: a <code>timeStamp</code> and <code>stepStamp</code> for the step to be queued.</td>
+            <td class="description last">triggered when a step has been queued up for playback. Has two arguments: a <code>timeStamp</code> and <code>stepStamp</code> for the step to be queued.</td>
         </tr>
 
     
@@ -307,6 +306,13 @@
 
 
 
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Logging event handler arguments</p>
+    
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onQueue: queueStep, onAnim: animateStep, onTween: tweenPattern});// onQueue event handlerfunction queueStep(timeStamp, stepStamp) {        console.log("timeStamp.straight: " + timeStamp.straight);    console.log("timeStamp.swing: " + timeStamp.swing);}// onAnim event handlerfunction animateStep(currentStepStamp, previousStepStamp) {        console.log("currentStepStamp.bar: " + currentStepStamp.bar);    console.log("currentStepStamp.beat: " + currentStepStamp.beat);    console.log("currentStepStamp.step: " + currentStepStamp.step);    console.log("currentStepStamp.patternPos: " + currentStepStamp.patternPos);    console.log("currentStepStamp.guid: " + currentStepStamp.guid);    console.log("previousStepStamp.bar: " + previousStepStamp.bar);    console.log("previousStepStamp.beat: " + previousStepStamp.beat);    console.log("previousStepStamp.step: " + previousStepStamp.step);    console.log("previousStepStamp.patternPos: " + previousStepStamp.patternPos);    console.log("previousStepStamp.guid: " + previousStepStamp.guid);}// onTween event handlerfunction tweenPattern(tween) {    console.log("tween: " + tween);}scheduler.start();</code></pre>
 
 
 <hr>
@@ -701,7 +707,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Tue Dec 06 2016 21:26:45 GMT+0000 (GMT Standard Time)
+    Documentation generated at Tue Dec 06 2016 21:37:33 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
