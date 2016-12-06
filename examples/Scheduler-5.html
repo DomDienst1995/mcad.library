@@ -355,14 +355,14 @@
 			}
 			
 			// Event handler for scheduler's onAnim events
-			function animateStep(currentStep, lastStep) {
+			function animateStep(currentStepStamp, lastStepStamp) {
 
 				// Modify the onAnim column in the event table to display this event's stamp information
-				$("#aBar").text(currentStep.bar);
-				$("#aBeat").text(currentStep.beat);
-				$("#aStep").text(currentStep.step);
-				$("#aPattern").text(currentStep.patternPos);
-				$("#aGUID").text(currentStep.guid);
+				$("#aBar").text(currentStepStamp.bar);
+				$("#aBeat").text(currentStepStamp.beat);
+				$("#aStep").text(currentStepStamp.step);
+				$("#aPattern").text(currentStepStamp.patternPos);
+				$("#aGUID").text(currentStepStamp.guid);
 				
 				// Set this step's animation time to now to initiate glow animation sequence
 				animSteps[currentStep.patternPos] = context.currentTime;

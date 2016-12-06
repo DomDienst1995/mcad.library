@@ -28,8 +28,8 @@
   * The time stamp of a step on the timeline.<br>
   * <i>Time stamps should only be created and modified with the appropriate time stamp methods (create, clone) and never created or copied directly.</i>
   * @typedef  {object} TimeStamp
-  * @property {number} straight - the absolute straight time position of a note.
-  * @property {number} swing    - the absolute swung time position of a note.
+  * @property {number} straight - the absolute straight time position of a step.
+  * @property {number} swing    - the absolute swung time position of a step.
 */
 
 /**
@@ -50,7 +50,7 @@
  * @param {number} [options.stepsPerBeat=4]         - number of steps in a beat.
  * @param {number} [options.beatsPerPattern=4]      - number of beats in a bar/pattern.
  * @param {number} [options.maxSwing=0.5]           - maximum swing time of step length.
- * @param {number} [options.scheduleAheadTime=0.02] - time (in seconds) the sceduler will look ahead to queue up notes for playback.
+ * @param {number} [options.scheduleAheadTime=0.02] - time (in seconds) the sceduler will look ahead to queue up steps for playback.
  * @param {number} [options.lookAheadTime=0.01]     - time (in seconds) the sceduler will trigger another schedule event.
  * @param {number} [options.onQueue=null]           - event handler for queueing up steps for playback.
  * @param {number} [options.onAnim=null]            - event handler for animating steps during playback.
@@ -66,13 +66,13 @@
  * var audioCtx = new AudioContext();
  * 
  * // Create a pattern scheduler instance
- * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerBeat: 2, onQueue: playNote}); 
+ * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerBeat: 2, onQueue: queueStep}); 
  * @example <caption>5/8 time with 1/32nd steps at a tempo of 96pm with event handlers for playing and animating steps</caption>
  * // Create web audio context
  * var audioCtx = new AudioContext();
  * 
  * // Create a pattern scheduler instance
- * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerBeat: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); 
+ * var scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerBeat: 8, tempo: 96, onQueue: queueStep, onAnim: animateStep}); 
  * @example <caption>Default values and no event handlers</caption>
  * // Create web audio context
  * var audioCtx = new AudioContext();
@@ -165,12 +165,12 @@ function Scheduler(context, options) {
 	 * var audioCtx = new AudioContext();
 	 * 
 	 * // Create a pattern scheduler instance
-	 * var scheduler = new Scheduler(audioCtx, {onQueue: playNote}); 
+	 * var scheduler = new Scheduler(audioCtx, {onQueue: queueStep}); 
 	 *
 	 * // Start playback 
 	 * scheduler.start();
 	 *
-	 * function playNote(timeStamp, stepStamp) {
+	 * function queueStep(timeStamp, stepStamp) {
 	 *
 	 *     var oscillator = audioCtx.createOscillator();
 	 *     oscillator.connect(audioCtx.destination);
@@ -191,12 +191,12 @@ function Scheduler(context, options) {
 	 * var audioCtx = new AudioContext();
 	 * 
 	 * // Create a pattern scheduler instance
-	 * var scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); 
+	 * var scheduler = new Scheduler(audioCtx, {onAnim: animateStep}); 
 	 *
 	 * // Start playback 
 	 * scheduler.start();
 	 * 
-	 * function animateNote(currentStepStamp, lastStepStamp) {
+	 * function animateStep(currentStepStamp, lastStepStamp) {
 	 *
 	 *     console.log("Bar: " + currentStepStamp.bar + " Beat: " + currentStepStamp.beat + " Step: " + currentStepStamp.step);
 	 *     console.log("patternPos: " + currentStepStamp.patternPos + " GUID: " + currentStepStamp.guid);
@@ -209,12 +209,12 @@ function Scheduler(context, options) {
 	 * var audioCtx = new AudioContext();
 	 * 
 	 * // Create a pattern scheduler instance
-	 * var scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); 
+	 * var scheduler = new Scheduler(audioCtx, {onTween: tweenPattern}); 
 	 * 
 	 * // Start playback 
 	 * scheduler.start();
 	 *
-	 * function tweenNote(tween) {
+	 * function tweenPattern(tween) {
 	 *
 	 *     // Only update the tween position if the sequence is playing back
 	 *     if(scheduler.isPlaying) {
@@ -264,7 +264,7 @@ function Scheduler(context, options) {
 	// Position (between 0 and 1 inclusive) the current playback position is within the bar
 	this._tween = 0.0;
     
-    // Current pattern step normalized queue time (so first note on playback is time=0)
+    // Current pattern step normalized queue time (so first step on playback is time=0)
     this._stepTime = 0.0;
     
     // Time the playback started
@@ -292,7 +292,7 @@ Schedule Method
 Responsible for looking into the future to see if any pattern steps fall within the schedule window (currentTime + sheduleAheadTime). If any are, queue them up to
 be played and push the time and rhythm index of each step onto the animation queue. The next shedule event is queued up in lookAheadTime milliseconds, which will be
 less than scheduleAheadTime. This allows for schedule events to overlap to accomodate jitter that can cause the schedule event to fire later than intended. If there
-was no overlap, a schedule event may miss notes due to being delayed by other processes (garbage collection, ajax requests, browser activity, etc.).
+was no overlap, a schedule event may miss steps due to being delayed by other processes (garbage collection, ajax requests, browser activity, etc.).
 */
 Scheduler.prototype._schedule = function() {
 
@@ -368,7 +368,7 @@ Animate Method
 --------------
 
 Responsible for animating the visual representation of the pattern steps in sync with the pattern playback. The reason we don't animate the steps in the scheduling function
-is because with long enough scheduleAheadTime windows and/or fast enough tempos, we may end up queueing up more than 1 note for playback when the pattern first starts. This 
+is because with long enough scheduleAheadTime windows and/or fast enough tempos, we may end up queueing up more than 1 step for playback when the pattern first starts. This 
 would cause the animation to jump forwards a few steps when playback is initiated. Instead, the requestAnimationFrame is a seperate timer event where the browser chooses the
 frequency of timing, usually synced to the moniter refresh. The browser can also put the requestAnimationFrame to sleep if the tab/browser isn't currently the focus to conserve
 CPU/GPU resources.
@@ -446,7 +446,7 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
         // 3. Divide this by the total number of steps in the pattern to get a tween value in the [0,1] range
         // 
         // Note: the time without swing is used rather than the swing time. This is because the swing time causes problems when calculating the 
-        // tween value as the start and end times of steps are irregular (due to the late starts of swung notes)
+        // tween value as the start and end times of steps are irregular (due to the late starts of swung steps)
         
         // 1. 
         var stepLength = this.getStepLength();                              // Length of step (in seconds)

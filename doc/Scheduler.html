@@ -378,7 +378,7 @@
                 </td>
             
 
-            <td class="description last">time (in seconds) the sceduler will look ahead to queue up notes for playback.</td>
+            <td class="description last">time (in seconds) the sceduler will look ahead to queue up steps for playback.</td>
         </tr>
 
     
@@ -615,11 +615,11 @@
 
         <p class="code-caption">2/4 time with 1/8th steps at a tempo of 60bpm with an event handler for playing steps</p>
     
-    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerBeat: 2, onQueue: playNote}); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {beatsPerPattern: 2, stepsPerBeat: 2, onQueue: queueStep}); </code></pre>
 
         <p class="code-caption">5/8 time with 1/32nd steps at a tempo of 96pm with event handlers for playing and animating steps</p>
     
-    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerBeat: 8, tempo: 96, onQueue: playNote, onAnim: animateStep}); </code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {beatsPerPattern: 5, stepsPerBeat: 8, tempo: 96, onQueue: queueStep, onAnim: animateStep}); </code></pre>
 
         <p class="code-caption">Default values and no event handlers</p>
     
@@ -799,15 +799,15 @@
     
         <p class="code-caption">Handling onQueue events</p>
     
-    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onQueue: playNote}); // Start playback scheduler.start();function playNote(timeStamp, stepStamp) {    var oscillator = audioCtx.createOscillator();    oscillator.connect(audioCtx.destination);    // Queue osillator to start playback on step's playback time    oscillator.start(timeStamp.swing);    oscillator.frequency.value = 800;    // Queue oscillator to stop playback 50ms after step's playback time    oscillator.stop(timeStamp.swing + 0.05); }</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onQueue: queueStep}); // Start playback scheduler.start();function queueStep(timeStamp, stepStamp) {    var oscillator = audioCtx.createOscillator();    oscillator.connect(audioCtx.destination);    // Queue osillator to start playback on step's playback time    oscillator.start(timeStamp.swing);    oscillator.frequency.value = 800;    // Queue oscillator to stop playback 50ms after step's playback time    oscillator.stop(timeStamp.swing + 0.05); }</code></pre>
 
         <p class="code-caption">Handling onAnim events</p>
     
-    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onAnim: animateNote}); // Start playback scheduler.start();function animateNote(currentStepStamp, lastStepStamp) {    console.log("Bar: " + currentStepStamp.bar + " Beat: " + currentStepStamp.beat + " Step: " + currentStepStamp.step);    console.log("patternPos: " + currentStepStamp.patternPos + " GUID: " + currentStepStamp.guid);}</code></pre>
+    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onAnim: animateStep}); // Start playback scheduler.start();function animateStep(currentStepStamp, lastStepStamp) {    console.log("Bar: " + currentStepStamp.bar + " Beat: " + currentStepStamp.beat + " Step: " + currentStepStamp.step);    console.log("patternPos: " + currentStepStamp.patternPos + " GUID: " + currentStepStamp.guid);}</code></pre>
 
         <p class="code-caption">Handling onTween events</p>
     
-    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onTween: tweenNote}); // Start playback scheduler.start();function tweenNote(tween) {    // Only update the tween position if the sequence is playing back    if(scheduler.isPlaying) {        console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");    }}</code></pre>
+    <pre class="prettyprint"><code>// Set the MCAD library debug level to 1 to see the step animation logsMCAD_LIBRARY = 1;// Create web audio contextvar audioCtx = new AudioContext();// Create a pattern scheduler instancevar scheduler = new Scheduler(audioCtx, {onTween: tweenPattern}); // Start playback scheduler.start();function tweenPattern(tween) {    // Only update the tween position if the sequence is playing back    if(scheduler.isPlaying) {        console.log("Tween Pos: " +  Math.trunc(tween * 100) + "%");    }}</code></pre>
 
 
 <hr>
@@ -3111,7 +3111,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Tue Dec 06 2016 17:09:06 GMT+0000 (GMT Standard Time)
+    Documentation generated at Tue Dec 06 2016 21:09:27 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
