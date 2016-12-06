@@ -325,33 +325,33 @@
 			}
 			
 			// Event handler for scheduler's onQueue events
-			function playStep(step) {
+			function playStep(timeStamp, stepStamp) {
 			
 				// Only queue this step if its entry in the active steps array is not false (inactivated by user)
-				if(activeSteps[step.stamp.patternPos]) {
+				if(activeSteps[stepStamp.patternPos]) {
 
 					// Create an oscillator node and connect it to the context's output
 					var oscillator = context.createOscillator();
 					oscillator.connect(context.destination);
 
 					// Queue osillator to start playback on step's playback time
-					oscillator.start(step.time.swing);
+					oscillator.start(timeStamp.swing);
 
 					// If the step number has a remainder when divided by 4 (modulus operator: %), play 400 hz
 					// Otherwise (on beat), play 800 hz
-					if(step.stamp.step % 4)oscillator.frequency.value = 400;
+					if(stepStamp.step % 4)oscillator.frequency.value = 400;
 					else oscillator.frequency.value = 800;
 
 					// Queue oscillator to stop playback 100ms after step's playback time
-					oscillator.stop(step.time.swing + stepDuration); 
+					oscillator.stop(timeStamp.swing + stepDuration); 
 				}
 				
 				// Modify the onQueue column in the event table to display this event's stamp information
-				$("#qBar").text(step.stamp.bar);
-				$("#qBeat").text(step.stamp.beat);
-				$("#qStep").text(step.stamp.step);
-				$("#qPattern").text(step.stamp.patternPos);
-				$("#qGUID").text(step.stamp.guid);
+				$("#qBar").text(stepStamp.bar);
+				$("#qBeat").text(stepStamp.beat);
+				$("#qStep").text(stepStamp.step);
+				$("#qPattern").text(stepStamp.patternPos);
+				$("#qGUID").text(stepStamp.guid);
 			}
 			
 			// Event handler for scheduler's onAnim events

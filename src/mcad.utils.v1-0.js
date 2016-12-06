@@ -158,6 +158,17 @@
 		return Math.exp(scale * t + minv);
 	},
 	
+	paramToParam: function(p, srcMin, srcMax, destMin, destMax) {
+		
+		// Debug 
+		MCAD_ASSERT(p >= srcMin && p <= srcMax, "p must be between srcMin and srcMax inclusive");
+		
+	},
+	
+	paramToLogParam: function(p, srcMin, srcMax, destMin, destMax) {
+		
+	},
+	
 	/**
 	* Converts a parameter value in the {@linkcode [min,max]} range to an unsigned normalized value in the {@linkcode [0,1]} range using a logarithmic scale.
 	* @function logToUnsignedNorm

@@ -170,18 +170,18 @@ function Scheduler(context, options) {
 	 * // Start playback 
 	 * scheduler.start();
 	 *
-	 * function playNote(note) {
+	 * function playNote(timeStamp, stepStamp) {
 	 *
 	 *     var oscillator = audioCtx.createOscillator();
 	 *     oscillator.connect(audioCtx.destination);
 	 *
 	 *     // Queue osillator to start playback on step's playback time
-	 *     oscillator.start(note.time.swing);
+	 *     oscillator.start(timeStamp.swing);
 	 *
 	 *     oscillator.frequency.value = 800;
 	 *
 	 *     // Queue oscillator to stop playback 50ms after step's playback time
-	 *     oscillator.stop(note.time.swing + 0.05); 
+	 *     oscillator.stop(timeStamp.swing + 0.05); 
 	 * }
 	 * @example <caption>Handling onAnim events</caption>
 	 * // Set the MCAD library debug level to 1 to see the step animation logs
@@ -196,10 +196,10 @@ function Scheduler(context, options) {
 	 * // Start playback 
 	 * scheduler.start();
 	 * 
-	 * function animateNote(currentStamp, lastStamp) {
+	 * function animateNote(currentStepStamp, lastStepStamp) {
 	 *
-	 *     console.log("Bar: " + currentStamp.bar + " Beat: " + currentStamp.beat + " Step: " + currentStamp.step);
-	 *     console.log("patternPos: " + currentStamp.patternPos + " GUID: " + currentStamp.guid);
+	 *     console.log("Bar: " + currentStepStamp.bar + " Beat: " + currentStepStamp.beat + " Step: " + currentStepStamp.step);
+	 *     console.log("patternPos: " + currentStepStamp.patternPos + " GUID: " + currentStepStamp.guid);
 	 * }
 	 * @example <caption>Handling onTween events</caption>
 	 * // Set the MCAD library debug level to 1 to see the step animation logs
@@ -326,7 +326,7 @@ Scheduler.prototype._schedule = function() {
         this._stepsInAnimationQueue.push({time: this.cloneTimeStamp(timeStamp), stamp: this.cloneStepStamp(this._currentStamp)});
         
         // Pass on the time and position stamps of this step to the user's event handler for queueing up the sound for playback
-        if(this.event.onQueue) this.event.onQueue({time: this.cloneTimeStamp(timeStamp), stamp: this.cloneStepStamp(this._currentStamp)});
+        if(this.event.onQueue) this.event.onQueue(this.cloneTimeStamp(timeStamp), this.cloneStepStamp(this._currentStamp));
         
         //-------------------------------------------------------------------------------------------------------------------------------------
         console.info("@@2@@Scheduler._schedule@@Step " + this._currentStamp.step + " queued for playback " + this._stepTime + " plus " + swing + " seconds from start time");
@@ -455,10 +455,10 @@ Scheduler.prototype._tweenAnimate = function(currentTime) {
         
         // 2. 
         var stepPos = this._lastStepAnimated.stamp.patternPos + t;          // Step position of playback in pattern (e.g. 7.5 = halfway through 8th step)
-        var stepsPerPattern = this.getStepsPerPattern();                      // Number of steps in a pattern
+        var stepsPerPattern = this.getStepsPerPattern();                    // Number of steps in a pattern
         
         // 3. 
-        this._tween = stepPos / stepsPerPattern;                                  // Tween value of playback position in pattern (0 = beginning, 1 = end of pattern)
+        this._tween = stepPos / stepsPerPattern;                            // Tween value of playback position in pattern (0 = beginning, 1 = end of pattern)
     }
 	
     if(this.event.onTween) this.event.onTween(this._tween);

@@ -115,40 +115,40 @@
 		<script>
 			
 			// Event handler for scheduler's onQueue events
-			function playStep(step) {
+			function playStep(timeStamp, stepStamp) {
 
 				// Create an oscillator node and connect it to the context's output
 				var oscillator = context.createOscillator();
 				oscillator.connect(context.destination);
 
 				// Queue osillator to start playback on step's playback time
-				oscillator.start(step.time.swing);
+				oscillator.start(timeStamp.swing);
 
 				// If the step number has a remainder when divided by 4 (modulus operator: %), play 400 hz
 				// Otherwise (on beat), play 800 hz
-				if(step.stamp.step % 4)oscillator.frequency.value = 400;
+				if(stepStamp.step % 4)oscillator.frequency.value = 400;
 				else oscillator.frequency.value = 800;
 
 				// Queue oscillator to stop playback 100ms after step's playback time
-				oscillator.stop(step.time.swing + 0.1); 
+				oscillator.stop(timeStamp.swing + 0.1); 
 				
 				// Modify the onQueue column in the event table to display this event's stamp information
-				$("#qBar").text(step.stamp.bar);
-				$("#qBeat").text(step.stamp.beat);
-				$("#qStep").text(step.stamp.step);
-				$("#qPattern").text(step.stamp.patternPos);
-				$("#qGUID").text(step.stamp.guid);
+				$("#qBar").text(stepStamp.bar);
+				$("#qBeat").text(stepStamp.beat);
+				$("#qStep").text(stepStamp.step);
+				$("#qPattern").text(stepStamp.patternPos);
+				$("#qGUID").text(stepStamp.guid);
 			}
 			
 			// Event handler for scheduler's onAnim events
-			function animateStep(currentStep, lastStep) {
+			function animateStep(currentStepStamp, lastStepStamp) {
 
 				// Modify the onAnim column in the event table to display this event's stamp information
-				$("#aBar").text(currentStep.bar);
-				$("#aBeat").text(currentStep.beat);
-				$("#aStep").text(currentStep.step);
-				$("#aPattern").text(currentStep.patternPos);
-				$("#aGUID").text(currentStep.guid);
+				$("#aBar").text(currentStepStamp.bar);
+				$("#aBeat").text(currentStepStamp.beat);
+				$("#aStep").text(currentStepStamp.step);
+				$("#aPattern").text(currentStepStamp.patternPos);
+				$("#aGUID").text(currentStepStamp.guid);
 			}
 			
 			// Event handler for scheduler's onTween events
