@@ -35,9 +35,9 @@
 /**
  * The event handler callback functions for events triggered by the scheduler.
  * @typedef  {object} ScheduleEventHandler
- * @property {function} [onQueue] - triggered when a step has been queued up for playback.
- * @property {function} [onAnim]  - triggered when the playback position meets a queued step (used for animating steps).
- * @property {function} [onTween] - triggered every render frame with the normalized playback position within the bar in the {@linkcode [0,1]} range.
+ * @property {function} [onQueue] - triggered when a step has been queued up for playback. Has two arguments: a {@linkcode timeStamp} and {@linkcode stepStamp} for the step to be queued.
+ * @property {function} [onAnim]  - triggered when the playback position meets a queued step (used for animating steps). Has two arguments: a {@linkcode stepStamp} for the current step to animate and a {@linkcode stepStamp} for the previous step that was animated.
+ * @property {function} [onTween] - triggered every render frame. Has one argument: the normalized playback position within the bar in the {@linkcode [0,1]} range.
 */
 
 /**
