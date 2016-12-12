@@ -9,9 +9,9 @@
  * <i>Position stamps should only be created and modified with the appropriate step stamp methods (create, clone, offset) and never directly.</i>
  * @typedef  {object} StepStamp
  * @property {number} bar         - the bar position of this step (the pattern is one bar on length).
- * @property {number} beat        - the beat position of this step.
- * @property {number} step        - the step position of this step (in the beat).
- * @property {number} patternPos  - the step position of this step (in the pattern).
+ * @property {number} beat        - the beat position of this step in the pattern.
+ * @property {number} step        - the step position of this step in the beat.
+ * @property {number} patternPos  - the step position of this step in the pattern.
  * @property {number} guid        - the unique absolute position of this step in playback.
  * @example <caption>A pattern of 4 beats of 1/16th notes</caption>
  * // Create web audio context
@@ -45,11 +45,20 @@
  * // Create a pattern scheduler instance
  * var scheduler = new Scheduler(audioCtx, {onQueue: queueStep, onAnim: animateStep, onTween: tweenPattern});
  *
+ * // Start playback 
+ * scheduler.start();
+ *
  * // onQueue event handler
  * function queueStep(timeStamp, stepStamp) {
  *     
  *     console.log("timeStamp.straight: " + timeStamp.straight);
  *     console.log("timeStamp.swing: " + timeStamp.swing);
+ * 
+ *     console.log("stepStamp.bar: " + stepStamp.bar);
+ *     console.log("stepStamp.beat: " + stepStamp.beat);
+ *     console.log("stepStamp.step: " + stepStamp.step);
+ *     console.log("stepStamp.patternPos: " + stepStamp.patternPos);
+ *     console.log("stepStamp.guid: " + stepStamp.guid);
  * }
  *
  * // onAnim event handler
@@ -72,8 +81,6 @@
  * function tweenPattern(tween) {
  *     console.log("tween: " + tween);
  * }
- *
- * scheduler.start();
 */
 
 /**
@@ -206,6 +213,7 @@ function Scheduler(context, options) {
 	 * // Start playback 
 	 * scheduler.start();
 	 *
+	 * // onQueue event handler
 	 * function queueStep(timeStamp, stepStamp) {
 	 *
 	 *     var oscillator = audioCtx.createOscillator();
@@ -232,6 +240,7 @@ function Scheduler(context, options) {
 	 * // Start playback 
 	 * scheduler.start();
 	 * 
+	 * // onAnim event handler
 	 * function animateStep(currentStepStamp, lastStepStamp) {
 	 *
 	 *     console.log("Bar: " + currentStepStamp.bar + " Beat: " + currentStepStamp.beat + " Step: " + currentStepStamp.step);
@@ -250,6 +259,7 @@ function Scheduler(context, options) {
 	 * // Start playback 
 	 * scheduler.start();
 	 *
+	 * // onTween event handler
 	 * function tweenPattern(tween) {
 	 *
 	 *     // Only update the tween position if the sequence is playing back

@@ -158,15 +158,63 @@
 		return Math.exp(scale * t + minv);
 	},
 	
+	/**
+	* Converts a parameter value in the {@linkcode srcMin} to {@linkcode srcMax} range to a parameter value in the {@linkcode destMin} to {@linkcode destMax} range.
+	* @function paramToParam
+	* @memberof mcad
+	* @param {number} p       - the parameter value in the {@linkcode [srcMin,srcMax]} range.
+	* @param {number} srcMin  - the source minimum parameter value.
+	* @param {number} srcMax  - the source maximum parameter value.
+	* @param {number} destMin - the destination minimum parameter value.
+	* @param {number} destMax - the destination maximum parameter value.
+	* @returns {number}         The parameter value in the {@linkcode destMin} to {@linkcode destMax} range.
+	* @example
+	* var sliderPos = 50;
+	* var sliderMin = 0;
+	* var sliderMax = 100;
+	* 
+	* var reverbMin = 0;
+	* var reverbMax = 5000;
+	*
+	* // reverbTime is assigned the value 2500
+	* var reverbTime = mcad.paramToParam(sliderPos, sliderMin, sliderMax, reverbMin, reverbMax);
+	*/
+	
 	paramToParam: function(p, srcMin, srcMax, destMin, destMax) {
 		
-		// Debug 
-		MCAD_ASSERT(p >= srcMin && p <= srcMax, "p must be between srcMin and srcMax inclusive");
+		var t = paramToUnsignedNorm(p, srcMin, srcMax);
+		
+		return unsignedNormToParam(t, destMin, destMax);
 		
 	},
 	
+	/**
+	* Converts a parameter value in the {@linkcode srcMin} to {@linkcode srcMax} range to a parameter value in the {@linkcode destMin} to {@linkcode destMax} range using a logarithmic scale.
+	* @function paramToLogParam
+	* @memberof mcad
+	* @param {number} p       - the parameter value in the {@linkcode [srcMin,srcMax]} range.
+	* @param {number} srcMin  - the source minimum parameter value.
+	* @param {number} srcMax  - the source maximum parameter value.
+	* @param {number} destMin - the destination minimum parameter value.
+	* @param {number} destMax - the destination maximum parameter value.
+	* @returns {number}         The parameter value in the {@linkcode destMin} to {@linkcode destMax} range using a logarithmic scale.
+	* @example
+	* var sliderPos = 50;
+	* var sliderMin = 0;
+	* var sliderMax = 100;
+	* 
+	* var freqMin = 20;
+	* var freqMax = 20000;
+	 *
+	* // Maps the p value of the linear sider value p to the 20 to 20000 range using a logarithmic scale
+	* var freq = mcad.paramToParam(sliderPos, sliderMin, sliderMax, freqMin, freqMax);
+	*/
+	
 	paramToLogParam: function(p, srcMin, srcMax, destMin, destMax) {
 		
+		var t = paramToUnsignedNorm(p, srcMin, srcMax);
+		
+		return unsignedNormToLog(t, destMin, destMax);
 	},
 	
 	/**
@@ -182,10 +230,6 @@
 	*
 	* // t is assigned the value 1.0
 	* var t = mcad.logToUnsignedNorm(freq, 20, 20000);
-	* 
-	* var sliderMin = 0;
-	* var sliderMax = 100;
-	* var sliderPos = mcad.signedNormToParam(t, sliderMin, sliderMax);
 	*/
 	 
 	logToUnsignedNorm: function (p, min, max) {
