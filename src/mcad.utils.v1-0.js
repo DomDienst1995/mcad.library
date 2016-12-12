@@ -182,9 +182,9 @@
 	
 	paramToParam: function(p, srcMin, srcMax, destMin, destMax) {
 		
-		var t = paramToUnsignedNorm(p, srcMin, srcMax);
+		var t = this.paramToUnsignedNorm(p, srcMin, srcMax);
 		
-		return unsignedNormToParam(t, destMin, destMax);
+		return this.unsignedNormToParam(t, destMin, destMax);
 		
 	},
 	
@@ -205,16 +205,16 @@
 	* 
 	* var freqMin = 20;
 	* var freqMax = 20000;
-	 *
+	*
 	* // Maps the p value of the linear sider value p to the 20 to 20000 range using a logarithmic scale
 	* var freq = mcad.paramToParam(sliderPos, sliderMin, sliderMax, freqMin, freqMax);
 	*/
 	
 	paramToLogParam: function(p, srcMin, srcMax, destMin, destMax) {
 		
-		var t = paramToUnsignedNorm(p, srcMin, srcMax);
+		var t = this.paramToUnsignedNorm(p, srcMin, srcMax);
 		
-		return unsignedNormToLog(t, destMin, destMax);
+		return this.unsignedNormToLog(t, destMin, destMax);
 	},
 	
 	/**
