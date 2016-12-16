@@ -214,7 +214,7 @@
 		
 		var t = this.paramToUnsignedNorm(p, srcMin, srcMax);
 		
-		return this.unsignedNormToLogParamParam(t, destMin, destMax);
+		return this.unsignedNormToLogParam(t, destMin, destMax);
 	},
 	
 	/**
