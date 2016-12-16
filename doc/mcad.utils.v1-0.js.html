@@ -169,6 +169,31 @@
 	},
 	
 	/**
+	* Converts a parameter value in the {@linkcode [min,max]} range to an unsigned normalized value in the {@linkcode [0,1]} range using a logarithmic scale.
+	* @function logParamToUnsignedNorm
+	* @memberof mcad
+	* @param {number} p   - parameter value in the {@linkcode [min,max]} range.
+	* @param {number} min - the minimum parameter value.
+	* @param {number} max - the maximum parameter value.
+	* @returns {number}     The unsigned normalized value in the {@linkcode [0,1]} range using a logarithmic scale.
+	* @example
+	* var freq = 20000
+	*
+	* // t is assigned the value 1.0
+	* var t = mcad.logParamToUnsignedNorm(freq, 20, 20000);
+	*/
+	 
+	logParamToUnsignedNorm: function (p, min, max) {
+    
+		var minv = Math.log(min);
+		var maxv = Math.log(max);
+
+		var scale = (maxv-minv);
+
+		return (Math.log(p) - minv) / scale;
+	},
+	
+	/**
 	* Converts an unsigned normalized value in the {@linkcode [0,1]} range to a parameter value in the {@linkcode [min,max]} range using a logarithmic scale.
 	* @function unsignedNormToLogParam
 	* @memberof mcad
@@ -276,7 +301,7 @@
 	* var freqMax = 20000;
 	*
 	* // Maps the p value of the logarithmic 20 to 20000 range to the linear 0 to 100 range
-	* var freq = mcad.paramToParam(freqValue, sliderMin, sliderMax, freqMin, freqMax);
+	* var freq = mcad.paramToParam(freqValue, freqMin, freqMax, sliderMin, sliderMax);
 	*/
 	
 	logParamToParam: function(p, srcMin, srcMax, destMin, destMax) {
@@ -284,31 +309,6 @@
 		var t = this.logParamToUnsignedNorm(p, srcMin, srcMax);
 		
 		return this.unsignedNormToParam(t, destMin, destMax);
-	},
-	
-	/**
-	* Converts a parameter value in the {@linkcode [min,max]} range to an unsigned normalized value in the {@linkcode [0,1]} range using a logarithmic scale.
-	* @function logParamToUnsignedNorm
-	* @memberof mcad
-	* @param {number} p   - parameter value in the {@linkcode [min,max]} range.
-	* @param {number} min - the minimum parameter value.
-	* @param {number} max - the maximum parameter value.
-	* @returns {number}     The unsigned normalized value in the {@linkcode [0,1]} range using a logarithmic scale.
-	* @example
-	* var freq = 20000
-	*
-	* // t is assigned the value 1.0
-	* var t = mcad.logParamToUnsignedNorm(freq, 20, 20000);
-	*/
-	 
-	logParamToUnsignedNorm: function (p, min, max) {
-    
-		var minv = Math.log(min);
-		var maxv = Math.log(max);
-
-		var scale = (maxv-minv);
-
-		return (Math.log(p) - minv) / scale;
 	},
 	
 	/**
@@ -356,7 +356,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Dec 16 2016 16:48:57 GMT+0000 (GMT Standard Time)
+    Documentation generated at Fri Dec 16 2016 17:12:48 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>
