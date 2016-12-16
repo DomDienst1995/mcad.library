@@ -261,7 +261,7 @@
 	* var freqMax = 20000;
 	*
 	* // Maps the p value of the logarithmic 20 to 20000 range to the linear 0 to 100 range
-	* var freq = mcad.paramToParam(freqValue, freqMin, freqMax, sliderMin, sliderMax);
+	* var freq = mcad.logParamToParam(freqValue, freqMin, freqMax, sliderMin, sliderMax);
 	*/
 	
 	logParamToParam: function(p, srcMin, srcMax, destMin, destMax) {
