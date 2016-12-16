@@ -130,7 +130,7 @@
 	
 	/**
 	* Converts an unsigned normalized value in the {@linkcode [0,1]} range to a parameter value in the {@linkcode [min,max]} range using a logarithmic scale.
-	* @function unsignedNormToLog
+	* @function unsignedNormToLogParam
 	* @memberof mcad
 	* @param {number} t   - the unsigned normalized value in the {@linkcode [0,1]} range.
 	* @param {number} min - the minimum parameter value.
@@ -145,10 +145,10 @@
 	* var t = mcad.paramToUnsignedNorm(sliderPos, sliderMin, sliderMax);
 	* 
 	* // Maps the t value of the linear sider value p to the 20 to 20000 range using a logarithmic scale
-	* var freq = mcad.unsignedNormToLog(t, 20, 20000);
+	* var freq = mcad.unsignedNormToLogParam(t, 20, 20000);
 	*/
 	
-	unsignedNormToLog: function (t, min, max) { 
+	unsignedNormToLogParam: function (t, min, max) { 
 			 
 		var minv = Math.log(min);
 		var maxv = Math.log(max);
@@ -214,12 +214,41 @@
 		
 		var t = this.paramToUnsignedNorm(p, srcMin, srcMax);
 		
-		return this.unsignedNormToLog(t, destMin, destMax);
+		return this.unsignedNormToLogParamParam(t, destMin, destMax);
+	},
+	
+	/**
+	* Converts a parameter value in the logarithmic {@linkcode srcMin} to {@linkcode srcMax} range to a parameter value in the {@linkcode destMin} to {@linkcode destMax} range.
+	* @function logParamToParam
+	* @memberof mcad
+	* @param {number} p       - the parameter value in the logarithmic {@linkcode [srcMin,srcMax]} range.
+	* @param {number} srcMin  - the source minimum parameter value.
+	* @param {number} srcMax  - the source maximum parameter value.
+	* @param {number} destMin - the destination minimum parameter value.
+	* @param {number} destMax - the destination maximum parameter value.
+	* @returns {number}         The parameter value in the {@linkcode destMin} to {@linkcode destMax} range.
+	* @example
+	* var sliderMin = 0;
+	* var sliderMax = 100;
+	* 
+	* var freqValue = 1000;
+	* var freqMin = 20;
+	* var freqMax = 20000;
+	*
+	* // Maps the p value of the logarithmic 20 to 20000 range to the linear 0 to 100 range
+	* var freq = mcad.paramToParam(freqValue, sliderMin, sliderMax, freqMin, freqMax);
+	*/
+	
+	logParamToParam: function(p, srcMin, srcMax, destMin, destMax) {
+		
+		var t = this.logParamToUnsignedNorm(p, srcMin, srcMax);
+		
+		return this.unsignedNormToParam(t, destMin, destMax);
 	},
 	
 	/**
 	* Converts a parameter value in the {@linkcode [min,max]} range to an unsigned normalized value in the {@linkcode [0,1]} range using a logarithmic scale.
-	* @function logToUnsignedNorm
+	* @function logParamToUnsignedNorm
 	* @memberof mcad
 	* @param {number} p   - parameter value in the {@linkcode [min,max]} range.
 	* @param {number} min - the minimum parameter value.
@@ -229,10 +258,10 @@
 	* var freq = 20000
 	*
 	* // t is assigned the value 1.0
-	* var t = mcad.logToUnsignedNorm(freq, 20, 20000);
+	* var t = mcad.logParamToUnsignedNorm(freq, 20, 20000);
 	*/
 	 
-	logToUnsignedNorm: function (p, min, max) {
+	logParamToUnsignedNorm: function (p, min, max) {
     
 		var minv = Math.log(min);
 		var maxv = Math.log(max);
