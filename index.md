@@ -6,7 +6,7 @@ The MCAD Web Audio Library provides a number of classes for performing common au
   - [MCAD Buffer Loader](doc/BufferLoader.html)
   - [MCAD Utility Functions](doc/mcad.html)
   - [MCAD Rotary Widget](doc/Rotary.html)
-  - [MCAD Multi-Stage Envelope](doc/mseg.html)
+  - [MCAD Multi-Stage Envelope](doc/Mseg.html)
   
 For further information, please read the [documentation](doc/index.html).
 
