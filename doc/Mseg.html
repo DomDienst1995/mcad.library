@@ -359,7 +359,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line78">line 78</a>
+        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -642,7 +642,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line40">line 40</a>
+        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -732,7 +732,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line119">line 119</a>
+        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line142">line 142</a>
     </li></ul></dd>
     
 
@@ -1053,7 +1053,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line183">line 183</a>
+        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -1374,7 +1374,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line137">line 137</a>
+        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line160">line 160</a>
     </li></ul></dd>
     
 
@@ -1695,7 +1695,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line235">line 235</a>
+        <a href="mcad.mseg.v1-0.js.html">mcad.mseg.v1-0.js</a>, <a href="mcad.mseg.v1-0.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -1724,7 +1724,7 @@
     
         <p class="code-caption">Applies all stages to the pitch and gain of an oscillator triggered by a pattern scheduler</p>
     
-    <pre class="prettyprint"><code>// Create and oscillator node and connect it to a gain nodevar oscillator = context.createOscillator();var gainNode = context.createGain();gainNode.connect(context.destination);oscillator.connect(gainNode);// Create an MSEG that starts at full intensity then falls to zero intensity lenearly over 0.1 seconds before rising back up to full intensity exponentially ovre a duration of 0.1 secondsvar adsr = new Mseg();         adsr.addStage({duration: 0.0, value: 1.0});adsr.addStage({duration: 0.1, value: 0.0});adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});// Add the linear release stage of 0.25 seconds (the "linear" is optional)adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});    // Duration of the oscillator (without release) in secondsvar noteLength = 0.1;// Duration of the oscillator (with release) in secondsvar totalLength = noteLength + adsr.durationOfRelease();// Schedule the gain and freuency modulation immediatelyadsr.noteOnAndOff(gainNode.gain, conext.currentTime, noteLength);adsr.noteOnAndOff(oscillator.frequency, conext.currentTime, noteLength, {min: 400.0, max: 800.0});// Shedule the oscillator for immediate playbackoscillator.start(conext.currentTime);// Shecdule the oscillator to play for the note length + MSEG releaseoscillator.stop(conext.currentTime + totalLength);</code></pre>
+    <pre class="prettyprint"><code>// Create web audio contextvar audioCtx = new AudioContext();// Create and oscillator node and connect it to a gain nodevar oscillator = audioCtx.createOscillator();var gainNode = audioCtx.createGain();gainNode.connect(audioCtx.destination);oscillator.connect(gainNode);// Create an MSEG that starts at full intensity then falls to zero intensity lenearly over 0.1 seconds before rising back up to full intensity exponentially ovre a duration of 0.1 secondsvar adsr = new Mseg();         adsr.addStage({duration: 0.0, value: 1.0});adsr.addStage({duration: 0.1, value: 0.0});adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});// Add the linear release stage of 0.25 seconds (the "linear" is optional)adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});    // Duration of the oscillator (without release) in secondsvar noteLength = 0.1;// Duration of the oscillator (with release) in secondsvar totalLength = noteLength + adsr.durationOfRelease();// Schedule the gain and freuency modulation immediatelyadsr.noteOnAndOff(gainNode.gain, audioCtx.currentTime, noteLength);adsr.noteOnAndOff(oscillator.frequency, audioCtx.currentTime, noteLength, {min: 400.0, max: 800.0});// Shedule the oscillator for immediate playbackoscillator.start(audioCtx.currentTime);// Shecdule the oscillator to play for the note length + MSEG releaseoscillator.stop(audioCtx.currentTime + totalLength);</code></pre>
 
 
 <hr>
@@ -1747,7 +1747,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Dec 16 2016 17:18:47 GMT+0000 (GMT Standard Time)
+    Documentation generated at Sun Jan 15 2017 16:33:27 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>

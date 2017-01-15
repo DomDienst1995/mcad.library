@@ -51,7 +51,11 @@
  * @example var adsr = new Mseg();
  */
 function Mseg() {
-        
+	
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Mseg.Mseg@@Creating MSEG instance...");
+    //-------------------------------------------------------------------------------------------------------------------------------------
+    
     this._stages = [];
     this._release = [0, 0];
     this._stageLengthInSeconds = 0;
@@ -78,6 +82,11 @@ function Mseg() {
  */
 
 Mseg.prototype.addStage = function(stage) {
+	
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Mseg.addStage@@Adding stage...");
+    console.debug("@@1" + stage);
+    //-------------------------------------------------------------------------------------------------------------------------------------
 
     var duration = stage.duration;
     var value = stage.value;
@@ -117,6 +126,11 @@ Mseg.prototype.addStage = function(stage) {
 
 Mseg.prototype.addRelease = function(release) {
 
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Mseg.addRelease@@Adding release stage...");
+    console.debug("@@1" + release);
+    //-------------------------------------------------------------------------------------------------------------------------------------
+
     var type = 0;
     
     if(release.type) {
@@ -128,12 +142,22 @@ Mseg.prototype.addRelease = function(release) {
     this._release = new Array(release.duration, type);
 };
 
+/*
+Apply Release Method
+--------------------
+
+Applies the release stage of the envelope to a given parameter. This method is used by the noteOff and noteOnAndOff methods.
+*/
 Mseg.prototype._applyRelease = function(param, when, range) {
+
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@1@@Mseg._applyRelease@@Applying release stage...");
+    console.debug("@@1" + param);
+    //-------------------------------------------------------------------------------------------------------------------------------------
 
     var paramMin = 0.0;
     
-    if(range) {
-    
+    if(range) {    
         if(range.min) paramMin = range.min;
     }
     
@@ -143,7 +167,6 @@ Mseg.prototype._applyRelease = function(param, when, range) {
     else {
         param.exponentialRampToValueAtTime(paramMin, when + this._release[0]);
     }
-    
 };
 
 /** 
@@ -175,6 +198,11 @@ Mseg.prototype.durationOfRelease = function() {
  * }
  */
 Mseg.prototype.noteOn = function(param, when, range) {
+
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Mseg.noteOn@@Applying note on...");
+    console.debug("@@1" + param);
+    //-------------------------------------------------------------------------------------------------------------------------------------
 
     param.cancelScheduledValues(when);
     param.setValueAtTime(param.value, when);
@@ -222,14 +250,17 @@ Mseg.prototype.noteOn = function(param, when, range) {
 
 Mseg.prototype.noteOff = function(param, when, range) {
 
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Mseg.noteOff@@Applying note off...");
+    console.debug("@@1" + param);
+    //-------------------------------------------------------------------------------------------------------------------------------------
+
     param.cancelScheduledValues(when);
     param.setValueAtTime(param.value, when);
 
     if(this._release[0] > 0.0) {
-        
         this._applyRelease(param, when, range);
     }
-    
 };
 
 /** 
@@ -240,10 +271,13 @@ Mseg.prototype.noteOff = function(param, when, range) {
  * @param {number} [range.min=0.0] - minimum parameter value.
  * @param {number} [range.max=1.0] - maximum parameter value.
  * @example &lt;caption>Applies all stages to the pitch and gain of an oscillator triggered by a pattern scheduler&lt;/caption>
+ * // Create web audio context
+ * var audioCtx = new AudioContext();
+ *
  * // Create and oscillator node and connect it to a gain node
- * var oscillator = context.createOscillator();
- * var gainNode = context.createGain();
- * gainNode.connect(context.destination);
+ * var oscillator = audioCtx.createOscillator();
+ * var gainNode = audioCtx.createGain();
+ * gainNode.connect(audioCtx.destination);
  * oscillator.connect(gainNode);
  *
  * // Create an MSEG that starts at full intensity then falls to zero intensity lenearly over 0.1 seconds before rising back up to full intensity exponentially ovre a duration of 0.1 seconds
@@ -262,17 +296,22 @@ Mseg.prototype.noteOff = function(param, when, range) {
  * var totalLength = noteLength + adsr.durationOfRelease();
  *
  * // Schedule the gain and freuency modulation immediately
- * adsr.noteOnAndOff(gainNode.gain, conext.currentTime, noteLength);
- * adsr.noteOnAndOff(oscillator.frequency, conext.currentTime, noteLength, {min: 400.0, max: 800.0});
+ * adsr.noteOnAndOff(gainNode.gain, audioCtx.currentTime, noteLength);
+ * adsr.noteOnAndOff(oscillator.frequency, audioCtx.currentTime, noteLength, {min: 400.0, max: 800.0});
  *
  * // Shedule the oscillator for immediate playback
- * oscillator.start(conext.currentTime);
+ * oscillator.start(audioCtx.currentTime);
  *
  * // Shecdule the oscillator to play for the note length + MSEG release
- * oscillator.stop(conext.currentTime + totalLength);
+ * oscillator.stop(audioCtx.currentTime + totalLength);
  */
 
 Mseg.prototype.noteOnAndOff = function(param, when, duration, range) {
+
+	//-------------------------------------------------------------------------------------------------------------------------------------
+    console.info("@@0@@Mseg.noteOnAndOff@@Applying note on and off...");
+    console.debug("@@1" + param);
+    //-------------------------------------------------------------------------------------------------------------------------------------
 
     this.noteOn(param, when, range);
     if(this._release[0] > 0.0) this._applyRelease(param, when + duration);    
@@ -288,7 +327,7 @@ Mseg.prototype.noteOnAndOff = function(param, when, duration, range) {
 <br class="clear">
 
 <footer>
-    Documentation generated at Fri Dec 16 2016 17:18:47 GMT+0000 (GMT Standard Time)
+    Documentation generated at Sun Jan 15 2017 16:33:26 GMT+0000 (GMT Standard Time)
 </footer>
 
 <script>prettyPrint();</script>

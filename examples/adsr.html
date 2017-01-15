@@ -24,13 +24,19 @@ $(document).ready(function() {
 	
 	var isTriggering = false;
 	
-	var triggerADSR = new Mseg();
+	var attackRelease = new Mseg();
 	
-	triggerADSR.addStage({duration: 0.0, value: 0.0});
-	triggerADSR.addStage({duration: 0.5, value: 1.0});
-	triggerADSR.addRelease({duration: 0.5});
+	attackRelease.addStage({duration: 0.0, value: 0.0});
+	attackRelease.addStage({duration: 0.5, value: 1.0});
+	attackRelease.addRelease({duration: 0.5});
 
-
+	var invAttackDecayRelease = new Mseg();
+	
+	invAttackDecayRelease.addStage({duration: 0.0, value: 1.0});
+	invAttackDecayRelease.addStage({duration: 0.1, value: 0.0});
+	invAttackDecayRelease.addStage({duration: 0.1, value: 1.0, type: "exp"});
+	invAttackDecayRelease.addStage({duration: 0.25, value: 0.0, type: "linear"});
+	
 	$("#sequence").click(function() {
 			
 		if(scheduler.isPlaying == true) {
@@ -52,58 +58,45 @@ $(document).ready(function() {
 		
 			$(this).text("Trigger");
 			
-			triggerADSR.noteOff(gainNode.gain, context.currentTime);
-			triggerADSR.noteOff(triggerOsc.frequency, context.currentTime, {min:400.0, max: 800.0});
-			
+			attackRelease.noteOff(gainNode.gain, context.currentTime);
+			attackRelease.noteOff(triggerOsc.frequency, context.currentTime, {min:400.0, max: 800.0});
 			isTriggering = false;
 		}
 		else {
 			
 			$(this).text("Stop");
 			
-			triggerADSR.noteOn(gainNode.gain, context.currentTime);
-			triggerADSR.noteOn(triggerOsc.frequency, context.currentTime, {min:400.0, max: 800.0});
-			
+			attackRelease.noteOn(gainNode.gain, context.currentTime);
+			attackRelease.noteOn(triggerOsc.frequency, context.currentTime, {min:400.0, max: 800.0});
 			isTriggering = true;
 		}
 	});
 
 	
-	
 	// Event handler for scheduler's onQueue events
-	function playStep(step) {
+	function playStep(timeStamp, stepStamp) {
 		
 		// create Oscillator node
 		var oscillator = context.createOscillator();
 		var gainNode2 = context.createGain();
 		gainNode2.connect(context.destination);
 		
-		var adsr = new Mseg();
-		
-		adsr.addStage({duration: 0.0, value: 1.0});
-		adsr.addStage({duration: 0.1, value: 0.0});
-		adsr.addStage({duration: 0.1, value: 1.0, type: "exp"});
-		adsr.addStage({duration: 0.25, value: 0.0, type: "linear"});
-		
 		var noteLength = 0.1;
-		var totalLength = noteLength + triggerADSR.durationOfRelease();
+		var totalLength = noteLength + attackRelease.durationOfRelease();
 
-		triggerADSR.noteOnAndOff(gainNode2.gain, step.time.swing, noteLength);
-		adsr.noteOnAndOff(oscillator.frequency, step.time.swing, noteLength, {min: 400.0, max: 800.0});
+		attackRelease.noteOnAndOff(gainNode2.gain, timeStamp.swing, noteLength);
+		invAttackDecayRelease.noteOnAndOff(oscillator.frequency, timeStamp.swing, noteLength, {min: 400.0, max: 800.0});
 		
 		oscillator.connect(gainNode2);
 		oscillator.type = 'square';
-		oscillator.start(step.time.swing);
-		oscillator.stop(step.time.swing + totalLength);
+		oscillator.start(timeStamp.swing);
+		oscillator.stop(timeStamp.swing + totalLength);
 		
 	}
 
-	
-	
 	// Create a scheduler with a tempo of 40 bpm in 4/4 time with 1/16th note steps and a queue event handler
 	var scheduler = new Scheduler(context, {tempo: 60, onQueue: playStep, stepsPerBeat: 1});
 	
-			
 });
 
 </script>
